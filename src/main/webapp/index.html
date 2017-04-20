@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>genogram</title>
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+<link rel="stylesheet" href="css/default.css"/>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="js/index-min.js"></script>
+</head>
+
+<body>
+<div data-role="page">
+  <div data-role="header" data-theme="b" data-position="fixed">
+    <h1>genogram</h1>
+    <a href="#loginPanel" class="ui-btn ui-btn-right ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-user ui-btn-icon-notext"></a>
+  </div>
+  <div data-role="content">
+<!--
+    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+      <input name="filter" id="radio-choice-h-2a" value="on" checked="checked" type="radio">
+      <label for="radio-choice-h-2a">Date</label>
+      <input name="filter" id="radio-choice-h-2b" value="off" type="radio">
+      <label for="radio-choice-h-2b">Name</label>
+      <input name="filter" id="radio-choice-h-2c" value="off" type="radio">
+      <label for="radio-choice-h-2c">Top</label>
+      <input name="filter" id="radio-choice-h-2d" value="other" type="radio">
+      <label for="radio-choice-h-2d">Own</label>
+    </fieldset>
+-->
+    <ul id="listView" data-role="listview" data-filter="true">
+<!--
+      <li><a href="detail.html"><img src="img/icon.listview.png"><span>Apple</span><p>To make a list filterable, simply add the data-filter="true" attribute to the list. The framework will then append a search box above the list and add the behavior to filter out list items that don't contain the current search string as the user types.</p><span class="ui-li-count">30</span></a></li>
+      <li><a><img src="img/icon.listview.png"/><span>Banana</span><p>にゃんこ</p><span class="ui-li-count">30</span></a></li>
+      <li><a><img src="img/icon.listview.png"/><span>Cherry</span><p>さんばん</p></a></li>
+-->
+    </ul>
+  </div>
+  <div id="loginPanel" data-role="panel" data-position="right" data-position-fixed="true">
+    <form id="loginForm">
+      <input type="text" name="userid" required="required"/>
+      <input type="password" name="passwd" required="required"/>
+      <button data-theme="b">Sign in</button>
+    </form>
+    <a id="repositoryButton" href="/repository.html" target="_blank" data-rel="close" class="ui-btn ui-corner-all ui-state-disabled">Edit repository</a>
+    <div class="message"></div>
+  </div>
+  <div id="detailPopup" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay">
+    <form>
+      <label for="productName">Name:</label>
+      <input id="productName" name="name" type="text" readonly="readonly"/>
+      <label for="productDescription">Description:</label>
+      <textarea id="productDescription" name="description" readonly="readonly"></textarea>
+      <div id="updated" class="ui-body ui-body-a ui-corner-all"></div>
+      <ul id="stageView" data-role="listview"></ul>
+    </form>
+    <a id="playButton" href="#" target="_blank" data-rel="close" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-power">Play</a>
+    <a id="editButton" href="#" target="_blank" data-rel="close" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-edit ui-state-disabled">Edit product</a>
+  </div>
+  <div data-role="footer" data-position="fixed">
+    <h1><a href="http://blog.kit.to/" target="_blank">&copy;Nekoko Club.</a></h1>
+  </div>
+</div>
+</body>
+</html>

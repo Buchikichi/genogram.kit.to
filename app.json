@@ -1,0 +1,6 @@
+{
+  "name": "CoNekoko Club",
+  "description": "CoNekoko Club.",
+  "image": "heroku/java",
+  "addons": [ "heroku-postgresql" ]
+}

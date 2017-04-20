@@ -1,0 +1,11 @@
+spring.thymeleaf.cache: false
+spring:
+  datasource:
+    url: ${DB_URL}?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+    username: uidzwjegjixbgv
+    password: ${DB_PASS}
+    driverClassName: org.postgresql.Driver
+    maxTotal: 10
+multipart:
+  maxFileSize: 4MB
+  maxRequestSize: 4MB
