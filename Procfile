@@ -1,1 +1,1 @@
-web: java -jar target/genogram.jar --server.port=$PORT
+web: java -jar target/genogram-0.0.1.jar --server.port=$PORT
