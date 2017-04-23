@@ -43,8 +43,10 @@ class Field {
 
 		this.target = null;
 		this.actorList.forEach(actor => {
-			if (actor.isHit(px, py)) {
-				this.target = actor;
+			let hit = actor.isHit(px, py);
+
+			if (hit) {
+				this.target = hit;
 			}
 		});
 	}

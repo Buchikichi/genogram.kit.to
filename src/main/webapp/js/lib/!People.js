@@ -10,8 +10,22 @@ class People {
 		this.description = '';
 		this.gender = '';
 		this.dob = '';
-		this.motherId = null;
+		this.mother = null;
 		this.partnerList = [];
-		this.childrenList = [];
+		this.childrenMap = {};
+	}
+
+	get isMale() {
+		return this.gender == 'm';
+	}
+
+	get father() {
+		if (!this.mother) {
+			return;
+		}
+	}
+
+	get numOfPartner() {
+		return this.partnerList.length;
 	}
 }

@@ -8,8 +8,8 @@ class InputPanel {
 	setupEvents() {
 		let name = this.panel.querySelector('[name="name"]');
 		let genderList = $('[name="gender"]');
+		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
-		let childButton = document.getElementById('childButton');
 
 		name.addEventListener('change', ()=> {
 			this.people.name = name.value;
@@ -21,35 +21,38 @@ class InputPanel {
 			this.people.gender = gender;
 			this.refreshControls();
 		});
+		parentsButton.addEventListener('click', ()=> {
+			this.people.addParents();
+			this.refreshControls();
+		});
 		partnerButton.addEventListener('click', ()=> {
-			let gender = this.people.gender;
-			let partner = new Actor();
-
-			partner.gender = gender == 'm' ? 'f' : gender == 'f' ? 'm' : '';
-			this.people.addPartner(partner);
+			this.people.addPartner();
+			this.refreshControls();
 		});
 		$(partnerButton).addClass('ui-state-disabled');
-		childButton.addEventListener('click', ()=> {
-			this.people.addChild();
-		});
 	}
 
 	refreshControls() {
 		let gender = this.people.gender;
 		let plen = this.people.partnerList.length;
-		let clen = this.people.childrenList.length;
+		let clen = Object.keys(this.people.childrenMap).length;
 		let partnerButton = document.getElementById('partnerButton');
 		let deleteButton = document.getElementById('deleteButton');
 
+		if (plen == 0) {
+			$('[name="gender"]').checkboxradio('enable');
+		} else {
+			$('[name="gender"]').checkboxradio('disable');
+		}
 		if (gender == null || gender == '') {
 			$(partnerButton).addClass('ui-state-disabled');
 		} else {
 			$(partnerButton).removeClass('ui-state-disabled');
 		}
-		if (0 < plen || 0 < clen) {
-			$(deleteButton).addClass('ui-state-disabled');
-		} else {
+		if (plen == 0 && clen == 0) {
 			$(deleteButton).removeClass('ui-state-disabled');
+		} else {
+			$(deleteButton).addClass('ui-state-disabled');
 		}
 	}
 

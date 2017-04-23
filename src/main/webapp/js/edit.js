@@ -14,6 +14,7 @@ class AppMain {
 	constructor() {
 		this.field = new Field(1024, 768);
 		this.inputPanel = new InputPanel();
+		this.relationPanel = new RelationPanel();
 		this.setupEvents();
 		this.init();
 	}
@@ -30,8 +31,10 @@ class AppMain {
 		view.addEventListener('click', () => {
 			let target = this.field.target;
 
-			if (target) {
+			if (target instanceof Actor) {
 				this.inputPanel.open(target);
+			} else if (target instanceof Relation) {
+				this.relationPanel.open(target);
 			}
 		});
 		window.addEventListener('resize', ()=> {
@@ -41,6 +44,8 @@ class AppMain {
 
 	init() {
 		this.field.focus = new Actor();
+this.field.focus.x = 100;
+this.field.focus.y = 100;
 	}
 
 	draw() {

@@ -15,12 +15,12 @@
 <div data-role="page">
   <div data-role="header" data-theme="b" data-position="fixed">
     <h1>genogram</h1>
-    <a href="#inputPanel" class="ui-btn ui-btn-right ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-edit ui-btn-icon-notext"></a>
+    <a href="#settingPanel" class="ui-btn ui-btn-right ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-gear ui-btn-icon-notext"></a>
   </div>
   <div id="view" data-role="content">
     <canvas id="canvas"/>
   </div>
-  <div id="loginPanel" data-role="panel" data-position="right" data-position-fixed="true">
+  <div id="settingPanel" data-role="panel" data-position="right" data-position-fixed="true">
     <form id="loginForm">
       <input type="text" name="userid" required="required"/>
       <input type="password" name="passwd" required="required"/>
@@ -44,9 +44,16 @@
       <div id="updated" class="ui-body ui-body-a ui-corner-all"></div>
       <ul id="stageView" data-role="listview"></ul>
     </form>
+    <button id="parentsButton" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-plus">Parents</button>
     <button id="partnerButton" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-plus">Partner</button>
-    <button id="childButton" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-plus">Child</button>
     <button id="deleteButton" data-rel="close" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-delete">Delete</a>
+  </div>
+  <div id="relationPanel" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay">
+    <form>
+      <label>Father:<input type="text" name="father" readonly="readonly"/></label>
+      <label>Mother:<input type="text" name="mother" readonly="readonly"/></label>
+      <button id="childButton" type="button" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-plus">Child</button>
+    </form>
   </div>
 </div>
 </body>
