@@ -8,11 +8,8 @@ cd %CUR%
 type %LIBS% index.js > index-all.js 2> nul
 java -jar %COMP% %COMP_OPT% --js index-all.js --js_output_file index-min.js
 
-:type %LIBS% detail.js > detail-all.js 2> nul
-:java -jar %COMP% %COMP_OPT% --js detail-all.js --js_output_file detail-min.js
-
-:type %LIBS% repository.js > repository-all.js 2> nul
-:java -jar %COMP% %COMP_OPT% --js repository-all.js --js_output_file repository-min.js
+type %LIBS% edit.js > edit-all.js 2> nul
+java -jar %COMP% %COMP_OPT% --js edit-all.js --js_output_file edit-min.js
 
 del *-all.js
 pause

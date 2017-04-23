@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>genogram</title>
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+<link rel="stylesheet" href="css/default.css"/>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="js/edit-all.js"></script>
+</head>
+
+<body>
+<div data-role="page">
+  <div data-role="header" data-theme="b" data-position="fixed">
+    <h1>genogram</h1>
+    <a href="#inputPanel" class="ui-btn ui-btn-right ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-edit ui-btn-icon-notext"></a>
+  </div>
+  <div id="view" data-role="content">
+    <canvas id="canvas"/>
+  </div>
+  <div id="loginPanel" data-role="panel" data-position="right" data-position-fixed="true">
+    <form id="loginForm">
+      <input type="text" name="userid" required="required"/>
+      <input type="password" name="passwd" required="required"/>
+      <button data-theme="b">Sign in</button>
+    </form>
+    <a id="repositoryButton" href="/repository.html" target="_blank" data-rel="close" class="ui-btn ui-corner-all ui-state-disabled">Edit repository</a>
+    <div class="message"></div>
+  </div>
+  <div id="inputPanel" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay">
+    <form>
+      <label>Name:<input name="name" type="text"/></label>
+      <label for="productDescription">Description:</label>
+      <textarea id="productDescription" name="description" readonly="readonly"></textarea>
+      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+        <label>Male<input name="gender" type="radio" value="m"/></label>
+        <label>Female<input name="gender" type="radio" value="f"/></label>
+        <label>Unclear<input name="gender" type="radio" value=""/></label>
+      </fieldset>
+      <label>DOB:<input name="dob" type="date"/></label>
+      <input type="checkbox" name="loss" data-role="flipswitch" data-on-text="Loss" data-off-text="Live" data-wrapper-class="custom-label-flipswitch">
+      <div id="updated" class="ui-body ui-body-a ui-corner-all"></div>
+      <ul id="stageView" data-role="listview"></ul>
+    </form>
+    <button id="partnerButton" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-plus">Partner</button>
+    <button id="childButton" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-plus">Child</button>
+    <button id="deleteButton" data-rel="close" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-delete">Delete</a>
+  </div>
+</div>
+</body>
+</html>
