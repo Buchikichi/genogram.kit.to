@@ -7,32 +7,6 @@ class Actor extends People {
 		this.principal = false; // 本人(主役?)かどうか
 	}
 
-	scanChildren(list) {
-		let spacing = Field.Instance.spacing;
-		let childrenKeys = Object.keys(this.childrenMap);
-		let cy = this.y + spacing;
-
-		childrenKeys.forEach(key => {
-			let childrenList = this.childrenMap[key];
-			let clen = childrenList.length;
-			let width = ((clen - 1) * spacing);
-			let cx = this.x - width / 2;
-
-			cx -= spacing / 2;
-//console.log('childrenList:' + childrenList.length);
-			childrenList.forEach(target => {
-				let space = (target.numOfPartner + 1) * spacing;
-//console.log('cx:' + cx);
-				target.x = cx;
-				target.y = cy;
-				cx += space;
-				if (list.indexOf(target) === -1) {
-					target.scanAll(list);
-				}
-			});
-		});
-	}
-
 	scanAll(list, depth = 0) {
 		if (list.indexOf(this) !== -1) {
 			// すでに自分が含まれる
@@ -66,6 +40,7 @@ class Actor extends People {
 			this.mother.x = this.x + half;
 			this.mother.y = this.y - spacing;
 			this.mother.calculate();
+			return;
 		}
 		this.count = Tally.increment();
 		this.fixed = true;
@@ -78,10 +53,11 @@ console.log('#' + this.count + ' childrenList:' + childrenList.length);
 			if (!partner.fixed) {
 				partner.x = this.x + spacing * (partner.gender == 'm' ? -1 : 1);
 				partner.y = this.y;
-console.log('partner.x' + partner.x);
+console.log('partner#' + partner.count + ':' + partner.x);
 				partner.calculate();
 			}
 			childrenList.forEach(child => {
+console.log('child#' + child.count + ' cx:' + cx);
 				child.x = cx;
 				child.y = this.y + spacing;
 				child.calculate();
@@ -165,7 +141,7 @@ console.log('partner.x' + partner.x);
 
 	drawName(ctx) {
 		let text = this.name;
-text = this.count + ':' + text;
+//text = this.count + ':' + text;
 		let metrics = ctx.measureText(text);
 		let x = -metrics.width / 2;
 		let y = 20 + this.radius;

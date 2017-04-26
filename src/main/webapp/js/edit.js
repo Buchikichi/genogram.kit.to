@@ -51,8 +51,6 @@ class AppMain {
 	}
 
 	draw() {
-		this.field.focus.x = 0;
-		this.field.focus.y = 0;
 		this.field.arrange();
 		this.field.draw();
 	}

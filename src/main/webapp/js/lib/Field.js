@@ -64,6 +64,8 @@ console.log('dirty.');
 		let maxY = 0;
 		let list = [];
 
+		this.focus.x = 0;
+		this.focus.y = 0;
 		this.focus.scanAll(list);
 console.log('list:' + list.length);
 		Tally.reset();
