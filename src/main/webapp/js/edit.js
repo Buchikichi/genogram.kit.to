@@ -43,12 +43,16 @@ class AppMain {
 	}
 
 	init() {
-		this.field.focus = new Actor();
-this.field.focus.x = 100;
-this.field.focus.y = 100;
+		let newActor = new Actor();
+
+		newActor.principal = true;;
+		this.field.focus = newActor;
+		this.field.dirty = true;
 	}
 
 	draw() {
+		this.field.focus.x = 0;
+		this.field.focus.y = 0;
 		this.field.arrange();
 		this.field.draw();
 	}

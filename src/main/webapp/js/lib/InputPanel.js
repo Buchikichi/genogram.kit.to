@@ -22,20 +22,22 @@ class InputPanel {
 			this.refreshControls();
 		});
 		parentsButton.addEventListener('click', ()=> {
-			this.people.addParents();
+			this.people.addParents(new Actor(), new Actor());
 			this.refreshControls();
 		});
 		partnerButton.addEventListener('click', ()=> {
-			this.people.addPartner();
+			this.people.addPartner(new Actor());
 			this.refreshControls();
 		});
 		$(partnerButton).addClass('ui-state-disabled');
 	}
 
 	refreshControls() {
+		let mother = this.people.mother;
 		let gender = this.people.gender;
 		let plen = this.people.partnerList.length;
 		let clen = Object.keys(this.people.childrenMap).length;
+		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
 		let deleteButton = document.getElementById('deleteButton');
 
@@ -43,6 +45,11 @@ class InputPanel {
 			$('[name="gender"]').checkboxradio('enable');
 		} else {
 			$('[name="gender"]').checkboxradio('disable');
+		}
+		if (mother) {
+			$(parentsButton).addClass('ui-state-disabled');
+		} else {
+			$(parentsButton).removeClass('ui-state-disabled');
 		}
 		if (gender == null || gender == '') {
 			$(partnerButton).addClass('ui-state-disabled');
@@ -54,6 +61,7 @@ class InputPanel {
 		} else {
 			$(deleteButton).addClass('ui-state-disabled');
 		}
+		Field.Instance.dirty = true;
 	}
 
 	setupForm() {

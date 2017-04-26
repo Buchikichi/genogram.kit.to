@@ -10,6 +10,7 @@ class RelationPanel {
 
 		childButton.addEventListener('click', ()=> {
 			this.relation.mother.addChild(this.relation.father, new Actor());
+			Field.Instance.dirty = true;
 		});
 	}
 

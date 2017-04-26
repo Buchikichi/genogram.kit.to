@@ -10,6 +10,7 @@ class Field {
 		this.spacing = 128;
 		this.focus = null;
 		this.actorList = [];
+		this.dirty = false;
 		this.setup();
 		Field.Instance = this;
 	}
@@ -52,6 +53,11 @@ class Field {
 	}
 
 	arrange() {
+		if (!this.dirty) {
+			return;
+		}
+console.log('dirty.');
+		this.dirty = false;
 		let minX = 0;
 		let minY = 0;
 		let maxX = 0;
@@ -59,6 +65,17 @@ class Field {
 		let list = [];
 
 		this.focus.scanAll(list);
+console.log('list:' + list.length);
+		Tally.reset();
+		this.focus.calculate();
+		list.forEach(people => {
+			list.forEach(target => {
+				if (people == target) {
+					return;
+				}
+				people.touch(target);
+			});
+		});
 		this.actorList = list;
 		list.forEach(people => {
 			let x = people.x;
@@ -66,12 +83,14 @@ class Field {
 
 			minX = Math.min(minX, x);
 			minY = Math.min(minY, y);
-			maxX = Math.min(maxX, x);
-			maxY = Math.min(maxY, y);
+			maxX = Math.max(maxX, x);
+			maxY = Math.max(maxY, y);
 		});
-		let hx = (maxX - minX) / 2;
-		this.tx = this.width / 2;
-		this.ty = this.height / 2;
+		let hw = (this.width - (maxX - minX)) / 2;
+		let hh = (this.height - (maxY - minY)) / 2;
+
+		this.tx = hw - minX;
+		this.ty = hh - minY;
 	}
 
 	draw() {

@@ -4,6 +4,7 @@ class Actor extends People {
 		this.x = 0;
 		this.y = 0;
 		this.radius = 32;
+		this.principal = false; // 本人(主役?)かどうか
 	}
 
 	scanChildren(list) {
@@ -20,10 +21,11 @@ class Actor extends People {
 			cx -= spacing / 2;
 //console.log('childrenList:' + childrenList.length);
 			childrenList.forEach(target => {
+				let space = (target.numOfPartner + 1) * spacing;
 //console.log('cx:' + cx);
 				target.x = cx;
 				target.y = cy;
-				cx += spacing;
+				cx += space;
 				if (list.indexOf(target) === -1) {
 					target.scanAll(list);
 				}
@@ -31,68 +33,73 @@ class Actor extends People {
 		});
 	}
 
-	scanAll(list) {
+	scanAll(list, depth = 0) {
 		if (list.indexOf(this) !== -1) {
 			// すでに自分が含まれる
-console.log('*WARN*');
+			return;
+		}
+		this.depth = depth;
+		this.fixed = false;
+		this.touched = false;
+		list.push(this);
+		if (this.mother) {
+			this.mother.scanAll(list, depth - 1);
+		}
+		this.partnerList.forEach(partner => {
+			let childrenList = this.listChildren(partner);
+
+			partner.scanAll(list, depth);
+			childrenList.forEach(child => {
+				child.scanAll(list, depth + 1);
+			});
+		});
+	}
+
+	calculate() {
+		if (this.fixed) {
 			return;
 		}
 		let spacing = Field.Instance.spacing;
 		let half = spacing / 2;
-		let px = this.x;
-		let plen = this.partnerList.length;
 
-		list.push(this);
-		if (this.mother && list.indexOf(this.mother) === -1) {
+		if (this.mother && !this.mother.fixed) {
 			this.mother.x = this.x + half;
 			this.mother.y = this.y - spacing;
-			this.mother.scanAll(list);
+			this.mother.calculate();
 		}
-		this.partnerList.forEach(target => {
-			if (list.indexOf(target) !== -1) {
-				return;
+		this.count = Tally.increment();
+		this.fixed = true;
+		this.partnerList.forEach(partner => {
+			let childrenList = this.listChildren(partner);
+			let width = spacing * (childrenList.length - 1);
+			let cx = this.x - half - width / 2;
+
+console.log('#' + this.count + ' childrenList:' + childrenList.length);
+			if (!partner.fixed) {
+				partner.x = this.x + spacing * (partner.gender == 'm' ? -1 : 1);
+				partner.y = this.y;
+console.log('partner.x' + partner.x);
+				partner.calculate();
 			}
-			px += spacing * (this.isMale ? 1 : -1);
-			target.x = px;
-			target.y = this.y;
-			target.scanAll(list);
+			childrenList.forEach(child => {
+				child.x = cx;
+				child.y = this.y + spacing;
+				child.calculate();
+				cx += spacing;
+			});
 		});
-		this.scanChildren(list);
 	}
 
-	addParents() {
-		let father = new Actor();
-		let mother = new Actor();
+	touch(target) {
+		let diffX = this.x - target.x;
+		let diffY = this.y - target.y;
+		let distance = Math.sqrt(diffX * diffX + diffY * diffY);
+		let spacing = Field.Instance.spacing;
 
-		father.gender = 'm';
-		mother.gender = 'f';
-		mother.addPartner(father);
-		mother.addChild(father, this);
-		this.mother = mother;
-	}
-
-	addPartner(partner = null) {
-		let newPartner = partner;
-
-		if (!partner) {
-			let gender = this.gender;
-
-			newPartner = new Actor();
-			newPartner.gender = gender == 'm' ? 'f' : gender == 'f' ? 'm' : '';
+		if (distance < spacing) {
+			this.touched = true;
 		}
-		this.partnerList.push(newPartner);
-		newPartner.partnerList.push(this);
-	}
-
-	addChild(partner, child) {
-		let key = partner.id;
-		let list = this.childrenMap[key];
-
-		if (!list) {
-			list = [];
-			this.childrenMap[key] = list;
-		}
-		list.push(child);
+		return this.touched;
 	}
 
 	isHit(x, y) {
@@ -120,30 +127,48 @@ console.log('*WARN*');
 	}
 
 	drawSymbol(ctx) {
+		let ir = this.radius * .8;
+
 		if (this.hit == this) {
 			ctx.lineWidth = 5;
 		} else {
 			ctx.lineWidth = 2;
 		}
 		ctx.strokeStyle = this.strokeStyle;
+		if (this.touched) {
+			ctx.strokeStyle = 'red';
+		}
 		if (this.gender == 'm') {
 			let bx = -this.radius;
 			let by = -this.radius;
 			let width = this.radius * 2;
 
 			ctx.strokeRect(bx, by, width, width);
+			if (this.principal) {
+				let ix = -ir;
+				let iy = -ir;
+				let iw = ir * 2;
+
+				ctx.strokeRect(ix, iy, iw, iw);
+			}
 			return;
 		}
 		ctx.beginPath();
 		ctx.arc(0, 0, this.radius, 0, Math.PI * 2, false);
 		ctx.stroke();
+		if (this.principal) {
+			ctx.beginPath();
+			ctx.arc(0, 0, ir, 0, Math.PI * 2, false);
+			ctx.stroke();
+		}
 	}
 
 	drawName(ctx) {
 		let text = this.name;
+text = this.count + ':' + text;
 		let metrics = ctx.measureText(text);
 		let x = -metrics.width / 2;
-		let y = 0 + this.radius;
+		let y = 20 + this.radius;
 
 		ctx.lineWidth = 1;
 		ctx.beginPath();
@@ -209,22 +234,20 @@ console.log('*WARN*');
 	
 				ctx.beginPath();
 				if (first) {
-ctx.strokeStyle = 'red';
 					ctx.moveTo(tx, my);
 					ctx.lineTo(cx, my);
 					first = false;
 				}
-ctx.strokeStyle = 'navy';
 				ctx.moveTo(cx, my);
 				ctx.lineTo(cx, cy);
 				ctx.stroke();
 				last = target;
 			});
 		});
-//		ctx.beginPath();
-//		ctx.moveTo(tx, my);
-//		ctx.lineTo(last.x - this.x, my);
-//		ctx.stroke();
+		ctx.beginPath();
+		ctx.moveTo(tx, my);
+		ctx.lineTo(last.x, my);
+		ctx.stroke();
 	}
 
 	drawLine(ctx) {
