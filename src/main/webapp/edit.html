@@ -18,7 +18,7 @@
     <a href="#settingPanel" class="ui-btn ui-btn-right ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-gear ui-btn-icon-notext"></a>
   </div>
   <div id="view" data-role="content">
-    <canvas id="canvas"/>
+    <canvas id="canvas"></canvas>
   </div>
   <div id="settingPanel" data-role="panel" data-position="right" data-position-fixed="true">
     <form id="loginForm">
@@ -40,13 +40,12 @@
         <label>Unclear<input name="gender" type="radio" value=""/></label>
       </fieldset>
       <label>DOB:<input name="dob" type="date"/></label>
-      <input type="checkbox" name="loss" data-role="flipswitch" data-on-text="Loss" data-off-text="Live" data-wrapper-class="custom-label-flipswitch">
-      <div id="updated" class="ui-body ui-body-a ui-corner-all"></div>
-      <ul id="stageView" data-role="listview"></ul>
+      <input type="checkbox" name="loss" data-role="flipswitch" data-mini="true" data-on-text="Loss" data-off-text="Live" data-wrapper-class="custom-label-flipswitch">
+      <ul id="childrenView" data-role="listview"></ul>
     </form>
-    <button id="parentsButton" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-arrow-u">Parents</button>
-    <button id="partnerButton" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-plus">Partner</button>
-    <button id="deleteButton" data-rel="close" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-delete">Delete</a>
+    <button id="parentsButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u">Parents</button>
+    <button id="partnerButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus">Partner</button>
+    <button id="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close">Delete</button>
   </div>
   <div id="relationPanel" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay">
     <form>

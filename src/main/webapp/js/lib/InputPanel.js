@@ -29,6 +29,9 @@ class InputPanel {
 			this.people.addPartner(new Actor());
 			this.refreshControls();
 		});
+		$(this.panel).panel({close: () => {
+			Field.Instance.scan(Number.MAX_VALUE, Number.MAX_VALUE);
+		}});
 		$(partnerButton).addClass('ui-state-disabled');
 	}
 

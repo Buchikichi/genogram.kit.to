@@ -39,8 +39,8 @@ class Field {
 	}
 
 	scan(x, y) {
-		let px = x - this.tx;
-		let py = y - this.ty;
+		let px = x / this.scale - this.tx;
+		let py = y / this.scale - this.ty;
 
 		this.target = null;
 		this.actorList.forEach(actor => {

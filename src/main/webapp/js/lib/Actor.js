@@ -81,13 +81,21 @@ console.log('child#' + child.count + ' cx:' + cx);
 	isHit(x, y) {
 		let diffX = this.x - x;
 		let diffY = this.y - y;
-		let distance = Math.sqrt(diffX * diffX + diffY * diffY);
 
 //console.log('distance:' + distance + '[' + x + ',' + y + ']');
 		this.hit = null;
-		if (distance < this.radius) {
-			this.hit = this;
-			return this.hit;
+		if (this.isMale) {
+			if (Math.abs(diffX) < this.radius && Math.abs(diffY) < this.radius) {
+				this.hit = this;
+				return this.hit;
+			}
+		} else {
+			let distance = Math.sqrt(diffX * diffX + diffY * diffY);
+
+			if (distance < this.radius) {
+				this.hit = this;
+				return this.hit;
+			}
 		}
 		if (this.isMale || this.numOfPartner == 0) {
 			return null;
