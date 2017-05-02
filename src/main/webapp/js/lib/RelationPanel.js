@@ -6,13 +6,21 @@ class RelationPanel {
 	}
 
 	setupEvents() {
-		let childButton = document.getElementById('childButton');
-
-		childButton.addEventListener('click', ()=> {
+		let mChildButton = document.getElementById('mChildButton');
+		let fChildButton = document.getElementById('fChildButton');
+		let addChild = gender => {
 			let child = new Person();
 
+			child.gender = gender;
 			this.relation.mother.addChild(this.relation.father, child);
 			Field.Instance.addActor(child);
+		}
+
+		mChildButton.addEventListener('click', ()=> {
+			addChild('m');
+		});
+		fChildButton.addEventListener('click', ()=> {
+			addChild('f');
 		});
 	}
 
