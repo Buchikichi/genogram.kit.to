@@ -1,11 +1,11 @@
 class Relation {
-	constructor(people, other) {
-		if (people.isMale) {
-			this.father = people;
+	constructor(person, other) {
+		if (person.isMale) {
+			this.father = person;
 			this.mother = other;
 		} else {
 			this.father = other;
-			this.mother = people;
+			this.mother = person;
 		}
 	}
 

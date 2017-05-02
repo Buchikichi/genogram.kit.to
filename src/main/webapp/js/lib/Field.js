@@ -5,42 +5,32 @@ class Field {
 	constructor(width, height) {
 		this.width = width;
 		this.height = height;
+		this.view = new FlexibleView(width, height);
 		this.tx = 0;
 		this.ty = 0;
 		this.spacing = 128;
 		this.focus = null;
 		this.actorList = [];
 		this.dirty = false;
-		this.setup();
 		Field.Instance = this;
 	}
 
-	setup() {
-		let canvas = document.getElementById('canvas');
-
-		canvas.width = this.width;
-		canvas.height = this.height;
-		this.ctx = canvas.getContext('2d');
-		this.resize();
+	setFocus(actor) {
+		this.focus = actor;
+		this.dirty = true;
 	}
 
-	resize() {
-		let header = document.querySelector('[data-role="header"]');
-		let headerH = header.offsetHeight;
-//console.log('headerH:' + headerH);
-		let scaleW = document.body.clientWidth / this.width;
-		let scaleH = (window.innerHeight - headerH) / this.height;
-		let view = document.getElementById('view');
-
-		this.scale = scaleH < scaleW ? scaleH : scaleW;
-//console.log('scale:' + this.scale);
-		// transform: scale(2);
-		view.setAttribute('style', 'transform: scale(' + this.scale + ');');
+	addActor(...actors) {
+		actors.forEach(act => {
+			this.actorList.push(act);
+		});
+		this.dirty = true;
 	}
 
 	scan(x, y) {
-		let px = x / this.scale - this.tx;
-		let py = y / this.scale - this.ty;
+		let scale = this.view.scale;
+		let px = x / scale - this.tx;
+		let py = y / scale - this.ty;
 
 		this.target = null;
 		this.actorList.forEach(actor => {
@@ -70,18 +60,17 @@ console.log('dirty.');
 console.log('list:' + list.length);
 		Tally.reset();
 		this.focus.calculate();
-		list.forEach(people => {
+		list.forEach(person => {
 			list.forEach(target => {
-				if (people == target) {
+				if (person == target) {
 					return;
 				}
-				people.touch(target);
+				person.touch(target);
 			});
 		});
-		this.actorList = list;
-		list.forEach(people => {
-			let x = people.x;
-			let y = people.y;
+		list.forEach(person => {
+			let x = person.x;
+			let y = person.y;
 
 			minX = Math.min(minX, x);
 			minY = Math.min(minY, y);
@@ -96,15 +85,14 @@ console.log('list:' + list.length);
 	}
 
 	draw() {
-		let field = this;
-		let ctx = this.ctx;
+		let ctx = this.view.ctx;
 
-		ctx.clearRect(0, 0, this.width, this.height);
+		this.view.clear();
 		this.actorList.sort(function(a, b) {
 			return a.z - b.z;
 		});
-		ctx.font = "16px 'Times New Roman'";
 		ctx.save();
+		ctx.font = "16px 'Times New Roman'";
 		ctx.translate(this.tx, this.ty);
 		this.actorList.forEach(actor => {
 			actor.draw(ctx);

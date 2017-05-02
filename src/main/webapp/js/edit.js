@@ -33,23 +33,21 @@ class AppMain {
 		view.addEventListener('click', () => {
 			let target = this.field.target;
 
-			if (target instanceof Actor) {
+			if (target instanceof Person) {
 				this.inputPanel.open(target);
 			} else if (target instanceof Relation) {
 				this.relationPanel.open(target);
 			}
 		});
-		window.addEventListener('resize', ()=> {
-			this.field.resize();
-		});
 	}
 
 	init() {
-		let newActor = new Actor();
+		let newPerson = new Person();
 
-		newActor.principal = true;;
-		this.field.focus = newActor;
-		this.field.dirty = true;
+		newPerson.principal = true;
+		this.field.setFocus(newPerson);
+		this.field.actorList.push(newPerson);
+//		this.field.actorList.push(new EnclosingLine());
 	}
 
 	draw() {

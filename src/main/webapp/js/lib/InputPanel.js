@@ -1,7 +1,7 @@
 class InputPanel {
 	constructor() {
 		this.panel = document.getElementById('inputPanel');
-		this.people = null;
+		this.person = null;
 		this.setupEvents();
 	}
 
@@ -12,22 +12,29 @@ class InputPanel {
 		let partnerButton = document.getElementById('partnerButton');
 
 		name.addEventListener('change', ()=> {
-			this.people.name = name.value;
+			this.person.name = name.value;
 		});
 		genderList.click(e => {
 			let radio = e.target;
 			let gender = radio.value;
 
-			this.people.gender = gender;
+			this.person.gender = gender;
 			this.refreshControls();
 		});
 		parentsButton.addEventListener('click', ()=> {
-			this.people.addParents(new Actor(), new Actor());
+			let father = new Person();
+			let mother = new Person();
+
+			this.person.addParents(father, mother);
 			this.refreshControls();
+			Field.Instance.addActor(father, mother);
 		});
 		partnerButton.addEventListener('click', ()=> {
-			this.people.addPartner(new Actor());
+			let partner = new Person();
+
+			this.person.addPartner(partner);
 			this.refreshControls();
+			Field.Instance.addActor(partner);
 		});
 		$(this.panel).panel({close: () => {
 			Field.Instance.scan(Number.MAX_VALUE, Number.MAX_VALUE);
@@ -36,10 +43,10 @@ class InputPanel {
 	}
 
 	refreshControls() {
-		let mother = this.people.mother;
-		let gender = this.people.gender;
-		let plen = this.people.partnerList.length;
-		let clen = Object.keys(this.people.childrenMap).length;
+		let mother = this.person.mother;
+		let gender = this.person.gender;
+		let plen = this.person.partnerList.length;
+		let clen = Object.keys(this.person.childrenMap).length;
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
 		let deleteButton = document.getElementById('deleteButton');
@@ -71,7 +78,7 @@ class InputPanel {
 		$('#inputPanel form :input').each((ix, element) => {
 			let name = element.getAttribute('name');
 			let type = element.getAttribute('type');
-			let val = this.people[name];
+			let val = this.person[name];
 
 			if (type == 'radio') {
 				$(element).val([val]).checkboxradio('refresh');
@@ -84,8 +91,8 @@ console.log(name + ':' + val);
 		this.refreshControls();
 	}
 
-	open(people) {
-		this.people = people;
+	open(person) {
+		this.person = person;
 		this.setupForm();
 		$(this.panel).panel('open');
 	}

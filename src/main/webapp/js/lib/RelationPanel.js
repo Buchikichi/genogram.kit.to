@@ -9,8 +9,10 @@ class RelationPanel {
 		let childButton = document.getElementById('childButton');
 
 		childButton.addEventListener('click', ()=> {
-			this.relation.mother.addChild(this.relation.father, new Actor());
-			Field.Instance.dirty = true;
+			let child = new Person();
+
+			this.relation.mother.addChild(this.relation.father, child);
+			Field.Instance.addActor(child);
 		});
 	}
 
