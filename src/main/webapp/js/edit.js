@@ -20,16 +20,8 @@ class AppMain {
 	}
 
 	setupEvents() {
-		let header = document.querySelector('[data-role="header"]');
-		let headerH = header.offsetHeight;
 		let view = document.getElementById('view');
 
-		view.addEventListener('mousemove', e => {
-			let x = e.clientX;
-			let y = e.clientY - headerH;
-//console.log(e);
-			this.field.scan(x, y);
-		});
 		view.addEventListener('click', () => {
 			let target = this.field.target;
 
@@ -47,7 +39,7 @@ class AppMain {
 		newPerson.principal = true;
 		this.field.setFocus(newPerson);
 		this.field.actorList.push(newPerson);
-//		this.field.actorList.push(new EnclosingLine());
+this.field.actorList.push(new EnclosingLine());
 	}
 
 	draw() {

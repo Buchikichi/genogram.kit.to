@@ -19,7 +19,7 @@ class EnclosingLine extends Actor {
 	}
 
 	isHit(x, y) {
-		let hit = false;
+		let hit = null;
 
 		this.list.forEach(point => {
 			point.hit = false;
@@ -31,14 +31,14 @@ class EnclosingLine extends Actor {
 			let distance = Math.sqrt(diffX * diffX + diffY * diffY);
 
 			if (distance < this.radius) {
-				hit = true;
+				hit = point;
 				point.hit = this;
 			}
 		});
+		return hit;
 	}
 
-	draw(ctx) {
-		ctx.save();
+	drawLine(ctx) {
 		ctx.beginPath();
 		ctx.moveTo(this.x, this.y);
 		this.points.forEach(pt => {
@@ -47,6 +47,9 @@ class EnclosingLine extends Actor {
 		ctx.lineTo(this.x, this.y);
 		ctx.strokeStyle = 'lightglay';
 		ctx.stroke();
+	}
+
+	drawHandle(ctx) {
 		this.list.forEach(point => {
 			if (point.hit) {
 				ctx.beginPath();
@@ -55,6 +58,25 @@ class EnclosingLine extends Actor {
 				ctx.stroke();
 			}
 		});
+	}
+
+	draw(ctx) {
+		let list = this.list;
+		let len = list.length;
+
+		ctx.save();
+//		this.drawLine(ctx);
+		ctx.moveTo(this.x, this.y);
+		for (let ix = 0; ix < len - 1; ix++) {
+			let st = list[ix];
+			let et = list[ix + 1];
+
+			ctx.quadraticCurveTo(st.x, st.y, et.x, et.y);
+			ctx.lineTo(st.x, st.y);
+		}
+		ctx.strokeStyle = 'green';
+		ctx.stroke();
+		this.drawHandle(ctx);
 		ctx.restore();
 	}
 }

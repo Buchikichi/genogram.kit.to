@@ -19,10 +19,10 @@ class FlexibleView {
 	init() {
 		let header = document.querySelector('[data-role="header"]');
 		let footer = document.querySelector('[data-role="footer"]');
-		let headerHeight = header ? header.offsetHeight : 0;
-		let footerHeight = footer ? footer.offsetHeight : 0;
 
-		this.margin = headerHeight + footerHeight;
+		this.headerHeight = header ? header.offsetHeight : 0;
+		this.footerHeight = footer ? footer.offsetHeight : 0;
+		this.margin = this.headerHeight + this.footerHeight;
 //console.log('headerH:' + headerHeight);
 		window.addEventListener('resize', ()=> {
 			this.resize();
@@ -37,6 +37,13 @@ class FlexibleView {
 //console.log('scale:' + this.scale);
 		// transform: scale(2);
 		this.view.setAttribute('style', 'transform: scale(' + this.scale + ');');
+	}
+
+	convert(x, y) {
+		let cx = x / this.scale;
+		let cy = (y - this.headerHeight) / this.scale;
+
+		return {x: cx, y: cy};
 	}
 
 	clear() {

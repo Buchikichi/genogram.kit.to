@@ -12,7 +12,34 @@ class Field {
 		this.focus = null;
 		this.actorList = [];
 		this.dirty = false;
+		this.setupEvents();
 		Field.Instance = this;
+	}
+
+	setupEvents() {
+		let view = this.view.view;
+
+		view.addEventListener('mousedown', e => {
+			let pt = this.view.convert(e.clientX, e.clientY);
+
+			this.hold = this.scan(pt.x, pt.y);
+		});
+		view.addEventListener('mouseup', e => {
+			this.hold = null;
+		});
+		view.addEventListener('mousemove', e => {
+			let pt = this.view.convert(e.clientX, e.clientY);
+
+//console.log(e);
+			if (this.hold) {
+				let px = pt.x - this.tx;
+				let py = pt.y - this.ty;
+				this.hold.x = px;
+				this.hold.y = py;
+				return;
+			}
+			this.scan(pt.x, pt.y);
+		});
 	}
 
 	setFocus(actor) {
@@ -28,18 +55,19 @@ class Field {
 	}
 
 	scan(x, y) {
-		let scale = this.view.scale;
-		let px = x / scale - this.tx;
-		let py = y / scale - this.ty;
+		let result = null;
+		let px = x - this.tx;
+		let py = y - this.ty;
 
-		this.target = null;
 		this.actorList.forEach(actor => {
 			let hit = actor.isHit(px, py);
 
 			if (hit) {
-				this.target = hit;
+				result = hit;
 			}
 		});
+		this.target = result;
+		return result;
 	}
 
 	arrange() {
