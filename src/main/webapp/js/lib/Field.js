@@ -16,6 +16,12 @@ class Field {
 		Field.Instance = this;
 	}
 
+	get showGrid() {
+		let check = document.querySelector('[name="grid"]');
+
+		return check.checked;
+	}
+
 	setupEvents() {
 		let view = this.view.view;
 
@@ -112,6 +118,48 @@ console.log('list:' + list.length);
 		this.ty = hh - minY;
 	}
 
+	drawGrid(ctx) {
+		if (!this.showGrid) {
+			return;
+		}
+		let hW = this.width / 2;
+		let hH = this.height / 2;
+		let spacing = this.spacing / 2;
+		let top = -hH;
+		let left = -hW;
+		let right = hW;
+		let bottom = hH;
+
+		ctx.save();
+		ctx.lineWidth = 0.2;
+		ctx.strokeStyle = 'aqua';
+		for (let x = 0; x < hW; x+= spacing) {
+			ctx.beginPath();
+			ctx.moveTo(x, top);
+			ctx.lineTo(x, bottom);
+			ctx.stroke();
+			if (0 < x) {
+				ctx.beginPath();
+				ctx.moveTo(-x, top);
+				ctx.lineTo(-x, bottom);
+				ctx.stroke();
+			}
+		}
+		for (let y = 0; y < hH; y+= spacing) {
+			ctx.beginPath();
+			ctx.moveTo(left, y);
+			ctx.lineTo(right, y);
+			ctx.stroke();
+			if (0 < y) {
+				ctx.beginPath();
+				ctx.moveTo(left, -y);
+				ctx.lineTo(right, -y);
+				ctx.stroke();
+			}
+		}
+		ctx.restore();
+	}
+
 	draw() {
 		let ctx = this.view.ctx;
 
@@ -122,6 +170,7 @@ console.log('list:' + list.length);
 		ctx.save();
 		ctx.font = "16px 'Times New Roman'";
 		ctx.translate(this.tx, this.ty);
+		this.drawGrid(ctx);
 		this.actorList.forEach(actor => {
 			actor.draw(ctx);
 		});
