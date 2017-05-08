@@ -22,6 +22,43 @@ class GenoSymbol {
 		}
 	}
 
+	drawCross(ctx) {
+		let top = -this.radius;
+		let left = -this.radius;
+		let right = this.radius;
+		let bottom = this.radius;
+
+		ctx.beginPath();
+		ctx.moveTo(left, top);
+		ctx.lineTo(right, bottom);
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.moveTo(right, top);
+		ctx.lineTo(left, bottom);
+		ctx.stroke();
+	}
+
+	drawYears(ctx) {
+		let dob = new GenoCalendar(this.person.dob);
+dob = new GenoCalendar(null); // 誕生年を表示しない
+		let dod = new GenoCalendar(this.person.dod);
+		let list = [dob.year, dod.year];
+		let text = list.join('-');
+
+		if (text.length <= 1) {
+			return;
+		}
+//text = this.count + ':' + text;
+		let metrics = ctx.measureText(text);
+		let x = -metrics.width / 2;
+		let y = -(20 + this.radius); // TODO 正しく調整
+
+		ctx.lineWidth = 1;
+		ctx.beginPath();
+		ctx.strokeStyle = 'black';
+		ctx.strokeText(text, x, y);
+	}
+
 	drawAge(ctx) {
 		let text = this.person.age;
 
@@ -42,6 +79,10 @@ class GenoSymbol {
 	draw(ctx) {
 		ctx.strokeStyle = this.person.strokeStyle;
 		this.drawSymbol(ctx);
+		if (this.person.dod) {
+			this.drawCross(ctx);
+		}
 		this.drawAge(ctx);
+		this.drawYears(ctx);
 	}
 }

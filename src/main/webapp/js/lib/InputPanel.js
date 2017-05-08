@@ -24,11 +24,30 @@ class InputPanel {
 			this.person.gender = gender;
 			this.refreshControls();
 		});
+		dob.addEventListener('keyup', ()=> {
+			let cal = new GenoCalendar(dob.value);
+			let age = cal.age;
+			let val = cal.toString();
+
+			this.person.dob = val;
+			this.person.age = age;
+			age.value = age;
+		});
+		dod.addEventListener('keyup', ()=> {
+			let cal = new GenoCalendar(dod.value);
+			let val = cal.toString();
+
+			this.person.dod = val;
+			this.refreshControls();
+		});
+		dod.addEventListener('change', ()=> {
+			let cal = new GenoCalendar(dod.value);
+
+			dod.value = cal.toString();
+		});
 		age.addEventListener('keyup', ()=> {
-console.log('age:' + age.value);
 			let val = parseInt(age.value);
 
-console.log('val:' + val);
 			this.person.age = null;
 			if (!val) {
 				return;
@@ -40,25 +59,29 @@ console.log('val:' + val);
 			this.person.dob = year;
 			this.person.age = val;
 		});
-		parentsButton.addEventListener('click', ()=> {
-			let father = new Person();
-			let mother = new Person();
-
-			this.person.addParents(father, mother);
-			this.refreshControls();
-			Field.Instance.addActor(father, mother);
-		});
-		partnerButton.addEventListener('click', ()=> {
-			let partner = new Person();
-
-			this.person.addPartner(partner);
-			this.refreshControls();
-			Field.Instance.addActor(partner);
-		});
+		parentsButton.addEventListener('click', ()=> this.addParents());
+		partnerButton.addEventListener('click', ()=> this.addPartner());
 		$(this.panel).panel({close: () => {
 			Field.Instance.scan(Number.MAX_VALUE, Number.MAX_VALUE);
 		}});
 		$(partnerButton).addClass('ui-state-disabled');
+	}
+
+	addParents() {
+		let father = new Person();
+		let mother = new Person();
+
+		this.person.addParents(father, mother);
+		this.refreshControls();
+		Field.Instance.addActor(father, mother);
+	}
+
+	addPartner() {
+		let partner = new Person();
+
+		this.person.addPartner(partner);
+		this.refreshControls();
+		Field.Instance.addActor(partner);
 	}
 
 	refreshControls() {
@@ -66,6 +89,8 @@ console.log('val:' + val);
 		let gender = this.person.gender;
 		let plen = this.person.partnerList.length;
 		let clen = Object.keys(this.person.childrenMap).length;
+		let dod = this.panel.querySelector('[name="dod"]');
+		let age = this.panel.querySelector('[name="age"]');
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
 		let deleteButton = document.getElementById('deleteButton');
@@ -74,6 +99,11 @@ console.log('val:' + val);
 			$('[name="gender"]').checkboxradio('enable');
 		} else {
 			$('[name="gender"]').checkboxradio('disable');
+		}
+		if (this.person.dod) {
+			$(age).prop('disabled', true);
+		} else {
+			$(age).removeProp('disabled');
 		}
 		if (mother) {
 			$(parentsButton).addClass('ui-state-disabled');
