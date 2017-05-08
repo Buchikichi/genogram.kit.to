@@ -3,7 +3,8 @@ class Person extends Chain {
 		super(id);
 		this.name = '';
 		this.description = '';
-		this.dob = '';
+		this.dob = ''; // Date of birth
+		this.dod = ''; // Date of death
 		this.radius = 32;
 		this.principal = false; // 本人(主役?)かどうか
 	}
@@ -112,8 +113,6 @@ console.log('child#' + child.count + ' cx:' + cx);
 	}
 
 	drawSymbol(ctx) {
-		let ir = this.radius * .8;
-
 		if (this.hit == this) {
 			ctx.lineWidth = 5;
 		} else {
@@ -123,29 +122,15 @@ console.log('child#' + child.count + ' cx:' + cx);
 		if (this.touched) {
 			ctx.strokeStyle = 'red';
 		}
+		// 図形描画
+		let symbol;
+
 		if (this.gender == 'm') {
-			let bx = -this.radius;
-			let by = -this.radius;
-			let width = this.radius * 2;
-
-			ctx.strokeRect(bx, by, width, width);
-			if (this.principal) {
-				let ix = -ir;
-				let iy = -ir;
-				let iw = ir * 2;
-
-				ctx.strokeRect(ix, iy, iw, iw);
-			}
-			return;
+			symbol = new MaleSymbol(this);
+		} else {
+			symbol = new FemaleSymbol(this);
 		}
-		ctx.beginPath();
-		ctx.arc(0, 0, this.radius, 0, Math.PI * 2, false);
-		ctx.stroke();
-		if (this.principal) {
-			ctx.beginPath();
-			ctx.arc(0, 0, ir, 0, Math.PI * 2, false);
-			ctx.stroke();
-		}
+		symbol.draw(ctx);
 	}
 
 	drawName(ctx) {

@@ -1,0 +1,2 @@
+class MaleSymbol extends GenoSymbol {
+}

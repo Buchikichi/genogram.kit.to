@@ -8,6 +8,9 @@ class InputPanel {
 	setupEvents() {
 		let name = this.panel.querySelector('[name="name"]');
 		let genderList = $('[name="gender"]');
+		let dob = this.panel.querySelector('[name="dob"]');
+		let dod = this.panel.querySelector('[name="dod"]');
+		let age = this.panel.querySelector('[name="age"]');
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
 
@@ -20,6 +23,22 @@ class InputPanel {
 
 			this.person.gender = gender;
 			this.refreshControls();
+		});
+		age.addEventListener('keyup', ()=> {
+console.log('age:' + age.value);
+			let val = parseInt(age.value);
+
+console.log('val:' + val);
+			this.person.age = null;
+			if (!val) {
+				return;
+			}
+			let currentYear = new Date().getFullYear();
+			let year = currentYear - val;
+
+			dob.value = year;
+			this.person.dob = year;
+			this.person.age = val;
 		});
 		parentsButton.addEventListener('click', ()=> {
 			let father = new Person();
