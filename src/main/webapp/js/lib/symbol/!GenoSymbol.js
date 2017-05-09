@@ -4,6 +4,7 @@ class GenoSymbol {
 		this.radius = this.person.radius;
 		this.width = this.radius * 2;
 		this.ir = this.radius * .8;
+		this.fontSize = this.person.fontSize;
 	}
 
 	drawSymbol(ctx) {
@@ -49,14 +50,9 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 			return;
 		}
 //text = this.count + ':' + text;
-		let metrics = ctx.measureText(text);
-		let x = -metrics.width / 2;
-		let y = -(20 + this.radius); // TODO 正しく調整
+		let y = -(this.fontSize / 2 + this.radius + 2);
 
-		ctx.lineWidth = 1;
-		ctx.beginPath();
-		ctx.strokeStyle = 'black';
-		ctx.strokeText(text, x, y);
+		ctx.fillText(text, 0, y);
 	}
 
 	drawAge(ctx) {
@@ -65,24 +61,33 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		if (!text) {
 			return;
 		}
-//text = this.count + ':' + text;
-		let metrics = ctx.measureText(text);
-		let x = -metrics.width / 2;
-		let y = 16 / 2; // TODO 正しく調整
+//text = this.person.count + ':' + text;
+		ctx.strokeText(text, 0, 0);
+		ctx.fillText(text, 0, 0);
+	}
 
-		ctx.lineWidth = 1;
-		ctx.beginPath();
-		ctx.strokeStyle = 'black';
-		ctx.strokeText(text, x, y);
+	drawName(ctx) {
+		let text = this.person.name;
+text = this.person.count + ':' + text;
+		let y = this.fontSize / 2 + this.radius + 2;
+
+		ctx.fillText(text, 0, y);
 	}
 
 	draw(ctx) {
+		ctx.save();
 		ctx.strokeStyle = this.person.strokeStyle;
+		ctx.textAlign = 'center';
 		this.drawSymbol(ctx);
 		if (this.person.dod) {
 			this.drawCross(ctx);
 		}
+		ctx.lineWidth = 1;
+		ctx.strokeStyle = 'black';
+		ctx.fillStyle = 'black';
 		this.drawAge(ctx);
 		this.drawYears(ctx);
+		this.drawName(ctx);
+		ctx.restore();
 	}
 }

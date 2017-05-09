@@ -133,19 +133,6 @@ console.log('child#' + child.count + ' cx:' + cx);
 		symbol.draw(ctx);
 	}
 
-	drawName(ctx) {
-		let text = this.name;
-//text = this.count + ':' + text;
-		let metrics = ctx.measureText(text);
-		let x = -metrics.width / 2;
-		let y = 20 + this.radius;
-
-		ctx.lineWidth = 1;
-		ctx.beginPath();
-		ctx.strokeStyle = 'black';
-		ctx.strokeText(text, x, y);
-	}
-
 	/**
 	 * パートナー.
 	 */
@@ -239,7 +226,6 @@ console.log('child#' + child.count + ' cx:' + cx);
 		this.drawLine(ctx);
 		ctx.translate(this.x, this.y);
 		this.drawSymbol(ctx);
-		this.drawName(ctx);
 		ctx.restore();
 	}
 }

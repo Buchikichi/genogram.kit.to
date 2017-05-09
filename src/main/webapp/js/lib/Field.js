@@ -22,6 +22,16 @@ class Field {
 		return check.checked;
 	}
 
+	get fontSize() {
+		let element = document.querySelector('[name="fontSize"]');
+		let fontSize = parseFloat(element.value);
+
+		if (!fontSize) {
+			fontSize = 12;
+		}
+		return fontSize;
+	}
+
 	setupEvents() {
 		let view = this.view.view;
 
@@ -133,6 +143,7 @@ console.log('list:' + list.length);
 		ctx.save();
 		ctx.lineWidth = 0.2;
 		ctx.strokeStyle = 'aqua';
+		ctx.translate(hW, hH);
 		for (let x = 0; x < hW; x+= spacing) {
 			ctx.beginPath();
 			ctx.moveTo(x, top);
@@ -162,16 +173,19 @@ console.log('list:' + list.length);
 
 	draw() {
 		let ctx = this.view.ctx;
+		let fontSize = this.fontSize;
 
 		this.view.clear();
 		this.actorList.sort(function(a, b) {
 			return a.z - b.z;
 		});
-		ctx.save();
-		ctx.font = "16px 'Times New Roman'";
-		ctx.translate(this.tx, this.ty);
 		this.drawGrid(ctx);
+		ctx.save();
+		ctx.font = fontSize + "px 'Times New Roman'";
+		ctx.textBaseline = 'middle';
+		ctx.translate(this.tx, this.ty);
 		this.actorList.forEach(actor => {
+			actor.fontSize = fontSize;
 			actor.draw(ctx);
 		});
 		ctx.restore();
