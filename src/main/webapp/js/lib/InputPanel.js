@@ -104,9 +104,9 @@ class InputPanel {
 			$('[name="gender"]').checkboxradio('disable');
 		}
 		if (this.person.dod) {
-			$(age).prop('disabled', true);
+			$(age).textinput('disable');
 		} else {
-			$(age).removeProp('disabled');
+			$(age).textinput('enable');
 		}
 		if (mother) {
 			$(parentsButton).addClass('ui-state-disabled');

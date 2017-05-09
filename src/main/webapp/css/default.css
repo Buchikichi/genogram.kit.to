@@ -29,7 +29,8 @@ body {
 	height: 100%;
 	background-color: #eeeeee;
 }
-#deleteButton {
+/* Button */
+div.ui-panel button.ui-icon-delete {
 	background-color: #FF8888;
 }
 /* Input */

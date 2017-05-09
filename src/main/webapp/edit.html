@@ -45,14 +45,35 @@
     </form>
     <button id="parentsButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u">Parents</button>
     <button id="partnerButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus">Partner</button>
-    <button id="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close">Delete</button>
+    <button class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close">Delete</button>
   </div>
-  <div id="relationPanel" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay">
+  <div id="partnerPanel" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay">
     <form>
       <label>Father:<input type="text" name="father" readonly="readonly"/></label>
       <label>Mother:<input type="text" name="mother" readonly="readonly"/></label>
       <button id="mChildButton" type="button" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-plus">Male child</button>
       <button id="fChildButton" type="button" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-plus">Female child</button>
+    </form>
+  </div>
+  <div id="relationPanel" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay">
+    <form>
+      <label>From:<input type="text" name="from" readonly="readonly"/></label>
+      <label>To:<input type="text" name="to" readonly="readonly"/></label>
+      <fieldset data-role="controlgroup" data-mini="true">
+        <label>融合<input name="emotion" type="radio" value="fused"/></label>
+        <label>親密<input name="emotion" type="radio" value="close"/></label>
+        <label>疎遠<input name="emotion" type="radio" value="distant"/></label>
+        <label>敵対<input name="emotion" type="radio" value="hostile"/></label>
+        <label>融合し敵対<input name="emotion" type="radio" value="fusedHostile"/></label>
+        <label>親密で敵対<input name="emotion" type="radio" value="close-hostile"/></label>
+        <label>遮断<input name="emotion" type="radio" value="cutOff"/></label>
+        <label>強い関心/干渉<input name="emotion" type="radio" value="focused"/></label>
+        <label>性的虐待<input name="emotion" type="radio" value="sexualAbuse"/></label>
+        <label>身体的虐待<input name="emotion" type="radio" value="physicalAbuse"/></label>
+      </fieldset>
+      <button type="button" name="createButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus">Create</button>
+      <button type="button" name="updateButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-check">Update</button>
+      <button type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close">Delete</button>
     </form>
   </div>
 </div>

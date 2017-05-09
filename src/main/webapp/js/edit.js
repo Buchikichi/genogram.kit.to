@@ -15,6 +15,7 @@ class AppMain {
 		this.controller = new Controller();
 		this.field = new Field(1024, 768);
 		this.inputPanel = new InputPanel();
+		this.partnerPanel = new PartnerPanel();
 		this.relationPanel = new RelationPanel();
 		this.setupEvents();
 		this.init();
@@ -37,9 +38,12 @@ class AppMain {
 					return;
 				}
 				if (target instanceof Relation) {
-					this.relationPanel.open(target);
+					this.partnerPanel.open(target);
 					return;
 				}
+			}
+			if (2 <= this.field.targetList.length) {
+				this.relationPanel.open(target, this.field.targetList[1]);
 			}
 		});
 	}

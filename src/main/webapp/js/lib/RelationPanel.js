@@ -1,41 +1,46 @@
 class RelationPanel {
 	constructor() {
 		this.panel = document.getElementById('relationPanel');
-		this.relation = null;
+		this.from = null;
+		this.to = null;
 		this.setupEvents();
 	}
 
 	setupEvents() {
-		let mChildButton = document.getElementById('mChildButton');
-		let fChildButton = document.getElementById('fChildButton');
-		let addChild = gender => {
-			let child = new Person(null, gender);
+		let createButton = this.panel.querySelector('[name="createButton"]');
+//		let fChildButton = document.getElementById('fChildButton');
+//		let addChild = gender => {
+//			let child = new Person(null, gender);
+//
+//			this.relation.mother.addChild(this.relation.father, child);
+//			Field.Instance.addActor(child);
+//		}
+//
+		createButton.addEventListener('click', ()=> {
+			let relationship = new Relationship(this.from, this.to);
 
-			this.relation.mother.addChild(this.relation.father, child);
-			Field.Instance.addActor(child);
-		}
-
-		mChildButton.addEventListener('click', ()=> {
-			addChild('m');
+			Field.Instance.addActor(relationship);
 		});
-		fChildButton.addEventListener('click', ()=> {
-			addChild('f');
-		});
+//		fChildButton.addEventListener('click', ()=> {
+//			addChild('f');
+//		});
 		$(this.panel).panel({close: () => {
 			Field.Instance.clearSelection();
 		}});
 	}
 
 	setupForm() {
-		let father = this.panel.querySelector('[name="father"]');
-		let mother = this.panel.querySelector('[name="mother"]');
+		let from = this.panel.querySelector('[name="from"]');
+		let to = this.panel.querySelector('[name="to"]');
 
-		father.value = this.relation.father.name;
-		mother.value = this.relation.mother.name;
+		from.value = this.from.name;
+		to.value = this.to.name;
 	}
 
-	open(relation) {
-		this.relation = relation;
+	open(from, to) {
+
+		this.from = from;
+		this.to = to;
 		this.setupForm();
 		$(this.panel).panel('open');
 	}
