@@ -62,26 +62,29 @@ class InputPanel {
 		parentsButton.addEventListener('click', ()=> this.addParents());
 		partnerButton.addEventListener('click', ()=> this.addPartner());
 		$(this.panel).panel({close: () => {
-			Field.Instance.scan(Number.MAX_VALUE, Number.MAX_VALUE);
+			Field.Instance.clearSelection();
 		}});
 		$(partnerButton).addClass('ui-state-disabled');
 	}
 
 	addParents() {
-		let father = new Person();
-		let mother = new Person();
+		let father = new Person(null, 'm');
+		let mother = new Person(null, 'f');
+		let relation = new Relation(father, mother);
 
 		this.person.addParents(father, mother);
 		this.refreshControls();
-		Field.Instance.addActor(father, mother);
+		Field.Instance.addActor(father, mother, relation);
 	}
 
 	addPartner() {
-		let partner = new Person();
+		let gender = this.person.isMale ? 'f' : 'm';
+		let partner = new Person(null, gender);
+		let relation = new Relation(this.person, partner);
 
 		this.person.addPartner(partner);
 		this.refreshControls();
-		Field.Instance.addActor(partner);
+		Field.Instance.addActor(partner, relation);
 	}
 
 	refreshControls() {

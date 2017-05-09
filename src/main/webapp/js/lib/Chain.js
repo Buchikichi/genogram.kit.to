@@ -1,5 +1,5 @@
 class Chain extends Actor {
-	constructor(id = null) {
+	constructor(id = null, gender) {
 		super();
 		if (id == null) {
 			this.id = UUID.toString();
@@ -7,10 +7,23 @@ class Chain extends Actor {
 		} else {
 			this.id = id;
 		}
-		this.gender = '';
+		this.gender = gender;
 		this.mother = null;
 		this.partnerList = [];
 		this.childrenMap = {};
+	}
+
+	get gender() {
+		return this._gender;
+	}
+
+	set gender(val) {
+		this._gender = val;
+		this.attributeChanged();
+	}
+
+	attributeChanged() {
+		// abstract
 	}
 
 	get isMale() {
@@ -48,17 +61,12 @@ class Chain extends Actor {
 	}
 
 	addParents(father, mother) {
-		father.gender = 'm';
-		mother.gender = 'f';
 		mother.addPartner(father);
 		mother.addChild(father, this);
 		this.mother = mother;
 	}
 
 	addPartner(partner) {
-		if (!partner.gender) {
-			partner.gender = this.isMale ? 'f' : 'm';
-		}
 		this.partnerList.push(partner);
 		partner.partnerList.push(this);
 	}

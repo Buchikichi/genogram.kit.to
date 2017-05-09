@@ -1,11 +1,12 @@
 class FlexibleView {
 	constructor(width, height) {
+		this.view = document.getElementById('view');
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
-		this.view = document.getElementById('view');
 		this.scale = 1;
 		this.init();
 		this.setSize(width, height);
+		FlexibleView.Instance = this;
 	}
 
 	setSize(width, height) {
@@ -27,6 +28,14 @@ class FlexibleView {
 		window.addEventListener('resize', ()=> {
 			this.resize();
 		});
+		window.addEventListener('keydown', ()=> {
+			if (!view.classList.contains('addicting')) {
+				view.classList.add('addicting');
+			}
+		});
+		window.addEventListener('mousemove', ()=> {
+			view.classList.remove('addicting');
+		});
 	}
 
 	resize() {
@@ -34,9 +43,14 @@ class FlexibleView {
 		let scaleH = (window.innerHeight - this.margin) / this.height;
 
 		this.scale = scaleH < scaleW ? scaleH : scaleW;
-//console.log('scale:' + this.scale);
 		// transform: scale(2);
-		this.view.setAttribute('style', 'transform: scale(' + this.scale + ');');
+//console.log('scale:' + this.scale);
+		let style = [
+			'width:' + this.width + 'px',
+			'height:' + this.height + 'px',
+			'transform: scale(' + this.scale + ')',
+		];
+		this.view.setAttribute('style', style.join(';'));
 	}
 
 	convert(x, y) {

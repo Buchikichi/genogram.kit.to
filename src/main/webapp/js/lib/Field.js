@@ -10,6 +10,7 @@ class Field {
 		this.ty = 0;
 		this.spacing = 128;
 		this.focus = null;
+		this.targetList = [];
 		this.actorList = [];
 		this.dirty = false;
 		this.setupEvents();
@@ -34,11 +35,20 @@ class Field {
 
 	setupEvents() {
 		let view = this.view.view;
+		let keys = Controller.Instance.keys;
 
 		view.addEventListener('mousedown', e => {
 			let pt = this.view.convert(e.clientX, e.clientY);
+			let target = this.scan(pt.x, pt.y);
+			let ctrlKey = keys['Control'] || keys['Shift'] || keys['k16'] || keys['k17'];
 
-			this.hold = this.scan(pt.x, pt.y);
+			if (!ctrlKey) {
+				this.targetList = [];
+			}
+			if (target) {
+				this.targetList.push(target);
+			}
+			this.hold = target;
 		});
 		view.addEventListener('mouseup', e => {
 			this.hold = null;
@@ -76,14 +86,16 @@ class Field {
 		let py = y - this.ty;
 
 		this.actorList.forEach(actor => {
-			let hit = actor.isHit(px, py);
-
-			if (hit) {
-				result = hit;
+			if (actor.isHit(px, py)) {
+				result = actor;
 			}
 		});
-		this.target = result;
 		return result;
+	}
+
+	clearSelection() {
+		this.scan(Number.MAX_VALUE, Number.MAX_VALUE);
+		this.targetList = [];
 	}
 
 	arrange() {
@@ -176,7 +188,7 @@ console.log('list:' + list.length);
 		let fontSize = this.fontSize;
 
 		this.view.clear();
-		this.actorList.sort(function(a, b) {
+		this.actorList.sort((a, b) => {
 			return a.z - b.z;
 		});
 		this.drawGrid(ctx);
@@ -186,6 +198,7 @@ console.log('list:' + list.length);
 		ctx.translate(this.tx, this.ty);
 		this.actorList.forEach(actor => {
 			actor.fontSize = fontSize;
+			actor.selected = this.targetList.indexOf(actor) != -1;
 			actor.draw(ctx);
 		});
 		ctx.restore();

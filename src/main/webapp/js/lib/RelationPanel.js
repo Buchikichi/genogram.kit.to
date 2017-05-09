@@ -9,9 +9,8 @@ class RelationPanel {
 		let mChildButton = document.getElementById('mChildButton');
 		let fChildButton = document.getElementById('fChildButton');
 		let addChild = gender => {
-			let child = new Person();
+			let child = new Person(null, gender);
 
-			child.gender = gender;
 			this.relation.mother.addChild(this.relation.father, child);
 			Field.Instance.addActor(child);
 		}
@@ -22,6 +21,9 @@ class RelationPanel {
 		fChildButton.addEventListener('click', ()=> {
 			addChild('f');
 		});
+		$(this.panel).panel({close: () => {
+			Field.Instance.clearSelection();
+		}});
 	}
 
 	setupForm() {

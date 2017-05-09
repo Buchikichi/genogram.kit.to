@@ -1,12 +1,20 @@
 class Person extends Chain {
-	constructor(id = null) {
-		super(id);
+	constructor(id = null, gender = '') {
+		super(id, gender);
 		this.name = '';
 		this.description = '';
 		this.dob = ''; // Date of birth
 		this.dod = ''; // Date of death
 		this.radius = 32;
 		this.principal = false; // 本人(主役?)かどうか
+	}
+
+	attributeChanged() {
+		if (this.isMale) {
+			this.symbol = new MaleSymbol(this);
+		} else {
+			this.symbol = new FemaleSymbol(this);
+		}
 	}
 
 	scanAll(list, depth = 0) {
@@ -81,79 +89,26 @@ console.log('child#' + child.count + ' cx:' + cx);
 	}
 
 	isHit(x, y) {
-		let diffX = this.x - x;
-		let diffY = this.y - y;
-
-//console.log('distance:' + distance + '[' + x + ',' + y + ']');
-		this.hit = null;
-		if (this.isMale) {
-			if (Math.abs(diffX) < this.radius && Math.abs(diffY) < this.radius) {
-				this.hit = this;
-				return this.hit;
-			}
-		} else {
-			let distance = Math.sqrt(diffX * diffX + diffY * diffY);
-
-			if (distance < this.radius) {
-				this.hit = this;
-				return this.hit;
-			}
-		}
-		if (this.isMale || this.numOfPartner == 0) {
-			return null;
-		}
-		this.partnerList.forEach(partner => {
-			let relation = new Relation(partner, this);
-
-			if (relation.isHit(x, y)) {
-				this.hit = relation;
-			}
-		});
+		this.hit = this.symbol.isHit(x, y);
 		return this.hit;
 	}
 
 	drawSymbol(ctx) {
-		if (this.hit == this) {
+		if (this.selected) {
+			this.strokeStyle = 'navy';
+			ctx.lineWidth = 5;
+		} else if (this.hit) {
+			this.strokeStyle = 'aqua';
 			ctx.lineWidth = 5;
 		} else {
+			this.strokeStyle = 'black';
 			ctx.lineWidth = 2;
 		}
 		ctx.strokeStyle = this.strokeStyle;
 		if (this.touched) {
 			ctx.strokeStyle = 'red';
 		}
-		// 図形描画
-		let symbol;
-
-		if (this.gender == 'm') {
-			symbol = new MaleSymbol(this);
-		} else {
-			symbol = new FemaleSymbol(this);
-		}
-		symbol.draw(ctx);
-	}
-
-	/**
-	 * パートナー.
-	 */
-	drawPartnerLine(ctx) {
-		if (!this.isMale) {
-			return;
-		}
-//console.log('drawPartnerLine:' + this.gender);
-		let plen = this.partnerList.length;
-		let x = 1 < plen ? 0 : this.radius;
-		let y = 1 < plen ? this.radius : 0;
-		let height = 4;
-
-		this.partnerList.forEach((target, ix) => {
-			let relation = new Relation(this, target);
-			let cx = target.x + (1 < plen ? 0 : -target.radius) - this.x;
-			let width = cx - x;
-
-			y += 4;
-			relation.draw(ctx);
-		});
+		this.symbol.draw(ctx);
 	}
 
 	drawChildLine(ctx) {
@@ -207,23 +162,10 @@ console.log('child#' + child.count + ' cx:' + cx);
 		ctx.stroke();
 	}
 
-	drawLine(ctx) {
-		this.drawPartnerLine(ctx);
-		this.drawChildLine(ctx);
-	}
-
 	draw(ctx) {
-		if (this.hit == this) {
-			this.strokeStyle = 'aqua';
-		} else {
-			this.strokeStyle = 'black';
-		}
 		ctx.save();
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
-		if (this.hit instanceof Relation) {
-			this.hit.drawHighlight(ctx);
-		}
-		this.drawLine(ctx);
+		this.drawChildLine(ctx);
 		ctx.translate(this.x, this.y);
 		this.drawSymbol(ctx);
 		ctx.restore();

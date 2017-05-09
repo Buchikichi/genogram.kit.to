@@ -1,4 +1,14 @@
 class FemaleSymbol extends GenoSymbol {
+	isHit(x, y) {
+		let person = this.person;
+		let diffX = person.x - x;
+		let diffY = person.y - y;
+		let radius = person.radius;
+		let distance = Math.sqrt(diffX * diffX + diffY * diffY);
+
+		return distance < radius;
+	}
+
 	drawSymbol(ctx) {
 		ctx.beginPath();
 		ctx.arc(0, 0, this.radius, 0, Math.PI * 2, false);

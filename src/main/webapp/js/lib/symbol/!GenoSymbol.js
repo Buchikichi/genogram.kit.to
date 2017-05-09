@@ -1,10 +1,6 @@
 class GenoSymbol {
 	constructor(person) {
 		this.person = person;
-		this.radius = this.person.radius;
-		this.width = this.radius * 2;
-		this.ir = this.radius * .8;
-		this.fontSize = this.person.fontSize;
 	}
 
 	drawSymbol(ctx) {
@@ -49,7 +45,6 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		if (text.length <= 1) {
 			return;
 		}
-//text = this.count + ':' + text;
 		let y = -(this.fontSize / 2 + this.radius + 2);
 
 		ctx.fillText(text, 0, y);
@@ -68,13 +63,21 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 
 	drawName(ctx) {
 		let text = this.person.name;
-text = this.person.count + ':' + text;
+//text = this.person.count + ':' + text;
 		let y = this.fontSize / 2 + this.radius + 2;
 
 		ctx.fillText(text, 0, y);
 	}
 
+	resetProperties() {
+		this.radius = this.person.radius;
+		this.width = this.radius * 2;
+		this.ir = this.radius * .8;
+		this.fontSize = this.person.fontSize;
+	}
+
 	draw(ctx) {
+		this.resetProperties();
 		ctx.save();
 		ctx.strokeStyle = this.person.strokeStyle;
 		ctx.textAlign = 'center';
