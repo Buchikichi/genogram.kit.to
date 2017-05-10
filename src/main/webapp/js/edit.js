@@ -41,6 +41,10 @@ class AppMain {
 					this.partnerPanel.open(target);
 					return;
 				}
+				if (target instanceof Relationship) {
+					this.relationPanel.open(target);
+					return;
+				}
 			}
 			if (2 <= this.field.targetList.length) {
 				this.relationPanel.open(target, this.field.targetList[1]);

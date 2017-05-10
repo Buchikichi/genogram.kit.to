@@ -9,6 +9,10 @@ class Actor {
 		return false;
 	}
 
+	eject() {
+		this.isGone = true;
+	}
+
 	react() {
 		return [];
 	}

@@ -140,6 +140,20 @@ console.log('list:' + list.length);
 		this.ty = hh - minY;
 	}
 
+	choiceActor() {
+		let list = [];
+
+		this.actorList.forEach(actor => {
+			if (!actor.isGone) {
+				list.push(actor);
+			}
+		});
+		list.sort((a, b) => {
+			return a.z - b.z;
+		});
+		this.actorList = list;
+	}
+
 	drawGrid(ctx) {
 		if (!this.showGrid) {
 			return;
@@ -188,9 +202,7 @@ console.log('list:' + list.length);
 		let fontSize = this.fontSize;
 
 		this.view.clear();
-		this.actorList.sort((a, b) => {
-			return a.z - b.z;
-		});
+		this.choiceActor();
 		this.drawGrid(ctx);
 		ctx.save();
 		ctx.font = fontSize + "px 'Times New Roman'";
