@@ -120,34 +120,23 @@ console.log('child#' + child.count + ' cx:' + cx);
 		let half = spacing / 2;
 		let partners = this.numOfPartner;
 		let my = this.y + half + half / 4;
-		let tx;
-		let ty;
 
-		if (partners == 1) {
-			tx = this.x - half;
-			ty = this.y;
-		} else {
-			tx = this.x - half;
-			ty = this.y;
-		}
-		// top
-		ctx.beginPath();
-		ctx.moveTo(tx, ty);
-		ctx.lineTo(tx, my);
-		ctx.stroke();
-		// bottom
 		let first = true;
 		let last = null;
 		Object.keys(this.childrenMap).forEach(key => {
 			let childrenList = this.childrenMap[key];
 
 			childrenList.forEach(target => {
+				let rect = target.parents.rect;
+				let tx = rect.center;
+				let ty = rect.bottom;
 				let cx = target.x
 				let cy = target.y - this.radius;
-	
+
 				ctx.beginPath();
 				if (first) {
-					ctx.moveTo(tx, my);
+					ctx.moveTo(tx, ty);
+					ctx.lineTo(tx, my);
 					ctx.lineTo(cx, my);
 					first = false;
 				}
@@ -156,11 +145,11 @@ console.log('child#' + child.count + ' cx:' + cx);
 				ctx.stroke();
 				last = target;
 			});
+			ctx.beginPath();
+			ctx.moveTo(last.parents.rect.center, my);
+			ctx.lineTo(last.x, my);
+			ctx.stroke();
 		});
-		ctx.beginPath();
-		ctx.moveTo(tx, my);
-		ctx.lineTo(last.x, my);
-		ctx.stroke();
 	}
 
 	draw(ctx) {

@@ -27,11 +27,14 @@ body {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background-color: #eeeeee;
+	background-color: #f8f8f8;
 }
 /* Button */
 div.ui-panel button.ui-icon-delete {
-	background-color: #FF8888;
+	background-color: #FFaaaa;
+}
+div.ui-panel button.ui-icon-delete:hover {
+	background-color: #dd7777;
 }
 /* Input */
 input[name=dob], input[name=dod] {

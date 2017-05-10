@@ -11,9 +11,11 @@ class RelationPanel {
 		$('[name="emotion"]').click(()=> {
 			this.deleteRelationship();
 			this.relationship = this.createRelationship();
+			this.resetControls();
 		});
 		this.deleteButton.addEventListener('click', ()=> {
 			this.deleteRelationship();
+			this.resetControls();
 		});
 		$(this.panel).panel({close: () => {
 			Field.Instance.clearSelection();

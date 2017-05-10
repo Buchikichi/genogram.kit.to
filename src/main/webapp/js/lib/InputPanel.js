@@ -72,7 +72,7 @@ class InputPanel {
 		let mother = new Person(null, 'f');
 		let relation = new Relation(father, mother);
 
-		this.person.addParents(father, mother);
+		this.person.addParents(relation);
 		this.refreshControls();
 		Field.Instance.addActor(father, mother, relation);
 	}

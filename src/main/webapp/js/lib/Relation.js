@@ -8,37 +8,53 @@ class Relation extends Actor {
 			this.father = other;
 			this.mother = person;
 		}
+this.ranking = 0;
 		this.hit = false;
 	}
 
 	get rect() {
+		let spacing = Field.Instance.spacing;
+		let half = spacing / 2;
 		let father = this.father;
+		let mother = this.mother;
 		let radius = father.radius;
-		let left = Math.min(father.x, this.mother.x) + radius;
-		let width = Math.abs(father.x - this.mother.x) - radius * 2;
-		let height = radius / 5;
-		let hw = height / 2;
-		let top = father.y - hw;
+		let top = father.y + father.radius;
+		let left = Math.min(father.x, mother.x);
+		let width = Math.abs(father.x - mother.x);
+		let height = half / 4;
 
+		// TODO GenoRect でも作るか
 		return {
 			top: top,
 			left: left,
+			right: left + width,
+			bottom: top + height,
+			center: left + width / 2,
 			width: width,
 			height: height,
 		};
 	}
 
+	addChild(child) {
+		let father = this.father;
+		let mother = this.mother;
+		let key = father.id;
+		let list = mother.childrenMap[key];
+
+		if (!list) {
+			list = [];
+			mother.childrenMap[key] = list;
+		}
+		child.parents = this;
+		list.push(child);
+	}
+
 	isHit(x, y) {
 		let rect = this.rect;
-		let right = rect.left + rect.width;
 
 		this.hit = false;
-		if (rect.left < x && x < right) {
-			let bottom = rect.top + rect.height;
-
-			if (rect.top <= y && y <= bottom) {
-				this.hit = true;
-			}
+		if (rect.left <= x && x <= rect.right && rect.top <= y && y <= rect.bottom) {
+			this.hit = true;
 		}
 		return this.hit;
 	}
@@ -46,7 +62,13 @@ class Relation extends Actor {
 	drawNormal(ctx) {
 		let rect = this.rect;
 
-		ctx.strokeRect(rect.left, rect.top, rect.width, rect.height);
+//		ctx.strokeRect(rect.left, rect.top, rect.width, rect.height);
+		ctx.beginPath();
+		ctx.moveTo(rect.left, rect.top);
+		ctx.lineTo(rect.left, rect.bottom);
+		ctx.lineTo(rect.right, rect.bottom);
+		ctx.lineTo(rect.right, rect.top);
+		ctx.stroke();
 	}
 
 	drawHighlight(ctx) {

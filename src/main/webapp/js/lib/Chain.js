@@ -8,7 +8,7 @@ class Chain extends Actor {
 			this.id = id;
 		}
 		this.gender = gender;
-		this.mother = null;
+		this.parents = null; // 誰の子か
 		this.partnerList = [];
 		this.childrenMap = {};
 	}
@@ -30,10 +30,18 @@ class Chain extends Actor {
 		return this.gender == 'm';
 	}
 
-	get father() {
-		if (!this.mother) {
-			return;
+	get mother() {
+		if (!this.parents) {
+			return null;
 		}
+		return this.parents.mother;
+	}
+
+	get father() {
+		if (!this.parents) {
+			return null;
+		}
+		return this.parents.father;
 	}
 
 	get numOfPartner() {
@@ -60,27 +68,18 @@ class Chain extends Actor {
 		return {left: left, right: right};
 	}
 
-	addParents(father, mother) {
+	addParents(relation) {
+		let father = relation.father;
+		let mother = relation.mother;
+
 		mother.addPartner(father);
-		mother.addChild(father, this);
-		this.mother = mother;
+		relation.addChild(this);
+		this.parents = relation;
 	}
 
 	addPartner(partner) {
 		this.partnerList.push(partner);
 		partner.partnerList.push(this);
-	}
-
-	addChild(partner, child) {
-		let key = partner.id;
-		let list = this.childrenMap[key];
-
-		if (!list) {
-			list = [];
-			this.childrenMap[key] = list;
-		}
-		child.mother = this;
-		list.push(child);
 	}
 
 	/**

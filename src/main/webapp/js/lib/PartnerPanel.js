@@ -11,7 +11,7 @@ class PartnerPanel {
 		let addChild = gender => {
 			let child = new Person(null, gender);
 
-			this.relation.mother.addChild(this.relation.father, child);
+			this.relation.addChild(child);
 			Field.Instance.addActor(child);
 		}
 
