@@ -58,6 +58,7 @@ class Person extends Chain {
 			let childrenList = this.listChildren(partner);
 			let width = spacing * (childrenList.length - 1);
 			let cx = this.x - half - width / 2;
+			let cy = this.y + spacing;
 
 console.log('#' + this.count + ' childrenList:' + childrenList.length);
 			if (!partner.fixed) {
@@ -69,7 +70,7 @@ console.log('partner#' + partner.count + ':' + partner.x);
 			childrenList.forEach(child => {
 console.log('child#' + child.count + ' cx:' + cx);
 				child.x = cx;
-				child.y = this.y + spacing;
+				child.y = cy;
 				child.calculate();
 				cx += spacing;
 			});
@@ -118,7 +119,7 @@ console.log('child#' + child.count + ' cx:' + cx);
 		let spacing = Field.Instance.spacing;
 		let half = spacing / 2;
 		let partners = this.numOfPartner;
-		let my = this.y + half;
+		let my = this.y + half + half / 4;
 		let tx;
 		let ty;
 

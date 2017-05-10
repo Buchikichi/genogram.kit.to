@@ -23,6 +23,7 @@ class AppMain {
 
 	setupEvents() {
 		let view = document.getElementById('view');
+		let gridSpacing = $('[name="gridSpacing"]');
 
 		view.addEventListener('click', () => {
 			if (this.field.targetList.length == 0) {
@@ -49,6 +50,9 @@ class AppMain {
 			if (2 <= this.field.targetList.length) {
 				this.relationPanel.open(target, this.field.targetList[1]);
 			}
+		});
+		gridSpacing.change(()=> {
+			this.field.dirty = true;
 		});
 	}
 

@@ -24,6 +24,7 @@
     <form id="loginForm">
       <input type="text" name="userid" required="required"/>
       <label>Grid:<input type="checkbox" name="grid" data-role="flipswitch" data-on-text="ON" data-off-text="OFF" checked="checked"/></label>
+      <input type="range" name="gridSpacing" min="80" max="400" step="40" value="160"/>
       <label>Font size:<input type="range" name="fontSize" min="8" max="40" step="4" value="16"/></label>
       <button type="button" data-theme="b" disabled="disabled">Save</button>
     </form>
@@ -60,7 +61,7 @@
       <label>From:<input type="text" name="from" readonly="readonly"/></label>
       <label>To:<input type="text" name="to" readonly="readonly"/></label>
       <fieldset data-role="controlgroup" data-mini="true">
-        <label>融合<input name="emotion" type="radio" value="fused" checked="checked"/></label>
+        <label>融合<input name="emotion" type="radio" value="fused"/></label>
         <label>親密<input name="emotion" type="radio" value="close"/></label>
         <label>疎遠<input name="emotion" type="radio" value="distant"/></label>
         <label>敵対<input name="emotion" type="radio" value="hostile"/></label>
@@ -71,8 +72,6 @@
         <label>性的虐待<input name="emotion" type="radio" value="sexualAbuse"/></label>
         <label>身体的虐待<input name="emotion" type="radio" value="physicalAbuse"/></label>
       </fieldset>
-      <button type="button" name="createButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus">Create</button>
-      <button type="button" name="updateButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-check">Update</button>
       <button type="button" name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close">Delete</button>
     </form>
   </div>

@@ -8,7 +8,6 @@ class Field {
 		this.view = new FlexibleView(width, height);
 		this.tx = 0;
 		this.ty = 0;
-		this.spacing = 128;
 		this.focus = null;
 		this.targetList = [];
 		this.actorList = [];
@@ -21,6 +20,16 @@ class Field {
 		let check = document.querySelector('[name="grid"]');
 
 		return check.checked;
+	}
+
+	get spacing() {
+		let element = document.querySelector('[name="gridSpacing"]');
+		let gridSpacing = parseFloat(element.value);
+
+		if (!gridSpacing) {
+			gridSpacing = 160;
+		}
+		return gridSpacing;
 	}
 
 	get fontSize() {

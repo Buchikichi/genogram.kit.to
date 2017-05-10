@@ -1,27 +1,19 @@
 class RelationPanel {
 	constructor() {
 		this.panel = document.getElementById('relationPanel');
-		this.createButton = this.panel.querySelector('[name="createButton"]');
-		this.updateButton = this.panel.querySelector('[name="updateButton"]');
 		this.deleteButton = this.panel.querySelector('[name="deleteButton"]');
 		this.from = null;
 		this.to = null;
-		this.isNew = true;
 		this.setupEvents();
 	}
 
 	setupEvents() {
-		this.createButton.addEventListener('click', ()=> {
-			this.relationship = this.createRelationship();
-		});
-		this.updateButton.addEventListener('click', ()=> {
-			this.relationship.eject();
+		$('[name="emotion"]').click(()=> {
+			this.deleteRelationship();
 			this.relationship = this.createRelationship();
 		});
 		this.deleteButton.addEventListener('click', ()=> {
-			this.relationship.eject();
-			this.relationship = null;
-			this.isNew = true;
+			this.deleteRelationship();
 		});
 		$(this.panel).panel({close: () => {
 			Field.Instance.clearSelection();
@@ -32,32 +24,37 @@ class RelationPanel {
 		let emotion = $('[name="emotion"]:checked');
 		let relationship = Relationship.create(emotion.val(), this.from, this.to);
 
+		relationship.hit = true;
 		Field.Instance.addActor(relationship);
 		return relationship;
 	}
 
+	deleteRelationship() {
+		if (this.relationship) {
+			this.relationship.eject();
+			this.relationship = null;
+		}
+	}
+
 	resetControls() {
-		if (this.isNew) {
-			$(this.createButton).show();
-			$(this.updateButton).hide();
-			$(this.deleteButton).hide();
-		} else {
-			$(this.createButton).hide();
-			$(this.updateButton).show();
+		if (this.relationship) {
 			$(this.deleteButton).show();
+		} else {
+			$(this.deleteButton).hide();
 		}
 	}
 
 	setupForm() {
 		let from = this.panel.querySelector('[name="from"]');
 		let to = this.panel.querySelector('[name="to"]');
+		let emotion = $('[name="emotion"]');
 
 		from.value = this.from.name;
 		to.value = this.to.name;
 		if (this.relationship) {
-			let emotion = this.relationship.emotion;
-
-			$('[name="emotion"]').val([emotion]).checkboxradio('refresh');
+			emotion.val([this.relationship.emotion]).checkboxradio('refresh');
+		} else {
+			emotion.removeAttr('checked').checkboxradio('refresh');
 		}
 		this.resetControls();
 	}
@@ -66,6 +63,7 @@ class RelationPanel {
 		if (to) {
 			this.from = from;
 			this.to = to;
+			this.relationship = null;
 			this.isNew = true;
 		} else {
 			// Relationship

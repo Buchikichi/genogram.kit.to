@@ -83,7 +83,7 @@ class Relationship extends Actor {
 		ctx.fillStyle = this.fillStyle;
 		ctx.fillRect(0, 0, this.width, this.height);
 		if (this.hit) {
-			ctx.fillStyle = 'rgba(100, 255, 255, 0.7)';
+			ctx.fillStyle = 'rgba(140, 255, 255, 0.5)';
 			ctx.fillRect(0, 0, this.width, this.height);
 		}
 		ctx.restore();
@@ -106,6 +106,10 @@ Relationship.create = (emotion, person, other)=> {
 		relation = new FusedRelation(person, other);
 	} else if (emotion == 'close') {
 		relation = new CloseRelation(person, other);
+	} else if (emotion == 'distant') {
+		relation = new DistantRelation(person, other);
+	} else if (emotion == 'hostile') {
+		relation = new HostileRelation(person, other);
 	} else {
 		relation = new Relationship(person, other);
 	}
