@@ -48,7 +48,14 @@ class AppMain {
 				}
 			}
 			if (2 <= this.field.targetList.length) {
-				this.relationPanel.open(target, this.field.targetList[1]);
+				let other = this.field.targetList[1];
+				let relationship = this.field.getRelationship(target, other);
+
+				if (relationship) {
+					this.relationPanel.open(relationship);
+					return;
+				}
+				this.relationPanel.open(target, other);
 			}
 		});
 		gridSpacing.change(()=> {

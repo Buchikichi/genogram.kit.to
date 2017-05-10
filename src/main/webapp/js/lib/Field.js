@@ -42,6 +42,21 @@ class Field {
 		return fontSize;
 	}
 
+	getRelationship(person, other) {
+		let result = null;
+
+		this.actorList.forEach(actor => {
+			if (result || !(actor instanceof Relationship)) {
+				return;
+			}
+			if (actor.person == person && actor.other == other
+					|| actor.person == other && actor.other == person) {
+				result = actor;
+			}
+		});
+		return result;
+	}
+
 	setupEvents() {
 		let view = this.view.view;
 		let keys = Controller.Instance.keys;
