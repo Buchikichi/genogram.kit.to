@@ -173,6 +173,9 @@ console.log('list:' + list.length);
 		this.actorList.forEach(actor => {
 			if (!actor.isGone) {
 				list.push(actor);
+				actor.spawn.forEach(roe => {
+					list.push(roe);
+				});
 			}
 		});
 		list.sort((a, b) => {

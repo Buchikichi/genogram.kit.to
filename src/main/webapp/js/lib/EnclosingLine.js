@@ -1,82 +1,44 @@
-class EnclosingLine extends Actor {
+class EnclosingLine extends ActorHandle {
 	constructor() {
-		super();
-		this.x = 100;
-		this.y = 100;
-		this.radius = 10;
-		this.points = [];
+		super(100, 100);
 		this.addPoint(200, 100);
 		this.addPoint(200, 200);
 		this.addPoint(100, 200);
-	}
-
-	get list() {
-		return this.points.concat(this);
+		this.addPoint(50, 150);
+		this.addPoint(50, 120);
+		this.spawnList = this.list;
 	}
 
 	addPoint(x, y) {
-		this.points.push({x:x, y:y});
-	}
+		let handle = new ActorHandle(x, y);
 
-	isHit(x, y) {
-		let hit = null;
-
-		this.list.forEach(point => {
-			point.hit = false;
-			if (hit) {
-				return;
-			}
-			let diffX = point.x - x;
-			let diffY = point.y - y;
-			let distance = Math.sqrt(diffX * diffX + diffY * diffY);
-
-			if (distance < this.radius) {
-				hit = point;
-				point.hit = this;
-			}
-		});
-		return hit;
+		this.add(handle);
 	}
 
 	drawLine(ctx) {
+		ctx.lineWidth = .5;
+		ctx.strokeStyle = 'lightglay';
 		ctx.beginPath();
 		ctx.moveTo(this.x, this.y);
-		this.points.forEach(pt => {
+		this.list.forEach(pt => {
 			ctx.lineTo(pt.x, pt.y);
 		});
-		ctx.lineTo(this.x, this.y);
-		ctx.strokeStyle = 'lightglay';
 		ctx.stroke();
 	}
 
-	drawHandle(ctx) {
-		this.list.forEach(point => {
-			if (point.hit) {
-				ctx.beginPath();
-				ctx.strokeStyle = 'aqua';
-				ctx.arc(point.x, point.y, this.radius, 0, Math.PI * 2, false);
-				ctx.stroke();
-			}
+	drawAll(ctx) {
+//		this.drawLine(ctx);
+		this.list.forEach(node => {
+			ctx.fillText(node.count, node.x, node.y);
+//			node.drawGuide(ctx);
+			node.drawCurve(ctx);
 		});
 	}
 
 	draw(ctx) {
-		let list = this.list;
-		let len = list.length;
-
+		super.draw(ctx);
 		ctx.save();
-//		this.drawLine(ctx);
-		ctx.moveTo(this.x, this.y);
-		for (let ix = 0; ix < len - 1; ix++) {
-			let st = list[ix];
-			let et = list[ix + 1];
-
-			ctx.quadraticCurveTo(st.x, st.y, et.x, et.y);
-			ctx.lineTo(st.x, st.y);
-		}
-		ctx.strokeStyle = 'green';
-		ctx.stroke();
-		this.drawHandle(ctx);
+		this.drawAll(ctx);
 		ctx.restore();
 	}
 }
