@@ -13,6 +13,7 @@ class InputPanel {
 		let age = this.panel.querySelector('[name="age"]');
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
+		let deleteButton = this.panel.querySelector('[name="deleteButton"]');
 
 		name.addEventListener('change', ()=> {
 			this.person.name = name.value;
@@ -51,10 +52,10 @@ class InputPanel {
 		age.addEventListener('keyup', ()=> this.ageChanged());
 		parentsButton.addEventListener('click', ()=> this.addParents());
 		partnerButton.addEventListener('click', ()=> this.addPartner());
+		deleteButton.addEventListener('click', ()=> this.person.remove());
 		$(this.panel).panel({close: () => {
 			Field.Instance.clearSelection();
 		}});
-		$(partnerButton).addClass('ui-state-disabled');
 	}
 
 	ageChanged() {
@@ -96,20 +97,18 @@ class InputPanel {
 	}
 
 	refreshControls() {
-		let mother = this.person.mother;
 		let gender = this.person.gender;
 		let plen = this.person.partnerList.length;
-		let clen = Object.keys(this.person.childrenMap).length;
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
-		let deleteButton = document.getElementById('deleteButton');
+		let deleteButton = this.panel.querySelector('[name="deleteButton"]');
 
 		if (plen == 0) {
 			$('[name="gender"]').checkboxradio('enable');
 		} else {
 			$('[name="gender"]').checkboxradio('disable');
 		}
-		if (mother) {
+		if (this.person.parents) {
 			$(parentsButton).addClass('ui-state-disabled');
 		} else {
 			$(parentsButton).removeClass('ui-state-disabled');
@@ -119,12 +118,12 @@ class InputPanel {
 		} else {
 			$(partnerButton).removeClass('ui-state-disabled');
 		}
-		if (plen == 0 && clen == 0) {
-			$(deleteButton).removeClass('ui-state-disabled');
-		} else {
+		if (this.person.principal || this.person.hasChild) {
 			$(deleteButton).addClass('ui-state-disabled');
+		} else {
+			$(deleteButton).removeClass('ui-state-disabled');
 		}
-		Field.Instance.dirty = true;
+//		Field.Instance.dirty = true;
 	}
 
 	setupForm() {
@@ -136,9 +135,9 @@ class InputPanel {
 			if (type == 'radio') {
 				$(element).val([val]).checkboxradio('refresh');
 			} else {
-console.log(name + ':' + val);
+//console.log(name + ':' + val);
 //				element.setAttribute('value', val);
-				$(element).val(val);
+				element.value = val;
 			}
 		});
 		this.refreshControls();

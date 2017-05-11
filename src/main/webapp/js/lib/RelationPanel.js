@@ -40,9 +40,9 @@ class RelationPanel {
 
 	resetControls() {
 		if (this.relationship) {
-			$(this.deleteButton).show();
+			$(this.deleteButton).removeClass('ui-state-disabled');
 		} else {
-			$(this.deleteButton).hide();
+			$(this.deleteButton).addClass('ui-state-disabled');
 		}
 	}
 

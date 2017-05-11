@@ -85,6 +85,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		ctx.textAlign = 'center';
 		this.drawSymbol(ctx);
 		if (this.person.dod) {
+			ctx.lineWidth = 1;
 			this.drawCross(ctx);
 		}
 		ctx.lineWidth = 1;

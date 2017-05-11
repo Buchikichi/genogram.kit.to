@@ -49,6 +49,20 @@ this.ranking = 0;
 		list.push(child);
 	}
 
+	removeChild(target) {
+		let father = this.father;
+		let mother = this.mother;
+		let key = father.id;
+		let children = mother.childrenMap[key];
+		let ix = children.indexOf(target);
+
+		children.splice(ix, 1);
+		if (children.length == 0) {
+			delete mother.childrenMap[key];
+		}
+		target.eject();
+	}
+
 	isHit(x, y) {
 		let rect = this.rect;
 
@@ -62,7 +76,6 @@ this.ranking = 0;
 	drawNormal(ctx) {
 		let rect = this.rect;
 
-//		ctx.strokeRect(rect.left, rect.top, rect.width, rect.height);
 		ctx.beginPath();
 		ctx.moveTo(rect.left, rect.top);
 		ctx.lineTo(rect.left, rect.bottom);

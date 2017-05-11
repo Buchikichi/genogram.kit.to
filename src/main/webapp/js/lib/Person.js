@@ -70,24 +70,33 @@ class Person extends Chain {
 		}
 		this.count = Tally.increment();
 		this.fixed = true;
-		this.partnerList.forEach(partner => {
+		this.partnerList.forEach((partner, px) => {
+			let realChildren = this.listRealChildren(partner);
+			let onlyChild = realChildren.length == 1; // 一人っ子
 			let childrenList = this.listChildren(partner);
-			let width = spacing * (childrenList.length - 1);
+			let len = onlyChild ? 0 : childrenList.length - 1;
+			let width = spacing * len;
 			let cx = this.x - half - width / 2;
 			let cy = this.y + spacing;
 
-console.log('#' + this.count + ' childrenList:' + childrenList.length);
+console.log('#' + this.count + ' ch:' + realChildren.length + '/' + childrenList.length);
 			if (!partner.fixed) {
-				partner.x = this.x + spacing * (partner.gender == 'm' ? -1 : 1);
+				partner.x = this.x + spacing * (px + 1) * (this.isMale ? 1 : -1);
 				partner.y = this.y;
-console.log('partner#' + partner.count + ':' + partner.x);
 				partner.calculate();
 			}
-			childrenList.forEach(child => {
+			realChildren.forEach(child => {
+				let margin = child.numOfPartner * spacing;
 console.log('child#' + child.count + ' cx:' + cx);
+				if (!child.isMale && !onlyChild) {
+					cx += margin;
+				}
 				child.x = cx;
 				child.y = cy;
 				child.calculate();
+				if (child.isMale) {
+					cx += margin;
+				}
 				cx += spacing;
 			});
 		});
@@ -119,7 +128,7 @@ console.log('child#' + child.count + ' cx:' + cx);
 			ctx.lineWidth = 5;
 		} else {
 			this.strokeStyle = 'black';
-			ctx.lineWidth = 2;
+			ctx.lineWidth = 3;
 		}
 		ctx.strokeStyle = this.strokeStyle;
 		if (this.touched) {
@@ -136,15 +145,15 @@ console.log('child#' + child.count + ' cx:' + cx);
 		let half = spacing / 2;
 		let partners = this.numOfPartner;
 		let my = this.y + half + half / 4;
-
 		let first = true;
 		let last = null;
+
 		Object.keys(this.childrenMap).forEach(key => {
 			let childrenList = this.childrenMap[key];
 
 			childrenList.forEach(target => {
 				let rect = target.parents.rect;
-				let tx = rect.center;
+				let tx = target.mother.x - half; //rect.center;
 				let ty = rect.bottom;
 				let cx = target.x
 				let cy = target.y - this.radius;
@@ -162,7 +171,7 @@ console.log('child#' + child.count + ' cx:' + cx);
 				last = target;
 			});
 			ctx.beginPath();
-			ctx.moveTo(last.parents.rect.center, my);
+			ctx.moveTo(last.mother.x - half, my);
 			ctx.lineTo(last.x, my);
 			ctx.stroke();
 		});

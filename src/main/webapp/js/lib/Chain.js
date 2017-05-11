@@ -48,6 +48,20 @@ class Chain extends Actor {
 		return this.partnerList.length;
 	}
 
+	get hasChild() {
+		if (!this.isMale) {
+			return 0 < Object.keys(this.childrenMap).length;
+		}
+		let result = false;
+
+		this.partnerList.forEach(partner => {
+			if (partner.hasChild) {
+				result = true;
+			}
+		});
+		return result;
+	}
+
 	/**
 	 * 占める領域を求める.
 	 * @return {left, right}
@@ -83,6 +97,18 @@ class Chain extends Actor {
 	}
 
 	/**
+	 * 子の一覧.
+	 */
+	listRealChildren(partner) {
+		let children = this.childrenMap[partner.id];
+
+		if (!children) {
+			return [];
+		}
+		return children;
+	}
+
+	/**
 	 * 子(嫁・婿含む)の一覧.
 	 */
 	listChildren(partner) {
@@ -104,5 +130,12 @@ class Chain extends Actor {
 			}
 		});
 		return list;
+	}
+
+	remove() {
+		if (this.parents) {
+			this.parents.removeChild(this);
+		}
+		this.eject();
 	}
 }

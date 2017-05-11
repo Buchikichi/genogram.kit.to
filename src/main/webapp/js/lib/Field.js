@@ -130,7 +130,6 @@ class Field {
 		if (!this.dirty) {
 			return;
 		}
-console.log('dirty.');
 		this.dirty = false;
 		let minX = 0;
 		let minY = 0;
@@ -179,7 +178,10 @@ console.log('list:' + list.length);
 		list.sort((a, b) => {
 			return a.z - b.z;
 		});
-		this.actorList = list;
+		if (this.actorList.length != list.length) {
+			this.actorList = list;
+			this.dirty = true;
+		}
 	}
 
 	drawGrid(ctx) {
