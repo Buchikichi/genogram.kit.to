@@ -9,6 +9,22 @@ class Person extends Chain {
 		this.principal = false; // 本人(主役?)かどうか
 	}
 
+	get age() {
+		let cal = new GenoCalendar(this.dob);
+
+		return cal.age;
+	}
+
+	get info() {
+		let info = this.name;
+		let age = this.age;
+
+		if (age) {
+			info += '(' + age + ')';
+		}
+		return info;
+	}
+
 	attributeChanged() {
 		if (this.isMale) {
 			this.symbol = new MaleSymbol(this);

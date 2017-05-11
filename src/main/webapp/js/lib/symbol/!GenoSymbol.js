@@ -45,7 +45,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		if (text.length <= 1) {
 			return;
 		}
-		let y = -(this.fontSize / 2 + this.radius + 2);
+		let y = -(this.textHh + this.radius);
 
 		ctx.fillText(text, 0, y);
 	}
@@ -64,7 +64,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 	drawName(ctx) {
 		let text = this.person.name;
 //text = this.person.count + ':' + text;
-		let y = this.fontSize / 2 + this.radius + 2;
+		let y = this.textHh + this.radius;
 
 		ctx.fillText(text, 0, y);
 	}
@@ -74,6 +74,8 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		this.width = this.radius * 2;
 		this.ir = this.radius * .8;
 		this.fontSize = this.person.fontSize;
+		this.textMargin = this.fontSize * .2;
+		this.textHh = this.fontSize / 2 + this.textMargin;
 	}
 
 	draw(ctx) {

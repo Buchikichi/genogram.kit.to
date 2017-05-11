@@ -30,8 +30,8 @@ class PartnerPanel {
 		let father = this.panel.querySelector('[name="father"]');
 		let mother = this.panel.querySelector('[name="mother"]');
 
-		father.value = this.relation.father.name;
-		mother.value = this.relation.mother.name;
+		father.value = this.relation.father.info;
+		mother.value = this.relation.mother.info;
 	}
 
 	open(relation) {

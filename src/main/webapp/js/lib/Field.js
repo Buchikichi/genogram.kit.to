@@ -110,6 +110,10 @@ class Field {
 		let py = y - this.ty;
 
 		this.actorList.forEach(actor => {
+			actor.hit = false;
+			if (result) {
+				return;
+			}
 			if (actor.isHit(px, py)) {
 				result = actor;
 			}

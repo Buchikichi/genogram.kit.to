@@ -26,45 +26,53 @@ class InputPanel {
 		});
 		dob.addEventListener('keyup', ()=> {
 			let cal = new GenoCalendar(dob.value);
-			let age = cal.age;
 			let val = cal.toString();
 
 			this.person.dob = val;
-			this.person.age = age;
-			age.value = age;
+			age.value = this.person.age;
+		});
+		dob.addEventListener('change', ()=> {
+			let cal = new GenoCalendar(dob.value);
+
+			dob.value = cal.toString();
 		});
 		dod.addEventListener('keyup', ()=> {
 			let cal = new GenoCalendar(dod.value);
 			let val = cal.toString();
 
 			this.person.dod = val;
-			this.refreshControls();
+			age.value = this.person.age;
 		});
 		dod.addEventListener('change', ()=> {
 			let cal = new GenoCalendar(dod.value);
 
 			dod.value = cal.toString();
 		});
-		age.addEventListener('keyup', ()=> {
-			let val = parseInt(age.value);
-
-			this.person.age = null;
-			if (!val) {
-				return;
-			}
-			let currentYear = new Date().getFullYear();
-			let year = currentYear - val;
-
-			dob.value = year;
-			this.person.dob = year;
-			this.person.age = val;
-		});
+		age.addEventListener('keyup', ()=> this.ageChanged());
 		parentsButton.addEventListener('click', ()=> this.addParents());
 		partnerButton.addEventListener('click', ()=> this.addPartner());
 		$(this.panel).panel({close: () => {
 			Field.Instance.clearSelection();
 		}});
 		$(partnerButton).addClass('ui-state-disabled');
+	}
+
+	ageChanged() {
+		let dob = this.panel.querySelector('[name="dob"]');
+		let dod = this.panel.querySelector('[name="dod"]');
+		let age = this.panel.querySelector('[name="age"]');
+		let val = parseInt(age.value);
+
+		this.person.age = null;
+		if (!val) {
+			return;
+		}
+		let currentYear = new Date().getFullYear();
+		let year = currentYear - val;
+
+		dob.value = year;
+		this.person.dob = year;
+		this.person.age = val;
 	}
 
 	addParents() {
@@ -92,8 +100,6 @@ class InputPanel {
 		let gender = this.person.gender;
 		let plen = this.person.partnerList.length;
 		let clen = Object.keys(this.person.childrenMap).length;
-		let dod = this.panel.querySelector('[name="dod"]');
-		let age = this.panel.querySelector('[name="age"]');
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
 		let deleteButton = document.getElementById('deleteButton');
@@ -102,11 +108,6 @@ class InputPanel {
 			$('[name="gender"]').checkboxradio('enable');
 		} else {
 			$('[name="gender"]').checkboxradio('disable');
-		}
-		if (this.person.dod) {
-			$(age).textinput('disable');
-		} else {
-			$(age).textinput('enable');
 		}
 		if (mother) {
 			$(parentsButton).addClass('ui-state-disabled');

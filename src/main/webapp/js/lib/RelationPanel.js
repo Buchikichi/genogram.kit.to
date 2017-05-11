@@ -51,8 +51,8 @@ class RelationPanel {
 		let to = this.panel.querySelector('[name="to"]');
 		let emotion = $('[name="emotion"]');
 
-		from.value = this.from.name;
-		to.value = this.to.name;
+		from.value = this.from.info;
+		to.value = this.to.info;
 		if (this.relationship) {
 			emotion.val([this.relationship.emotion]).checkboxradio('refresh');
 		} else {
