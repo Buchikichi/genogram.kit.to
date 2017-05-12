@@ -57,6 +57,11 @@ class Field {
 		return result;
 	}
 
+	allowTarget(target) {
+		return target instanceof Person || target instanceof Relation
+			|| target instanceof Relationship || target instanceof EnclosingLine;
+	}
+
 	setupEvents() {
 		let view = this.view.view;
 		let keys = Controller.Instance.keys;
@@ -69,12 +74,15 @@ class Field {
 			if (!ctrlKey) {
 				this.targetList = [];
 			}
-			if (target) {
+			if (this.allowTarget(target)) {
 				this.targetList.push(target);
 			}
-			this.hold = target;
+			if (target instanceof ActorHandle) {
+				this.hold = target;
+			}
 		});
 		view.addEventListener('mouseup', e => {
+			this.dirty = true;
 			this.hold = null;
 		});
 		view.addEventListener('mousemove', e => {

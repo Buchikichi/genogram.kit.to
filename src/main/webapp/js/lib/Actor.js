@@ -3,6 +3,7 @@ class Actor {
 		this.x = x;
 		this.y = y;
 		this.z = 0;
+		this.radius = 0;
 		this.spawnList = [];
 	}
 
@@ -20,8 +21,39 @@ class Actor {
 		return Math.sqrt(diffX * diffX + diffY * diffY);
 	}
 
+	getRadian(target) {
+		let diffX = this.x - target.x;
+		let diffY = this.y - target.y;
+
+		return Math.atan2(diffY, diffX);
+	}
+
+	getMidpoint(target) {
+		return new Actor((this.x + target.x) / 2, (this.y + target.y) / 2);
+	}
+
+	getInterimPoint(target, step = 1, max = 1) {
+		let diffX = this.x - target.x;
+		let diffY = this.y - target.y;
+		let len = Math.sqrt(diffX * diffX + diffY * diffY) * step / max;
+		let rad = Math.atan2(diffY, diffX);
+		let x = this.x - Math.cos(rad) * len;
+		let y = this.y - Math.sin(rad) * len;
+
+		return new Actor(x, y);
+	}
+
+	includes(x, y, radius = null) {
+		let diffX = this.x - x;
+		let diffY = this.y - y;
+		let r = radius | this.radius;
+
+//console.log('includes:' + r);
+		return Math.sqrt(diffX * diffX + diffY * diffY) < r;
+	}
+
 	isHit(x, y) {
-		return false;
+		return this.includes(x, y);
 	}
 
 	eject() {
