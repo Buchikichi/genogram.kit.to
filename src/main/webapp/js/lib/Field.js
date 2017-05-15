@@ -42,6 +42,10 @@ class Field {
 		return fontSize;
 	}
 
+	get lineStyle() {
+		return 'gray';
+	}
+
 	getRelationship(person, other) {
 		let result = null;
 

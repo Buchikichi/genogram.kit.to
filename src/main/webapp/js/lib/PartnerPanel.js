@@ -38,7 +38,7 @@ class PartnerPanel {
 		let children = this.childrenView.querySelectorAll('li');
 
 		this.relation.children = [];
-		children.forEach(li => {
+		Array.prototype.forEach.call(children, li => {
 			let child = $(li).prop('child');
 
 			if (child) {
@@ -61,18 +61,18 @@ class PartnerPanel {
 
 			name.textContent = child.info;
 			description.textContent = child.description;
-			anchor.append(name);
-			anchor.append(description);
+			anchor.appendChild(name);
+			anchor.appendChild(description);
 //			if (child.age) {
 //				let count = document.createElement('span');
 //
 //				count.classList.add('ui-li-count');
 //				count.textContent = child.age;
-//				anchor.append(count);
+//				anchor.appendChild(count);
 //			}
-			li.append(anchor);
+			li.appendChild(anchor);
 			li.setAttribute('data-icon', false);
-			ul.append(li);
+			ul.appendChild(li);
 			$(li).prop('child', child);
 		});
 		$(ul).listview('refresh');

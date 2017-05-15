@@ -66,6 +66,7 @@ class AppMain {
 	init() {
 		let newPerson = new Person();
 
+		newPerson.name = 'principal(本人)';
 		newPerson.principal = true;
 		this.field.setFocus(newPerson);
 		this.field.actorList.push(newPerson);

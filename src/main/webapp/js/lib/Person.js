@@ -145,6 +145,7 @@ console.log('child#' + child.count + ' cx:' + cx);
 		let first = true;
 		let last = null;
 
+		ctx.strokeStyle = Field.Instance.lineStyle;
 		this.relationList.forEach(relation => {
 			if (relation.children.length == 0) {
 				return;

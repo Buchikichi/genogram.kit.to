@@ -101,12 +101,6 @@ class Relation extends Actor {
 		ctx.stroke();
 	}
 
-	drawHighlight(ctx) {
-		ctx.strokeStyle = 'aqua';
-		ctx.lineWidth = 5;
-		this.drawNormal(ctx);
-	}
-
 	drawText(ctx) {
 		let rect = this.rect;
 
@@ -116,9 +110,12 @@ class Relation extends Actor {
 	draw(ctx, cnt = 0) {
 		ctx.save();
 		if (this.hit) {
-			this.drawHighlight(ctx);
+			ctx.strokeStyle = 'aqua';
+			ctx.lineWidth = 5;
+			this.drawNormal(ctx);
 this.drawText(ctx);
 		} else {
+			ctx.strokeStyle = Field.Instance.lineStyle;
 			this.drawNormal(ctx);
 		}
 		ctx.restore();
