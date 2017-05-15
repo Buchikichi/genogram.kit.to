@@ -55,6 +55,32 @@ class Person extends Chain {
 		});
 	}
 
+	calculateChildren(relation) {
+		let spacing = Field.Instance.spacing;
+		let realChildren = relation.children;
+		let onlyChild = realChildren.length == 1; // 一人っ子
+		let allChildren = relation.allChildren;
+		let len = onlyChild ? 0 : allChildren.length - 1;
+		let width = spacing * len;
+		let cx = relation.rect.center - width / 2;
+		let cy = this.y + spacing;
+
+		realChildren.forEach(child => {
+			let margin = child.numOfPartner * spacing;
+console.log('child#' + child.count + ' cx:' + cx);
+			if (!child.isMale && !onlyChild) {
+				cx += margin;
+			}
+			child.x = cx;
+			child.y = cy;
+			child.calculate();
+			if (child.isMale) {
+				cx += margin;
+			}
+			cx += spacing;
+		});
+	}
+
 	calculate() {
 		if (this.fixed) {
 			return;
@@ -68,38 +94,47 @@ class Person extends Chain {
 			this.mother.calculate();
 			return;
 		}
+		let occupancyList = [];
+		let px = 1;
+
 		this.count = Tally.increment();
 		this.fixed = true;
-		this.relationList.forEach((relation, px) => {
+		this.relationList.forEach((relation, rx) => {
 			let partner = relation.getPartner(this);
-			let realChildren = relation.children;
-			let onlyChild = realChildren.length == 1; // 一人っ子
-			let allChildren = relation.allChildren;
-			let len = onlyChild ? 0 : allChildren.length - 1;
-			let width = spacing * len;
+			let occupancy = relation.occupancy;
 
-console.log('#' + this.count + ' ch:' + realChildren.length + '/' + allChildren.length);
+console.log('#' + this.count + ' ch:' + relation.children.length + '/' + relation.allChildren.length);
 			if (!partner.fixed) {
-				partner.x = this.x + spacing * (px + 1) * (this.isMale ? 1 : -1);
+				let dir = this.isMale ? 1 : -1;
+				let diff = 0;
+
+				if (0 < occupancy.left) {
+					occupancyList.forEach((oc, cnt) => {
+						if (oc.left == 0) {
+							return;
+						}
+						let sum = 0;
+						let dist = (rx - cnt) * 2;
+
+//console.log('dist:' + dist);
+						if (this.isMale) {
+							sum = occupancy.left + oc.right - dist;
+						} else {
+							sum = occupancy.right + oc.left - dist;
+console.log('sum:' + sum + '/right:' + occupancy.right + '/left:' + oc.left);
+						}
+						diff = Math.max(diff, sum);
+//console.log('diff:' + diff + '/' + px);
+					});
+				}
+				px += diff / 2;
+				partner.x = this.x + px * dir * spacing;
 				partner.y = this.y;
 				partner.calculate();
+				px++;
 			}
-			let cx = relation.rect.center - width / 2;
-			let cy = this.y + spacing;
-			realChildren.forEach(child => {
-				let margin = child.numOfPartner * spacing;
-console.log('child#' + child.count + ' cx:' + cx);
-				if (!child.isMale && !onlyChild) {
-					cx += margin;
-				}
-				child.x = cx;
-				child.y = cy;
-				child.calculate();
-				if (child.isMale) {
-					cx += margin;
-				}
-				cx += spacing;
-			});
+			occupancyList.push(occupancy);
+			this.calculateChildren(relation);
 		});
 	}
 

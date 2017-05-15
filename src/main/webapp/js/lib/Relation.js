@@ -61,6 +61,37 @@ class Relation extends Actor {
 		return list;
 	}
 
+	/**
+	 * 占める領域を求める.
+	 * @return {left, right}
+	 */
+	get occupancy() {
+		let left = 0;
+		let right = 0;
+//		let pl = 1;
+//		let pr = 1;
+		let onlyChild = this.children.length == 1; // 一人っ子
+		let allChildren = this.allChildren;
+		let len = allChildren.length;
+
+		if (onlyChild) {
+			let child = this.children[0];
+			let width = len * 2 - 1;
+
+			if (child.isMale) {
+				left = 1;
+				right = width;
+			} else {
+				left = width;
+				right = 1;
+			}
+		} else {
+			left = len;
+			right = left;
+		}
+		return {left: left, right: right};
+	}
+
 	getPartner(person) {
 		if (person == this.father) {
 			return this.mother;
@@ -88,6 +119,23 @@ class Relation extends Actor {
 			this.hit = true;
 		}
 		return this.hit;
+	}
+
+	drawOccupancy(ctx) {
+		let occupancy = this.occupancy;
+
+		if (occupancy.left == 0) {
+			return;
+		}
+		let spacing = Field.Instance.spacing;
+		let half = spacing / 2;
+		let rect = this.rect;
+		let bx = rect.center - occupancy.left * half;
+		let by = rect.bottom;
+		let width = (occupancy.left + occupancy.right) * half;
+
+		ctx.strokeStyle = 'green';
+		ctx.strokeRect(bx, by, width, spacing);
 	}
 
 	drawNormal(ctx) {
@@ -118,6 +166,7 @@ this.drawText(ctx);
 			ctx.strokeStyle = Field.Instance.lineStyle;
 			this.drawNormal(ctx);
 		}
+//this.drawOccupancy(ctx);
 		ctx.restore();
 	}
 }
