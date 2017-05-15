@@ -7,6 +7,7 @@ class InputPanel {
 
 	setupEvents() {
 		let name = this.panel.querySelector('[name="name"]');
+		let description = this.panel.querySelector('[name="description"]');
 		let genderList = $('[name="gender"]');
 		let dob = this.panel.querySelector('[name="dob"]');
 		let dod = this.panel.querySelector('[name="dod"]');
@@ -17,6 +18,9 @@ class InputPanel {
 
 		name.addEventListener('change', ()=> {
 			this.person.name = name.value;
+		});
+		description.addEventListener('change', ()=> {
+			this.person.description = description.value;
 		});
 		genderList.click(e => {
 			let radio = e.target;

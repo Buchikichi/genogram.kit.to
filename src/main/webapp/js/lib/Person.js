@@ -184,6 +184,8 @@ console.log('child#' + child.count + ' cx:' + cx);
 		this.drawChildLine(ctx);
 		ctx.translate(this.x, this.y);
 		this.drawSymbol(ctx);
+//ctx.strokeStyle = 'green';
+//ctx.strokeText(this.count, 0, 10);
 		ctx.restore();
 	}
 }

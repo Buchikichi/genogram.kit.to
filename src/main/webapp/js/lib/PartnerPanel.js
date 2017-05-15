@@ -1,6 +1,7 @@
 class PartnerPanel {
 	constructor() {
 		this.panel = document.getElementById('partnerPanel');
+		this.childrenView = document.getElementById('childrenView');
 		this.relation = null;
 		this.setupEvents();
 	}
@@ -13,6 +14,7 @@ class PartnerPanel {
 
 			this.relation.addChild(child);
 			Field.Instance.addActor(child);
+			this.setupChildren();
 		}
 
 		mChildButton.addEventListener('click', ()=> {
@@ -21,9 +23,59 @@ class PartnerPanel {
 		fChildButton.addEventListener('click', ()=> {
 			addChild('f');
 		});
+		$(this.childrenView).sortable({
+			stop: (event, ui)=> {
+				// ソート終了時
+				this.reorganizeChildren();
+			}
+		});
 		$(this.panel).panel({close: () => {
 			Field.Instance.clearSelection();
 		}});
+	}
+
+	reorganizeChildren() {
+		let children = this.childrenView.querySelectorAll('li');
+
+		this.relation.children = [];
+		children.forEach(li => {
+			let child = $(li).prop('child');
+
+			if (child) {
+				this.relation.addChild(child);
+			}
+		});
+		$(this.childrenView).listview('refresh');
+		Field.Instance.dirty = true;
+	}
+
+	setupChildren() {
+		let ul = this.childrenView;
+
+		ul.textContent = null;
+		this.relation.children.forEach(child => {
+			let name = document.createElement('span');
+			let description = document.createElement('p');
+			let anchor = document.createElement('a');
+			let li = document.createElement('li');
+
+			name.textContent = child.info;
+			description.textContent = child.description;
+			anchor.append(name);
+			anchor.append(description);
+//			if (child.age) {
+//				let count = document.createElement('span');
+//
+//				count.classList.add('ui-li-count');
+//				count.textContent = child.age;
+//				anchor.append(count);
+//			}
+			li.append(anchor);
+			li.setAttribute('data-icon', false);
+			ul.append(li);
+			$(li).prop('child', child);
+		});
+		$(ul).listview('refresh');
 	}
 
 	setupForm() {
@@ -37,6 +89,7 @@ class PartnerPanel {
 	open(relation) {
 		this.relation = relation;
 		this.setupForm();
+		this.setupChildren();
 		$(this.panel).panel('open');
 	}
 }
