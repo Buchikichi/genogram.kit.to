@@ -8,8 +8,12 @@ class Relation extends Actor {
 			this.father = other;
 			this.mother = person;
 		}
-this.ranking = 0;
+		this.children = [];
 		this.hit = false;
+	}
+
+	get partnerOrder() {
+		return Math.max(this.father.partnerOrder, this.mother.partnerOrder);
 	}
 
 	get rect() {
@@ -21,7 +25,9 @@ this.ranking = 0;
 		let top = father.y + father.radius;
 		let left = Math.min(father.x, mother.x);
 		let width = Math.abs(father.x - mother.x);
-		let height = half / 4;
+		let marginBottom = (this.partnerOrder - 1) * 4;
+		let height = half / 4 + marginBottom;
+		let center = father.partnerOrder < mother.partnerOrder ? mother.x - half: father.x + half;
 
 		// TODO GenoRect でも作るか
 		return {
@@ -29,37 +35,48 @@ this.ranking = 0;
 			left: left,
 			right: left + width,
 			bottom: top + height,
-			center: left + width / 2,
+			center: center,
 			width: width,
 			height: height,
 		};
 	}
 
-	addChild(child) {
-		let father = this.father;
-		let mother = this.mother;
-		let key = father.id;
-		let list = mother.childrenMap[key];
+	/**
+	 * 子(嫁・婿含む)の一覧.
+	 */
+	get allChildren() {
+		let list = [];
 
-		if (!list) {
-			list = [];
-			mother.childrenMap[key] = list;
+		this.children.forEach(child => {
+			let partnerList = child.partnerList;
+
+			if (child.isMale) {
+				list.push(child);
+				list = list.concat(partnerList);
+			} else {
+				list = list.concat(partnerList);
+				list.push(child);
+			}
+		});
+		return list;
+	}
+
+	getPartner(person) {
+		if (person == this.father) {
+			return this.mother;
 		}
+		return this.father;
+	}
+
+	addChild(child) {
 		child.parents = this;
-		list.push(child);
+		this.children.push(child);
 	}
 
 	removeChild(target) {
-		let father = this.father;
-		let mother = this.mother;
-		let key = father.id;
-		let children = mother.childrenMap[key];
-		let ix = children.indexOf(target);
+		let ix = this.children.indexOf(target);
 
-		children.splice(ix, 1);
-		if (children.length == 0) {
-			delete mother.childrenMap[key];
-		}
+		this.children.splice(ix, 1);
 		target.eject();
 	}
 
@@ -90,10 +107,17 @@ this.ranking = 0;
 		this.drawNormal(ctx);
 	}
 
+	drawText(ctx) {
+		let rect = this.rect;
+
+		ctx.fillText(this.partnerOrder, rect.center, rect.top);
+	}
+
 	draw(ctx, cnt = 0) {
 		ctx.save();
 		if (this.hit) {
 			this.drawHighlight(ctx);
+this.drawText(ctx);
 		} else {
 			this.drawNormal(ctx);
 		}

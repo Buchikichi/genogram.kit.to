@@ -9,8 +9,8 @@ class Chain extends Actor {
 		}
 		this.gender = gender;
 		this.parents = null; // 誰の子か
-		this.partnerList = [];
-		this.childrenMap = {};
+		this.relationList = [];
+		this.partnerOrder = 0; // 相手から見ての順序
 	}
 
 	get gender() {
@@ -45,17 +45,23 @@ class Chain extends Actor {
 	}
 
 	get numOfPartner() {
-		return this.partnerList.length;
+		return this.relationList.length;
+	}
+
+	get partnerList() {
+		let list = [];
+
+		this.relationList.forEach(relation => {
+			list.push(relation.getPartner(this));
+		});
+		return list;
 	}
 
 	get hasChild() {
-		if (!this.isMale) {
-			return 0 < Object.keys(this.childrenMap).length;
-		}
 		let result = false;
 
-		this.partnerList.forEach(partner => {
-			if (partner.hasChild) {
+		this.relationList.forEach(relation => {
+			if (0 < relation.children.length) {
 				result = true;
 			}
 		});
@@ -72,8 +78,8 @@ class Chain extends Actor {
 		let pl = 1;
 		let pr = 1;
 
-		this.partnerList.forEach(partner => {
-			let childrenList = this.childrenMap[partner.id];
+		this.relationList.forEach(relation => {
+			let children = relation.children;
 
 //			if (!childrenList) {
 //				
@@ -86,50 +92,21 @@ class Chain extends Actor {
 		let father = relation.father;
 		let mother = relation.mother;
 
-		mother.addPartner(father);
+		mother.addPartner(relation);
 		relation.addChild(this);
 		this.parents = relation;
 	}
 
-	addPartner(partner) {
-		this.partnerList.push(partner);
-		partner.partnerList.push(this);
-	}
-
-	/**
-	 * 子の一覧.
-	 */
-	listRealChildren(partner) {
-		let children = this.childrenMap[partner.id];
-
-		if (!children) {
-			return [];
+	addPartner(relation) {
+		if (this.relationList.indexOf(relation) != -1) {
+			return this.relationList.length;
 		}
-		return children;
-	}
+		let len = this.relationList.push(relation);
+		let partner = relation.getPartner(this);
 
-	/**
-	 * 子(嫁・婿含む)の一覧.
-	 */
-	listChildren(partner) {
-		let list = [];
-		let children = this.childrenMap[partner.id];
-
-		if (!children) {
-			return list;
-		}
-		children.forEach(child => {
-			let partnerList = child.partnerList;
-
-			if (child.isMale) {
-				list.push(child);
-				list = list.concat(partnerList);
-			} else {
-				list = list.concat(partnerList);
-				list.push(child);
-			}
-		});
-		return list;
+		partner.partnerOrder = len;
+		partner.addPartner(relation);
+		return len;
 	}
 
 	remove() {

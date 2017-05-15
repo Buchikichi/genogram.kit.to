@@ -45,11 +45,11 @@ class Person extends Chain {
 		if (this.mother) {
 			this.mother.scanAll(list, depth - 1);
 		}
-		this.partnerList.forEach(partner => {
-			let childrenList = this.listChildren(partner);
+		this.relationList.forEach(relation => {
+			let partner = relation.getPartner(this);
 
 			partner.scanAll(list, depth);
-			childrenList.forEach(child => {
+			relation.children.forEach(child => {
 				child.scanAll(list, depth + 1);
 			});
 		});
@@ -70,21 +70,22 @@ class Person extends Chain {
 		}
 		this.count = Tally.increment();
 		this.fixed = true;
-		this.partnerList.forEach((partner, px) => {
-			let realChildren = this.listRealChildren(partner);
+		this.relationList.forEach((relation, px) => {
+			let partner = relation.getPartner(this);
+			let realChildren = relation.children;
 			let onlyChild = realChildren.length == 1; // 一人っ子
-			let childrenList = this.listChildren(partner);
-			let len = onlyChild ? 0 : childrenList.length - 1;
+			let allChildren = relation.allChildren;
+			let len = onlyChild ? 0 : allChildren.length - 1;
 			let width = spacing * len;
-			let cx = this.x - half - width / 2;
-			let cy = this.y + spacing;
 
-console.log('#' + this.count + ' ch:' + realChildren.length + '/' + childrenList.length);
+console.log('#' + this.count + ' ch:' + realChildren.length + '/' + allChildren.length);
 			if (!partner.fixed) {
 				partner.x = this.x + spacing * (px + 1) * (this.isMale ? 1 : -1);
 				partner.y = this.y;
 				partner.calculate();
 			}
+			let cx = relation.rect.center - width / 2;
+			let cy = this.y + spacing;
 			realChildren.forEach(child => {
 				let margin = child.numOfPartner * spacing;
 console.log('child#' + child.count + ' cx:' + cx);
@@ -138,40 +139,40 @@ console.log('child#' + child.count + ' cx:' + cx);
 	}
 
 	drawChildLine(ctx) {
-		if (Object.keys(this.childrenMap).length == 0) {
-			return;
-		}
 		let spacing = Field.Instance.spacing;
 		let half = spacing / 2;
-		let partners = this.numOfPartner;
 		let my = this.y + half + half / 4;
 		let first = true;
 		let last = null;
 
-		Object.keys(this.childrenMap).forEach(key => {
-			let childrenList = this.childrenMap[key];
+		this.relationList.forEach(relation => {
+			if (relation.children.length == 0) {
+				return;
+			}
+			let rect = relation.rect;
+			let tx = rect.center;
+			let ty = rect.bottom;
 
-			childrenList.forEach(target => {
-				let rect = target.parents.rect;
-				let tx = target.mother.x - half; //rect.center;
-				let ty = rect.bottom;
-				let cx = target.x
-				let cy = target.y - this.radius;
+			ctx.beginPath();
+			ctx.moveTo(tx, ty);
+			ctx.lineTo(tx, my);
+			relation.children.forEach(child => {
+				let cx = child.x
+				let cy = child.y - this.radius;
 
-				ctx.beginPath();
 				if (first) {
-					ctx.moveTo(tx, ty);
-					ctx.lineTo(tx, my);
 					ctx.lineTo(cx, my);
+					ctx.stroke();
 					first = false;
 				}
+				ctx.beginPath();
 				ctx.moveTo(cx, my);
 				ctx.lineTo(cx, cy);
 				ctx.stroke();
-				last = target;
+				last = child;
 			});
 			ctx.beginPath();
-			ctx.moveTo(last.mother.x - half, my);
+			ctx.moveTo(tx, my);
 			ctx.lineTo(last.x, my);
 			ctx.stroke();
 		});

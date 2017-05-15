@@ -70,7 +70,9 @@ class RelationPanel {
 		} else {
 			// Relationship
 			this.from = from.person;
+			this.from.hit = true;
 			this.to = from.other;
+			this.to.hit = true;
 			this.relationship = from;
 			this.isNew = false;
 		}

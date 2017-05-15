@@ -91,14 +91,14 @@ class InputPanel {
 		let partner = new Person(null, gender);
 		let relation = new Relation(this.person, partner);
 
-		this.person.addPartner(partner);
+		this.person.addPartner(relation);
 		this.refreshControls();
 		Field.Instance.addActor(partner, relation);
 	}
 
 	refreshControls() {
 		let gender = this.person.gender;
-		let plen = this.person.partnerList.length;
+		let plen = this.person.relationList.length;
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
 		let deleteButton = this.panel.querySelector('[name="deleteButton"]');
