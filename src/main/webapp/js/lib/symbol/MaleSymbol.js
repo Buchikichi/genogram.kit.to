@@ -3,8 +3,7 @@ class MaleSymbol extends GenoSymbol {
 		let person = this.person;
 		let diffX = person.x - x;
 		let diffY = person.y - y;
-		let radius = person.radius;
 
-		return Math.abs(diffX) < radius && Math.abs(diffY) < radius;
+		return Math.abs(diffX) <= .5 && Math.abs(diffY) <= .5;
 	}
 }

@@ -15,6 +15,24 @@ class Relation extends Actor {
 		this.hit = false;
 	}
 
+	get x() {
+		let width = Math.abs(this.father.x - this.mother.x);
+
+		return this.left + width / 2;
+	}
+
+	get y() {
+		return this.father.y + 1;
+	}
+
+	get top() {
+		return this.father.y + .5;
+	}
+
+	get left() {
+		return Math.min(this.father.x, this.mother.x);
+	}
+
 	get partnerOrder() {
 		return Math.max(this.father.partnerOrder, this.mother.partnerOrder);
 	}
@@ -36,17 +54,15 @@ class Relation extends Actor {
 	}
 
 	get rect() {
-		let spacing = Field.Instance.spacing;
-		let half = spacing / 2;
+		let half = 1;
 		let father = this.father;
 		let mother = this.mother;
-		let radius = father.radius;
-		let top = father.y + father.radius;
+		let top = father.y + .5;
 		let left = Math.min(father.x, mother.x);
 		let width = Math.abs(father.x - mother.x);
-		let marginBottom = (this.order - 1) * 4;
+		let marginBottom = (this.order - 1) * 0.05;
 		let height = half / 4 + marginBottom;
-		let center = this.fatherOrder < this.motherOrder ? mother.x - half : father.x + half;
+		let center = this.fatherOrder < this.motherOrder ? mother.x - 1 : father.x + 1;
 
 		// TODO GenoRect でも作るか
 		this.x = center;
@@ -132,7 +148,10 @@ class Relation extends Actor {
 		target.eject();
 	}
 
-	isHit(x, y) {
+	isHit(px, py) {
+		let spacing = Field.Instance.spacing;
+		let x = px / spacing;
+		let y = py / spacing;
 		let rect = this.rect;
 
 		this.hit = false;
@@ -160,29 +179,44 @@ class Relation extends Actor {
 	}
 
 	drawNormal(ctx) {
+		let spacing = Field.Instance.spacing;
 		let rect = this.rect;
+		let top = rect.top * spacing;
+		let left = rect.left * spacing;
+		let right = rect.right * spacing;
+		let bottom = rect.bottom * spacing;
+		let center = rect.center * spacing;
 
 		ctx.beginPath();
-		ctx.moveTo(rect.left, rect.top);
-		ctx.lineTo(rect.left, rect.bottom);
-		ctx.lineTo(rect.right, rect.bottom);
-		ctx.lineTo(rect.right, rect.top);
+		ctx.moveTo(left, top);
+		ctx.lineTo(left, bottom);
+		ctx.lineTo(right, bottom);
+		ctx.lineTo(right, top);
 		ctx.stroke();
 		if (this.type == 'd') {
-			ctx.drawImage(this.divorceImage, rect.center - 8, rect.bottom - 8);
+			ctx.drawImage(this.divorceImage, center - 8, bottom - 8);
 		}
 	}
 
 	drawText(ctx) {
+		let spacing = Field.Instance.spacing;
 		let rect = this.rect;
+		let top = this.top * spacing;
+		let center = rect.center * spacing;
 		let text = this.fatherOrder + '/' + this.motherOrder;
 
 //text += '/f:' + this.fatherOrder + '/m:' + this.motherOrder;
-		ctx.fillText(text, rect.center, rect.top);
+		ctx.fillText(text, center, top);
 	}
 
 	draw(ctx, cnt = 0) {
+		let spacing = Field.Instance.spacing;
+		let x = this.x * spacing;
+		let y = this.y * spacing;
+let r = this.father.radius;
+
 		ctx.save();
+//ctx.strokeText('x:' + x + '/y:' + y + '/r:' + r, this.x, this.y);
 		if (this.hit) {
 			ctx.strokeStyle = 'aqua';
 			ctx.lineWidth = 5;

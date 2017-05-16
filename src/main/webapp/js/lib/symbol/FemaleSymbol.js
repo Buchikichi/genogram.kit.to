@@ -3,10 +3,9 @@ class FemaleSymbol extends GenoSymbol {
 		let person = this.person;
 		let diffX = person.x - x;
 		let diffY = person.y - y;
-		let radius = person.radius;
 		let distance = Math.sqrt(diffX * diffX + diffY * diffY);
 
-		return distance < radius;
+		return distance <= .5;
 	}
 
 	drawSymbol(ctx) {

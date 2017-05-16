@@ -33,7 +33,7 @@ class Field {
 		let gridSpacing = parseFloat(element.value);
 
 		if (!gridSpacing) {
-			gridSpacing = 160;
+			gridSpacing = 80;
 		}
 		return gridSpacing;
 	}
@@ -178,11 +178,14 @@ console.log('list:' + list.length);
 			maxX = Math.max(maxX, x);
 			maxY = Math.max(maxY, y);
 		});
-		let hw = (this.width - (maxX - minX)) / 2;
-		let hh = (this.height - (maxY - minY)) / 2;
+		let spacing = this.spacing;
+		let left = minX * spacing;
+		let top = minY * spacing;
+		let hw = (this.width - (maxX * spacing - left)) / 2;
+		let hh = (this.height - (maxY * spacing - top)) / 2;
 
-		this.tx = hw - minX;
-		this.ty = hh - minY;
+		this.tx = hw - left;
+		this.ty = hh - top;
 	}
 
 	choiceActor() {
@@ -211,7 +214,7 @@ console.log('list:' + list.length);
 		}
 		let hW = this.width / 2;
 		let hH = this.height / 2;
-		let spacing = this.spacing / 2;
+		let spacing = this.spacing;
 		let top = -hH;
 		let left = -hW;
 		let right = hW;

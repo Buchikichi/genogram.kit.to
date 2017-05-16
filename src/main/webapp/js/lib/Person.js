@@ -5,7 +5,6 @@ class Person extends Chain {
 		this.description = '';
 		this.dob = ''; // Date of birth
 		this.dod = ''; // Date of death
-		this.radius = 32;
 		this.principal = false; // 本人(主役?)かどうか
 	}
 
@@ -23,6 +22,10 @@ class Person extends Chain {
 			info += '(' + age + ')';
 		}
 		return info;
+	}
+
+	get radius() {
+		return Field.Instance.spacing / 2;
 	}
 
 	attributeChanged() {
@@ -56,7 +59,7 @@ class Person extends Chain {
 	}
 
 	calculateChildren(relation) {
-		let spacing = Field.Instance.spacing;
+		let spacing = 2;
 		let realChildren = relation.children;
 		let onlyChild = realChildren.length == 1; // 一人っ子
 		let allChildren = relation.allChildren;
@@ -67,7 +70,7 @@ class Person extends Chain {
 
 		realChildren.forEach(child => {
 			let margin = child.numOfPartner * spacing;
-console.log('child#' + child.count + ' cx:' + cx);
+//console.log('child#' + child.count + ' cx:' + cx);
 			if (!child.isMale && !onlyChild) {
 				cx += margin;
 			}
@@ -85,8 +88,8 @@ console.log('child#' + child.count + ' cx:' + cx);
 		if (this.fixed) {
 			return;
 		}
-		let spacing = Field.Instance.spacing;
-		let half = spacing / 2;
+		let spacing = 2;
+		let half = 1;
 
 		if (this.mother && !this.mother.fixed) {
 			this.mother.x = this.x + half;
@@ -151,7 +154,11 @@ px += partner.partnerList.length - 1;
 		return this.touched;
 	}
 
-	isHit(x, y) {
+	isHit(px, py) {
+		let spacing = Field.Instance.spacing;
+		let x = px / spacing;
+		let y = py / spacing;
+
 		this.hit = this.symbol.isHit(x, y);
 		return this.hit;
 	}
@@ -176,8 +183,7 @@ px += partner.partnerList.length - 1;
 
 	drawChildLine(ctx) {
 		let spacing = Field.Instance.spacing;
-		let half = spacing / 2;
-		let my = this.y + half + half / 4;
+		let my = (this.y + 1.25) * spacing;
 		let first = true;
 		let last = null;
 
@@ -187,15 +193,15 @@ px += partner.partnerList.length - 1;
 				return;
 			}
 			let rect = relation.rect;
-			let tx = rect.center;
-			let ty = rect.bottom;
+			let tx = rect.center * spacing;
+			let ty = rect.bottom * spacing;
 
 			ctx.beginPath();
 			ctx.moveTo(tx, ty);
 			ctx.lineTo(tx, my);
 			relation.children.forEach(child => {
-				let cx = child.x
-				let cy = child.y - this.radius;
+				let cx = child.x * spacing;
+				let cy = (child.y - .5) * spacing;
 
 				if (first) {
 					ctx.lineTo(cx, my);
@@ -210,19 +216,23 @@ px += partner.partnerList.length - 1;
 			});
 			ctx.beginPath();
 			ctx.moveTo(tx, my);
-			ctx.lineTo(last.x, my);
+			ctx.lineTo(last.x * spacing, my);
 			ctx.stroke();
 		});
 	}
 
 	draw(ctx) {
+		let spacing = Field.Instance.spacing;
+		let x = this.x * spacing;
+		let y = this.y * spacing;
+
 		ctx.save();
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
 		this.drawChildLine(ctx);
-		ctx.translate(this.x, this.y);
+		ctx.translate(x, y);
 		this.drawSymbol(ctx);
 //ctx.strokeStyle = 'green';
-//ctx.strokeText(this.count, 0, 10);
+//ctx.strokeText(this.x + '/' + this.y, 0, 10);
 		ctx.restore();
 	}
 }
