@@ -8,12 +8,31 @@ class Relation extends Actor {
 			this.father = other;
 			this.mother = person;
 		}
+		this.type = 'm';
+		this.divorceImage = new Image();
+		this.divorceImage.src = 'img/ralation.divorce.png';
 		this.children = [];
 		this.hit = false;
 	}
 
 	get partnerOrder() {
 		return Math.max(this.father.partnerOrder, this.mother.partnerOrder);
+	}
+
+	get fatherOrder() {
+		return this.mother.getOrder(this.father);
+	}
+
+	get motherOrder() {
+		return this.father.getOrder(this.mother);
+	}
+
+	get order() {
+		return this.relationOrder;
+	}
+	set order(val) {
+		this.z = val;
+		this.relationOrder = val;
 	}
 
 	get rect() {
@@ -25,11 +44,13 @@ class Relation extends Actor {
 		let top = father.y + father.radius;
 		let left = Math.min(father.x, mother.x);
 		let width = Math.abs(father.x - mother.x);
-		let marginBottom = (this.partnerOrder - 1) * 4;
+		let marginBottom = (this.order - 1) * 4;
 		let height = half / 4 + marginBottom;
-		let center = father.partnerOrder < mother.partnerOrder ? mother.x - half: father.x + half;
+		let center = this.fatherOrder < this.motherOrder ? mother.x - half : father.x + half;
 
 		// TODO GenoRect でも作るか
+		this.x = center;
+		this.y = top + height;
 		return {
 			top: top,
 			left: left,
@@ -147,12 +168,17 @@ class Relation extends Actor {
 		ctx.lineTo(rect.right, rect.bottom);
 		ctx.lineTo(rect.right, rect.top);
 		ctx.stroke();
+		if (this.type == 'd') {
+			ctx.drawImage(this.divorceImage, rect.center - 8, rect.bottom - 8);
+		}
 	}
 
 	drawText(ctx) {
 		let rect = this.rect;
+		let text = this.fatherOrder + '/' + this.motherOrder;
 
-		ctx.fillText(this.partnerOrder, rect.center, rect.top);
+//text += '/f:' + this.fatherOrder + '/m:' + this.motherOrder;
+		ctx.fillText(text, rect.center, rect.top);
 	}
 
 	draw(ctx, cnt = 0) {

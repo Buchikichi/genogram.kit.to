@@ -10,7 +10,6 @@ class Chain extends Actor {
 		this.gender = gender;
 		this.parents = null; // 誰の子か
 		this.relationList = [];
-		this.partnerOrder = 0; // 相手から見ての順序
 	}
 
 	get gender() {
@@ -69,6 +68,26 @@ class Chain extends Actor {
 	}
 
 	/**
+	 * 相手から見て何番目か.
+	 */
+	getOrder(partner) {
+		let result = -1;
+
+		this.relationList.forEach((relation, ix) => {
+			if (this.isMale) {
+				if (relation.mother == partner) {
+					result = ix;
+				}
+				return;
+			}
+			if (relation.father == partner) {
+				result = ix;
+			}
+		});
+		return result;
+	}
+
+	/**
 	 * 占める領域を求める.
 	 * @return {left, right}
 	 */
@@ -101,11 +120,17 @@ class Chain extends Actor {
 		if (this.relationList.indexOf(relation) != -1) {
 			return this.relationList.length;
 		}
-		let len = this.relationList.push(relation);
+		if (0 < this.relationList.length) {
+			this.relationList[0].type = 'd';
+		}
+		let len = this.relationList.unshift(relation);
 		let partner = relation.getPartner(this);
 
-		partner.partnerOrder = len;
 		partner.addPartner(relation);
+		this.relationList.forEach((rel, ix) => {
+			rel.order = ix;
+			rel.orderMax = len;
+		});
 		return len;
 	}
 

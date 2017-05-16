@@ -127,6 +127,7 @@ console.log('sum:' + sum + '/right:' + occupancy.right + '/left:' + oc.left);
 //console.log('diff:' + diff + '/' + px);
 					});
 				}
+px += partner.partnerList.length - 1;
 				px += diff / 2;
 				partner.x = this.x + px * dir * spacing;
 				partner.y = this.y;

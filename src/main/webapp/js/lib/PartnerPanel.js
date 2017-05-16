@@ -17,6 +17,11 @@ class PartnerPanel {
 			this.setupChildren();
 		}
 
+		$('[name="relationType"]').click(()=> {
+			let val = $('[name="relationType"]:checked').val();
+
+			this.relation.type = val;
+		});
 		mChildButton.addEventListener('click', ()=> {
 			addChild('m');
 		});
@@ -84,6 +89,7 @@ class PartnerPanel {
 
 		father.value = this.relation.father.info;
 		mother.value = this.relation.mother.info;
+		$('[name="relationType"]').val([this.relation.type]).checkboxradio('refresh');
 	}
 
 	open(relation) {

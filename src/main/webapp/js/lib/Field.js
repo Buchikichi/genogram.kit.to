@@ -22,6 +22,12 @@ class Field {
 		return check.checked;
 	}
 
+	get showName() {
+		let check = document.querySelector('[name="showName"]');
+
+		return check.checked;
+	}
+
 	get spacing() {
 		let element = document.querySelector('[name="gridSpacing"]');
 		let gridSpacing = parseFloat(element.value);
@@ -190,13 +196,13 @@ console.log('list:' + list.length);
 				});
 			}
 		});
-		list.sort((a, b) => {
-			return a.z - b.z;
-		});
 		if (this.actorList.length != list.length) {
 			this.actorList = list;
 			this.dirty = true;
 		}
+		this.actorList.sort((a, b) => {
+			return a.z - b.z;
+		});
 	}
 
 	drawGrid(ctx) {
