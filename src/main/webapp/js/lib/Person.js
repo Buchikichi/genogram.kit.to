@@ -2,10 +2,32 @@ class Person extends Chain {
 	constructor(id = null, gender = '') {
 		super(id, gender);
 		this.name = '';
-		this.description = '';
+		this._description = null;
 		this.dob = ''; // Date of birth
 		this.dod = ''; // Date of death
 		this.principal = false; // 本人(主役?)かどうか
+	}
+
+	get description() {
+		if (this._description == null) {
+			return '';
+		}
+		return this._description.text;
+	}
+	set description(text) {
+		if (text == null || text.length == 0) {
+			if (this._description != null) {
+				this._description.eject();
+				this._description = null;
+			}
+		} else {
+			if (this._description != null) {
+				this._description.text = text;
+			} else {
+				this._description = new Description(this, text);
+				this.spawnList.push(this._description);
+			}
+		}
 	}
 
 	get age() {
@@ -130,7 +152,7 @@ console.log('sum:' + sum + '/right:' + occupancy.right + '/left:' + oc.left);
 //console.log('diff:' + diff + '/' + px);
 					});
 				}
-px += partner.partnerList.length - 1;
+				px += partner.partnerList.length - 1;
 				px += diff / 2;
 				partner.x = this.x + px * dir * spacing;
 				partner.y = this.y;
@@ -181,46 +203,6 @@ px += partner.partnerList.length - 1;
 		this.symbol.draw(ctx);
 	}
 
-	drawChildLine(ctx) {
-		let spacing = Field.Instance.spacing;
-		let my = (this.y + 1.25) * spacing;
-		let first = true;
-		let last = null;
-
-		ctx.strokeStyle = Field.Instance.lineStyle;
-		this.relationList.forEach(relation => {
-			if (relation.children.length == 0) {
-				return;
-			}
-			let rect = relation.rect;
-			let tx = rect.center * spacing;
-			let ty = rect.bottom * spacing;
-
-			ctx.beginPath();
-			ctx.moveTo(tx, ty);
-			ctx.lineTo(tx, my);
-			relation.children.forEach(child => {
-				let cx = child.x * spacing;
-				let cy = (child.y - .5) * spacing;
-
-				if (first) {
-					ctx.lineTo(cx, my);
-					ctx.stroke();
-					first = false;
-				}
-				ctx.beginPath();
-				ctx.moveTo(cx, my);
-				ctx.lineTo(cx, cy);
-				ctx.stroke();
-				last = child;
-			});
-			ctx.beginPath();
-			ctx.moveTo(tx, my);
-			ctx.lineTo(last.x * spacing, my);
-			ctx.stroke();
-		});
-	}
-
 	draw(ctx) {
 		let spacing = Field.Instance.spacing;
 		let x = this.x * spacing;
@@ -228,11 +210,11 @@ px += partner.partnerList.length - 1;
 
 		ctx.save();
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
-		this.drawChildLine(ctx);
 		ctx.translate(x, y);
 		this.drawSymbol(ctx);
-//ctx.strokeStyle = 'green';
+ctx.strokeStyle = 'green';
 //ctx.strokeText(this.x + '/' + this.y, 0, 10);
+//ctx.strokeText(this.count, 0, 10);
 		ctx.restore();
 	}
 }

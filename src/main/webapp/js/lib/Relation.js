@@ -209,6 +209,43 @@ class Relation extends Actor {
 		ctx.fillText(text, center, top);
 	}
 
+	drawChildLine(ctx) {
+		if (this.children.length == 0) {
+			return;
+		}
+		let spacing = Field.Instance.spacing;
+		let my = (this.y + .25) * spacing;
+		let first = true;
+		let last = null;
+		let rect = this.rect;
+		let tx = rect.center * spacing;
+		let ty = rect.bottom * spacing;
+
+		ctx.strokeStyle = Field.Instance.lineStyle;
+		ctx.beginPath();
+		ctx.moveTo(tx, ty);
+		ctx.lineTo(tx, my);
+		this.children.forEach(child => {
+			let cx = child.x * spacing;
+			let cy = (child.y - .5) * spacing;
+
+			if (first) {
+				ctx.lineTo(cx, my);
+				ctx.stroke();
+				first = false;
+			}
+			ctx.beginPath();
+			ctx.moveTo(cx, my);
+			ctx.lineTo(cx, cy);
+			ctx.stroke();
+			last = child;
+		});
+		ctx.beginPath();
+		ctx.moveTo(tx, my);
+		ctx.lineTo(last.x * spacing, my);
+		ctx.stroke();
+	}
+
 	draw(ctx, cnt = 0) {
 		let spacing = Field.Instance.spacing;
 		let x = this.x * spacing;
@@ -217,6 +254,7 @@ let r = this.father.radius;
 
 		ctx.save();
 //ctx.strokeText('x:' + x + '/y:' + y + '/r:' + r, this.x, this.y);
+		this.drawChildLine(ctx);
 		if (this.hit) {
 			ctx.strokeStyle = 'aqua';
 			ctx.lineWidth = 5;

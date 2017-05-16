@@ -87,7 +87,7 @@ class Field {
 			if (this.allowTarget(target)) {
 				this.targetList.push(target);
 			}
-			if (target instanceof ActorHandle) {
+			if (target instanceof Description || target instanceof ActorHandle) {
 				this.hold = target;
 			}
 		});
@@ -100,10 +100,12 @@ class Field {
 
 //console.log(e);
 			if (this.hold) {
+				let spacing = this.spacing;
 				let px = pt.x - this.tx;
 				let py = pt.y - this.ty;
-				this.hold.x = px;
-				this.hold.y = py;
+
+				this.hold.x = px / spacing;
+				this.hold.y = py / spacing;
 				return;
 			}
 			this.scan(pt.x, pt.y);
