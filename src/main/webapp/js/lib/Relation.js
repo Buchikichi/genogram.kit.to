@@ -9,10 +9,16 @@ class Relation extends Actor {
 			this.mother = person;
 		}
 		this.type = 'm';
-		this.divorceImage = new Image();
-		this.divorceImage.src = 'img/ralation.divorce.png';
 		this.children = [];
 		this.hit = false;
+		this.initImage();
+	}
+
+	initImage() {
+		this.divorceImage = new Image();
+		this.divorceImage.src = 'img/ralation.divorce.png';
+		this.separateImage = new Image();
+		this.separateImage.src = 'img/ralation.separate.png';
 	}
 
 	get x() {
@@ -193,8 +199,11 @@ class Relation extends Actor {
 		ctx.lineTo(right, bottom);
 		ctx.lineTo(right, top);
 		ctx.stroke();
+		ctx.translate(-8, -8);
 		if (this.type == 'd') {
-			ctx.drawImage(this.divorceImage, center - 8, bottom - 8);
+			ctx.drawImage(this.divorceImage, center, bottom);
+		} else if (this.type == 's') {
+			ctx.drawImage(this.separateImage, center, bottom);
 		}
 	}
 

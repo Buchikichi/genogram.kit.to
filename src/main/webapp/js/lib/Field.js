@@ -75,10 +75,11 @@ class Field {
 	setupEvents() {
 		let view = this.view.view;
 		let keys = Controller.Instance.keys;
+		let beginPt = null;
 
 		view.addEventListener('mousedown', e => {
-			let pt = this.view.convert(e.clientX, e.clientY);
-			let target = this.scan(pt.x, pt.y);
+			beginPt = this.view.convert(e.clientX, e.clientY);
+			let target = this.scan(beginPt.x, beginPt.y);
 			let ctrlKey = keys['Control'] || keys['Shift'] || keys['k16'] || keys['k17'];
 
 			if (!ctrlKey) {
@@ -101,11 +102,15 @@ class Field {
 //console.log(e);
 			if (this.hold) {
 				let spacing = this.spacing;
+				let dx = pt.x - beginPt.x;
+				let dy = pt.y - beginPt.y;
 				let px = pt.x - this.tx;
 				let py = pt.y - this.ty;
 
-				this.hold.x = px / spacing;
-				this.hold.y = py / spacing;
+//				this.hold.x = px / spacing;
+//				this.hold.y = py / spacing;
+				this.hold.move(dx / spacing, dy / spacing);
+				beginPt = pt;
 				return;
 			}
 			this.scan(pt.x, pt.y);

@@ -56,6 +56,11 @@ class Actor {
 		return this.includes(x, y);
 	}
 
+	move(dx, dy) {
+		this.x += dx;
+		this.y += dy;
+	}
+
 	eject() {
 		this.isGone = true;
 	}

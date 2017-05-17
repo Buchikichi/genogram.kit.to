@@ -24,7 +24,7 @@ class Person extends Chain {
 			if (this._description != null) {
 				this._description.text = text;
 			} else {
-				this._description = new Description(this, text);
+				this._description = new Description(this, text, 1);
 				this.spawnList.push(this._description);
 			}
 		}
