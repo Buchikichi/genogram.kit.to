@@ -88,6 +88,36 @@ class Chain extends Actor {
 	}
 
 	/**
+	 * 自分を含む全てのパートナー.
+	 */
+	listPartner(list) {
+		if (list.indexOf(this) != -1) {
+			return;
+		}
+		let partnerList = this.partnerList;
+
+		if (this.isMale) {
+			list.push(this);
+		} else {
+			partnerList.reverse();
+		}
+		partnerList.forEach(partner => {
+			partner.listPartner(list);
+		});
+		if (!this.isMale && list.indexOf(this) == -1) {
+			list.push(this);
+		}
+	}
+
+	ancestorOccupancy(occupancy = new Occupancy(), depth = 0) {
+//		if (0 < depth) {
+//		}
+		if (!this.parents) {
+			return occupancy;
+		}
+	}
+
+	/**
 	 * 占める領域を求める.
 	 * @return {left, right}
 	 */

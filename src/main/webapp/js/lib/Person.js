@@ -112,56 +112,80 @@ class Person extends Chain {
 		}
 		let spacing = 2;
 		let half = 1;
-
-		if (this.mother && !this.mother.fixed) {
-			this.mother.x = this.x + half;
-			this.mother.y = this.y - spacing;
-			this.mother.calculate();
-			return;
-		}
 		let occupancyList = [];
 		let px = 1;
+		let partnerList = [];
+		let relationList = [];
+		this.listPartner(partnerList);
+		let pos = partnerList.indexOf(this);
+		let bx = -pos * 2;
+//console.log('pos:' + pos);
+//console.log(partnerList);
 
-		this.count = Tally.increment();
-		this.fixed = true;
-		this.relationList.forEach((relation, rx) => {
-			let partner = relation.getPartner(this);
-			let occupancy = relation.occupancy;
-
-console.log('#' + this.count + ' ch:' + relation.children.length + '/' + relation.allChildren.length);
-			if (!partner.fixed) {
-				let dir = this.isMale ? 1 : -1;
-				let diff = 0;
-
-				if (0 < occupancy.left) {
-					occupancyList.forEach((oc, cnt) => {
-						if (oc.left == 0) {
-							return;
-						}
-						let sum = 0;
-						let dist = (rx - cnt) * 2;
-
-//console.log('dist:' + dist);
-						if (this.isMale) {
-							sum = occupancy.left + oc.right - dist;
-						} else {
-							sum = occupancy.right + oc.left - dist;
-console.log('sum:' + sum + '/right:' + occupancy.right + '/left:' + oc.left);
-						}
-						diff = Math.max(diff, sum);
-//console.log('diff:' + diff + '/' + px);
-					});
-				}
-				px += partner.partnerList.length - 1;
-				px += diff / 2;
-				partner.x = this.x + px * dir * spacing;
-				partner.y = this.y;
-				partner.calculate();
-				px++;
+		partnerList.forEach(person => {
+			if (person != this && !person.fixed) {
+				person.x = this.x + bx;
+				person.y = this.y;
 			}
-			occupancyList.push(occupancy);
+			person.count = Tally.increment();
+			person.fixed = true;
+			bx += 2;
+		});
+		partnerList.forEach(person => {
+			person.relationList.forEach(relation => {
+				if (relationList.indexOf(relation) == -1) {
+					relationList.push(relation);
+				}
+			});
+			if (person.mother && !person.mother.fixed) {
+				person.mother.x = person.x + half;
+				person.mother.y = person.y - spacing;
+				person.mother.calculate();
+				return;
+			}
+		});
+		this.relationList.forEach((relation, rx) => {
 			this.calculateChildren(relation);
 		});
+
+//		this.relationList.forEach((relation, rx) => {
+//			let partner = relation.getPartner(this);
+//			let occupancy = relation.occupancy;
+//
+//console.log('#' + this.count + ' ch:' + relation.children.length + '/' + relation.allChildren.length);
+//			if (!partner.fixed) {
+//				let dir = this.isMale ? 1 : -1;
+//				let diff = 0;
+//
+//				if (0 < occupancy.left) {
+//					occupancyList.forEach((oc, cnt) => {
+//						if (oc.left == 0) {
+//							return;
+//						}
+//						let sum = 0;
+//						let dist = (rx - cnt) * 2;
+//
+////console.log('dist:' + dist);
+//						if (this.isMale) {
+//							sum = occupancy.left + oc.right - dist;
+//						} else {
+//							sum = occupancy.right + oc.left - dist;
+//console.log('sum:' + sum + '/right:' + occupancy.right + '/left:' + oc.left);
+//						}
+//						diff = Math.max(diff, sum);
+////console.log('diff:' + diff + '/' + px);
+//					});
+//				}
+//				px += partner.partnerList.length - 1;
+//				px += diff / 2;
+//				partner.x = this.x + px * dir * spacing;
+//				partner.y = this.y;
+//				partner.calculate();
+//				px++;
+//			}
+//			occupancyList.push(occupancy);
+//			this.calculateChildren(relation);
+//		});
 	}
 
 	touch(target) {
