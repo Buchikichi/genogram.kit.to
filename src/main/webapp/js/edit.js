@@ -24,6 +24,7 @@ class AppMain {
 	setupEvents() {
 		let view = document.getElementById('view');
 		let gridSpacing = $('[name="gridSpacing"]');
+		let saveButton = document.getElementById('saveButton');
 
 		view.addEventListener('click', () => {
 			if (this.field.targetList.length == 0) {
@@ -61,6 +62,7 @@ class AppMain {
 		gridSpacing.change(()=> {
 			this.field.dirty = true;
 		});
+		saveButton.addEventListener('click', ()=> {this.save()});
 	}
 
 	init() {
@@ -76,5 +78,30 @@ class AppMain {
 	draw() {
 		this.field.arrange();
 		this.field.draw();
+	}
+
+	save() {
+		let settingPanel = document.getElementById('settingPanel');
+		let description = settingPanel.querySelector('[name="description"]');
+		let formData = new FormData(this.form);
+		let entity = new DiagramEntity();
+		let messagePopup = document.getElementById('messagePopup');
+		let content = messagePopup.querySelector('p');
+
+		formData.append('id', 'test');
+		formData.append('documentId', 'test');
+		formData.append('personId', 'test');
+		formData.append('description', description.value);
+		$.mobile.loading('show', {text: 'Save...', textVisible: true});
+		entity.save(formData).then(data => {
+			$.mobile.loading('hide');
+			if (data.ok) {
+				$(settingPanel).panel('close');
+				content.textContent = 'Stage saved.';
+			} else {
+				content.textContent = 'Save failed.';
+			}
+			$(messagePopup).popup('open', {});
+		});
 	}
 }

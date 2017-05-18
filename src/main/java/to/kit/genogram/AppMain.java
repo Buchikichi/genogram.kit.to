@@ -2,14 +2,13 @@ package to.kit.genogram;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * メイン.
  * @author H.Sasai
  */
 @SpringBootApplication
-@Configuration
+//@Configuration
 public class AppMain {
 	/**
 	 * メイン.

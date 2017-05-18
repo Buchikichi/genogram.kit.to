@@ -227,6 +227,17 @@ class Person extends Chain {
 		this.symbol.draw(ctx);
 	}
 
+	drawOccupancy(ctx) {
+		let spacing = Field.Instance.spacing;
+		let oc = this.ancestorOccupancy();
+
+		ctx.strokeStyle = 'green';
+		ctx.beginPath();
+		ctx.moveTo(oc.left * spacing, 0);
+		ctx.lineTo(oc.right * spacing, 0);
+		ctx.stroke();
+	}
+
 	draw(ctx) {
 		let spacing = Field.Instance.spacing;
 		let x = this.x * spacing;
@@ -236,6 +247,7 @@ class Person extends Chain {
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
 		ctx.translate(x, y);
 		this.drawSymbol(ctx);
+		this.drawOccupancy(ctx);
 ctx.strokeStyle = 'green';
 //ctx.strokeText(this.x + '/' + this.y, 0, 10);
 //ctx.strokeText(this.count, 0, 10);

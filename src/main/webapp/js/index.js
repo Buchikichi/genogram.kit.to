@@ -4,6 +4,25 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 class AppMain {
 	constructor() {
-		console.log('AppMain');
+		this.listDiagram();
+	}
+
+	listDiagram(keyword = '') {
+		let entity = new DiagramEntity();
+		let ul = document.getElementById('listView');
+
+		entity.list().then(list => {
+			list.forEach(rec => {
+				rec.name = rec.documentId;
+				let row = new ListviewRow(rec);
+				let li = row.li;
+
+				li.addEventListener('click', ()=> {
+					window.open('diagram/edit/' + rec.documentId);
+				});
+				ul.appendChild(li);
+			});
+			$(ul).listview('refresh');
+		});
 	}
 }

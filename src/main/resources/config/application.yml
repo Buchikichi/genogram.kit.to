@@ -1,11 +1,14 @@
 spring.thymeleaf.cache: false
 spring:
   datasource:
-    url: ${DB_URL}?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
-    username: uidzwjegjixbgv
+    url: jdbc:db2://localhost:50000/GENOGRAM
+    username: ${DB_USER}
     password: ${DB_PASS}
-    driverClassName: org.postgresql.Driver
+    driverClassName: com.ibm.db2.jcc.DB2Driver
     maxTotal: 10
-multipart:
-  maxFileSize: 4MB
-  maxRequestSize: 4MB
+  http:
+    multipart:
+      maxFileSize: 4MB
+      maxRequestSize: 4MB
+#logging.level.root: DEBUG
+logging.level.org.hibernate: DEBUG
