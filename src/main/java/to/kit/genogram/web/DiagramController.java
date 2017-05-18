@@ -45,8 +45,11 @@ public class DiagramController {
 	public String edit(Model model, @PathVariable("id") String documentId) {
 		Diagram diagram = this.diagramService.detail(documentId);
 
+		if (diagram == null) {
+			diagram = new Diagram();
+		}
 		model.addAttribute("diagram", diagram);
-		return "edit.html";
+		return "edit";
 	}
 
 	/**

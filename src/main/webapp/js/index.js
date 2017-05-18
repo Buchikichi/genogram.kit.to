@@ -14,7 +14,7 @@ class AppMain {
 		entity.list().then(list => {
 			list.forEach(rec => {
 				rec.name = rec.documentId;
-				let row = new ListviewRow(rec);
+				let row = new ListviewRow(rec, rec.image);
 				let li = row.li;
 
 				li.addEventListener('click', ()=> {

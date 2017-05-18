@@ -83,6 +83,7 @@ class AppMain {
 	save() {
 		let settingPanel = document.getElementById('settingPanel');
 		let description = settingPanel.querySelector('[name="description"]');
+		let canvas = FlexibleView.Instance.canvas;
 		let formData = new FormData(this.form);
 		let entity = new DiagramEntity();
 		let messagePopup = document.getElementById('messagePopup');
@@ -92,6 +93,7 @@ class AppMain {
 		formData.append('documentId', 'test');
 		formData.append('personId', 'test');
 		formData.append('description', description.value);
+		formData.append('image', canvas.toDataURL());
 		$.mobile.loading('show', {text: 'Save...', textVisible: true});
 		entity.save(formData).then(data => {
 			$.mobile.loading('hide');

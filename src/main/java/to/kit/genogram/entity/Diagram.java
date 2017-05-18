@@ -20,6 +20,7 @@ public class Diagram {
 	private String documentId;
 	private String personId;
 	private String description;
+	private String image;
 	@Column(insertable = false, updatable = false)
 	private Date created;
 	@Column(insertable = false)

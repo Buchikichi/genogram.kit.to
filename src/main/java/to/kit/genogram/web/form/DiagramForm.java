@@ -12,4 +12,5 @@ public class DiagramForm {
 	private String documentId;
 	private String personId;
 	private String description;
+	private String image;
 }
