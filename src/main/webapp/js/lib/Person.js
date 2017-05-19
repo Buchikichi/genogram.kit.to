@@ -192,9 +192,8 @@ class Person extends Chain {
 		let diffX = this.x - target.x;
 		let diffY = this.y - target.y;
 		let distance = Math.sqrt(diffX * diffX + diffY * diffY);
-		let spacing = Field.Instance.spacing;
 
-		if (distance < spacing) {
+		if (distance < 1) {
 			this.touched = true;
 		}
 		return this.touched;
@@ -220,21 +219,23 @@ class Person extends Chain {
 			this.strokeStyle = 'black';
 			ctx.lineWidth = 3;
 		}
-		ctx.strokeStyle = this.strokeStyle;
-		if (this.touched) {
-			ctx.strokeStyle = 'red';
-		}
+if (this.touched) {
+	this.strokeStyle = 'red';
+}
 		this.symbol.draw(ctx);
 	}
 
 	drawOccupancy(ctx) {
 		let spacing = Field.Instance.spacing;
-		let oc = this.ancestorOccupancy();
+		let oc = this.ancestorOccupancy(new Occupancy(this));
+		let left = oc.left + .1;
+		let right = oc.right - .1;
+		let y = (this.y - .1) * spacing;
 
 		ctx.strokeStyle = 'green';
 		ctx.beginPath();
-		ctx.moveTo(oc.left * spacing, 0);
-		ctx.lineTo(oc.right * spacing, 0);
+		ctx.moveTo(left * spacing, y);
+		ctx.lineTo(right * spacing, y);
 		ctx.stroke();
 	}
 
@@ -275,10 +276,10 @@ this.move();
 
 		ctx.save();
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
+this.drawOccupancy(ctx);
 		ctx.translate(x, y);
 this.drawConnection(ctx);
 		this.drawSymbol(ctx);
-		this.drawOccupancy(ctx);
 ctx.strokeStyle = 'green';
 //ctx.strokeText(this.x + '/' + this.y, 0, 10);
 //ctx.strokeText(this.count, 0, 10);

@@ -117,19 +117,22 @@ class Chain extends Actor {
 
 	ancestorOccupancy(occupancy = new Occupancy(), depth = 0) {
 		let oc = occupancy;
+		let origin = oc.origin;
 		let partnerList = [];
 
 		if (0 < depth) {
 			this.listPartner(partnerList);
-
-			let pos = partnerList.indexOf(this);
-			let left = -pos * 2;
-			let right = left + partnerList.length * 2;
-
-			oc.merge(new Occupancy(0, left, right, 0));
+			partnerList.forEach(partner => {
+				oc.merge(new Occupancy(partner));
+			});
 		}
 		if (this.parents) {
 			this.parents.father.ancestorOccupancy(oc, depth + 1);
+			this.parents.mother.ancestorOccupancy(oc, depth + 1);
+//			if (0 < depth) {
+//				this.parents.children.forEach(child => {
+//				});
+//			}
 		}
 		return oc;
 	}
