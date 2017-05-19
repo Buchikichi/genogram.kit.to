@@ -167,7 +167,7 @@ class Field {
 		this.focus.scanAll(list);
 console.log('list:' + list.length);
 		Tally.reset();
-		this.focus.calculate();
+//		this.focus.calculate();
 		list.forEach(person => {
 			list.forEach(target => {
 				if (person == target) {

@@ -50,6 +50,7 @@ class PartnerPanel {
 				this.relation.addChild(child);
 			}
 		});
+		this.relation.reassign();
 		$(this.childrenView).listview('refresh');
 		Field.Instance.dirty = true;
 	}

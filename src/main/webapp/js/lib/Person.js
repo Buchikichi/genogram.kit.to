@@ -238,7 +238,37 @@ class Person extends Chain {
 		ctx.stroke();
 	}
 
+	drawConnection(ctx) {
+		if (!this.prevActor) {
+			return;
+		}
+		let spacing = Field.Instance.spacing;
+		let bx = this.prevActor.x - this.x;
+		let by = this.prevActor.y - this.y;
+		let ex = 0;
+		let ey = 0;
+
+		if (bx < 0) {
+			by -= .2;
+			ex -= .1 * spacing;
+			ey -= .2 * spacing;
+		} else {
+			by += .2;
+			ex += .1 * spacing;
+			ey += .2 * spacing;
+		}
+		bx *= spacing;
+		by *= spacing;
+		ctx.strokeStyle = 'lime';
+		ctx.beginPath();
+		ctx.arc(bx, by, 4, 0, Math.PI * 2, false);
+		ctx.moveTo(bx, by);
+		ctx.lineTo(ex, ey);
+		ctx.stroke();
+	}
+
 	draw(ctx) {
+this.move();
 		let spacing = Field.Instance.spacing;
 		let x = this.x * spacing;
 		let y = this.y * spacing;
@@ -246,6 +276,7 @@ class Person extends Chain {
 		ctx.save();
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
 		ctx.translate(x, y);
+this.drawConnection(ctx);
 		this.drawSymbol(ctx);
 		this.drawOccupancy(ctx);
 ctx.strokeStyle = 'green';

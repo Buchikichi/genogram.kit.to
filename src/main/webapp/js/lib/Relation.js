@@ -143,8 +143,20 @@ class Relation extends Actor {
 	}
 
 	addChild(child) {
+		let len = this.children.length;
 		child.parents = this;
 		this.children.push(child);
+		this.mother.assign(child, len * 2, 2);
+		this.reassign();
+	}
+
+	reassign() {
+		let x = /*this.rect.center*/ - this.occupancy.left;
+
+		this.allChildren.forEach(ch => {
+			this.mother.reassign(ch, x, 2);
+			x += 2;
+		});
 	}
 
 	removeChild(target) {

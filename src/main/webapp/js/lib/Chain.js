@@ -10,6 +10,12 @@ class Chain extends Actor {
 		this.gender = gender;
 		this.parents = null; // 誰の子か
 		this.relationList = [];
+		this.generation  = 0;
+		// 相対位置
+		this.prevActor = null;
+		this.rx = 0;
+		this.ry = 0;
+		this.nextActor = null;
 	}
 
 	get gender() {
@@ -148,10 +154,49 @@ class Chain extends Actor {
 		return {left: left, right: right};
 	}
 
+	/**
+	 * 距離を置く.
+	 */
+	leave(other) {
+	}
+
+	/**
+	 * (自分の側に)配置する.
+	 */
+	assign(other, rx, ry = 0) {
+		if (this.prevActor == other) {
+			return;
+		}
+		other.prevActor = this;
+		other.x = this.x;
+		other.y = this.y;
+		other.rx = rx;
+		other.ry = ry;
+		other.generation = this.generation;
+		if (ry < 0) {
+			other.generation--;
+		} else if (0 < ry) {
+			other.generation++;
+		}
+		this.nextActor = other;
+	}
+
+	reassign(other, rx, ry = 0) {
+		if (this.prevActor == other) {
+			this.rx = -rx;
+			this.ry = -ry;
+		}
+		if (other.prevActor == this) {
+			other.rx = rx;
+			other.ry = ry;
+		}
+	}
+
 	addParents(relation) {
 		let father = relation.father;
 		let mother = relation.mother;
 
+		this.assign(mother, 1, -2);
 		mother.addPartner(relation);
 		relation.addChild(this);
 		this.parents = relation;
@@ -164,14 +209,24 @@ class Chain extends Actor {
 		if (0 < this.relationList.length) {
 			this.relationList[0].type = 'd';
 		}
+		let next = this.relationList.length < 1 ? null : this.relationList[0].getPartner(this);
 		let len = this.relationList.unshift(relation);
-		let partner = relation.getPartner(this);
 
-		partner.addPartner(relation);
 		this.relationList.forEach((rel, ix) => {
 			rel.order = ix;
 			rel.orderMax = len;
 		});
+		// 位置決め
+		let partner = relation.getPartner(this);
+
+		if (next && next.prevActor == this) {
+			next.prevActor = partner;
+		}
+		this.assign(partner, this.isMale ? 2 : -2);
+		partner.addPartner(relation);
+		if (this.parents) {
+			this.parents.reassign();
+		}
 		return len;
 	}
 
@@ -181,4 +236,39 @@ class Chain extends Actor {
 		}
 		this.eject();
 	}
+
+	move() {
+		if (!this.prevActor) {
+			return;
+		}
+		let ax = this.prevActor.x + this.rx;
+		let ay = this.prevActor.y + this.ry;
+		let diffX = ax - this.x;
+		let diffY = ay - this.y;
+		let absX = Math.abs(diffX);
+		let absY = Math.abs(diffY);
+
+		if (absX == 0 && absY == 0) {
+			return;
+		}
+		if (absX <= Chain.MOVING_STEP) {
+			this.x = ax;
+		} else {
+			if (diffX < 0) {
+				this.x -= Chain.MOVING_STEP;
+			} else if (0 < diffX) {
+				this.x += Chain.MOVING_STEP;
+			}
+		}
+		if (absY <= Chain.MOVING_STEP) {
+			this.y = ay;
+		} else {
+			if (diffY < 0) {
+				this.y -= Chain.MOVING_STEP;
+			} else if (0 < diffY) {
+				this.y += Chain.MOVING_STEP;
+			}
+		}
+	}
 }
+Chain.MOVING_STEP = .9;
