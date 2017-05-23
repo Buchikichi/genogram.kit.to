@@ -8,6 +8,41 @@ class Chain extends Actor {
 		this.generation  = 0;
 	}
 
+	/**
+	 * 目標の位置X.
+	 */
+	get ax() {
+		return this.prevActor.x + this.rx;
+	}
+
+	/**
+	 * 目標の位置Y.
+	 */
+	get ay() {
+		return this.prevActor.y + this.ry;;
+	}
+
+	/**
+	 * 静止中.
+	 */
+	get rest() {
+		if (!this.prevActor) {
+			return true;
+		}
+		return this.x == this.ax && this.y == this.ay;
+	}
+
+	/**
+	 * 目標の位置へすぐに移動。
+	 */
+	moveQuickly() {
+		if (!this.prevActor) {
+			return;
+		}
+		this.x = this.ax;
+		this.y = this.ay;
+	}
+
 	ancestorOccupancy(occupancy = new Occupancy(), depth = 0) {
 		let oc = occupancy;
 		let origin = oc.origin;
@@ -64,7 +99,7 @@ class Chain extends Actor {
 			return;
 		}
 		other.prevActor = this;
-		other.x = this.x;
+		other.x = this.x + rx;
 		other.y = this.y;
 		other.rx = rx;
 		other.ry = ry;
@@ -81,23 +116,17 @@ class Chain extends Actor {
 		let next = this.getNextPartner();
 
 		other.prevActor = this;
-		other.x = this.x;
-		other.y = this.y;
 		other.rx = rx;
 		other.ry = ry;
+		other.x = this.x;
+		other.y = this.y;
 		if (next) {
 			let ix = this.nextActor.indexOf(next);
-			let nx = next.x;
-			let ny = next.y;
 
-console.log('nextあり');
+console.log('nextあり!');
 			next.prevActor = other;
-			next.x = other.x;
-			next.y = other.y;
 			next.rx = rx;
 			next.ry = ry;
-			other.x = nx;
-			other.y = ny;
 			other.rx = next.rx;
 			other.ry = next.ry;
 			other.nextActor.push(other);
@@ -254,7 +283,6 @@ class Ties extends Chain {
 		this.assignActor(mother, 0, -2);
 		relation.addChild(this);
 		mother.addPartner(relation);
-		relation.reassign();
 	}
 
 	/**
@@ -338,17 +366,17 @@ class Ties extends Chain {
 
 	move() {
 		if (!this.prevActor) {
-			return;
+			return false;
 		}
-		let ax = this.prevActor.x + this.rx;
-		let ay = this.prevActor.y + this.ry;
+		let ax = this.ax;
+		let ay = this.ay;
 		let diffX = ax - this.x;
 		let diffY = ay - this.y;
 		let absX = Math.abs(diffX);
 		let absY = Math.abs(diffY);
 
 		if (absX == 0 && absY == 0) {
-			return;
+			return false;
 		}
 		if (absX <= Ties.MOVING_STEP) {
 			this.x = ax;
@@ -368,6 +396,7 @@ class Ties extends Chain {
 				this.y += Ties.MOVING_STEP;
 			}
 		}
+		return true;
 	}
 }
 Ties.MOVING_STEP = .9;

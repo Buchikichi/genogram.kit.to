@@ -161,6 +161,8 @@ class Field {
 		let maxX = 0;
 		let maxY = 0;
 		let list = [];
+		let personList = [];
+		let relationList = [];
 
 		this.focus.x = 0;
 		this.focus.y = 0;
@@ -187,10 +189,15 @@ console.log('list:' + list.length);
 			});
 		});
 //*/
-		this.actorList.forEach(person => {
-			if (!(person instanceof Person)) {
-				return;
+		this.actorList.forEach(actor => {
+			if (actor instanceof Person) {
+				personList.push(actor);
+			} else if (actor instanceof Relation) {
+				relationList.push(actor);
 			}
+		});
+		personList.forEach(person => {
+			let moved = person.move();
 			let x = person.x;
 			let y = person.y;
 
@@ -198,7 +205,17 @@ console.log('list:' + list.length);
 			minY = Math.min(minY, y);
 			maxX = Math.max(maxX, x);
 			maxY = Math.max(maxY, y);
+			if (moved) {
+				this.dirty = true;
+			}
 		});
+		if (!this.dirty) {
+			relationList.forEach(relation => {
+				if (relation.reassign()) {
+					this.dirty = true;
+				}
+			});
+		}
 		let spacing = this.spacing;
 		let left = minX * spacing;
 		let top = minY * spacing;

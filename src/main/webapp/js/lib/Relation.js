@@ -2,11 +2,11 @@ class Relation extends Actor {
 	constructor(person, other) {
 		super();
 		if (person.isMale) {
-			this.father = person;
-			this.mother = other;
+			this.leftSide = person;
+			this.rightSide = other;
 		} else {
-			this.father = other;
-			this.mother = person;
+			this.leftSide = other;
+			this.rightSide = person;
 		}
 		this.type = 'm';
 		this.children = [];
@@ -21,22 +21,30 @@ class Relation extends Actor {
 		this.separateImage.src = 'img/ralation.separate.png';
 	}
 
+	get father() {
+		return this.leftSide.isMale ? this.leftSide : this.rightSide;
+	}
+
+	get mother() {
+		return this.leftSide.isMale ? this.rightSide : this.leftSide;
+	}
+
 	get x() {
-		let width = Math.abs(this.father.x - this.mother.x);
+		let width = Math.abs(this.leftSide.x - this.rightSide.x);
 
 		return this.left + width / 2;
 	}
 
 	get y() {
-		return this.father.y + 1;
+		return this.leftSide.y + 1;
 	}
 
 	get top() {
-		return this.father.y + .5;
+		return this.leftSide.y + .5;
 	}
 
 	get left() {
-		return Math.min(this.father.x, this.mother.x);
+		return Math.min(this.leftSide.x, this.rightSide.x);
 	}
 
 	get partnerOrder() {
@@ -78,7 +86,9 @@ class Relation extends Actor {
 		let width = Math.abs(father.x - mother.x);
 		let marginBottom = (this.order - 1) * 0.1;
 		let height = half / 4 + marginBottom;
-		let center = this.fatherOrder < this.motherOrder ? mother.x - 1 : father.x + 1;
+		let center = this.father.numOfPartner == 1 && this.mother.numOfPartner == 1 ?
+			this.father.x + (this.mother.x - this.father.x) / 2 :
+			this.fatherOrder < this.motherOrder ? mother.x - 1 : father.x + 1;
 
 		// TODO GenoRect でも作るか
 		this.x = center;
@@ -154,6 +164,7 @@ class Relation extends Actor {
 
 	addChild(child) {
 		let len = this.children.length;
+
 		child.parents = this;
 		this.children.push(child);
 		if (0 < len) {
@@ -167,13 +178,42 @@ class Relation extends Actor {
 				older.assignActor(child, 2);
 			}
 		} else {
-			this.mother.assignActor(child, len * 2, 2);
+			this.mother.assignActor(child, 0, 2);
 		}
 		this.reassign();
 	}
 
+	reassignOccupancy() {
+		let hasBothParents = this.father.parents && this.mother.parents;
+
+		if (!hasBothParents) {
+			return false;
+		}
+		if (!this.leftSide.rest || !this.rightSide.rest) {
+			return false;
+		}
+//console.log('[reassignOccupancy]');
+		let leftOc = this.leftSide.ancestorOccupancy(new Occupancy(this.leftSide));
+		let rightOc = this.rightSide.ancestorOccupancy(new Occupancy(this.rightSide));
+		let diff = rightOc.left - leftOc.right;
+
+//console.log('diff:' + diff);
+		if (diff) {
+			this.mother.rx -= diff;
+			return true;
+		}
+		return false;
+	}
+
 	reassign() {
-console.log('[reassign]');
+		let result = this.reassignOccupancy();
+
+		if (result) {
+			return result;
+		}
+		if (this.children.length == 0) {
+			return false;
+		}
 		let first = this.firstChild;
 		let last = this.lastChild;
 		let right = last.prevActor.x + last.rx;
@@ -188,16 +228,24 @@ console.log('[reassign]');
 		let half = (right - left) / 2;
 
 //console.log('left:' + left + '/half:' + half + '/right:' + right);
-		if (first == this.father.prevActor || first == this.mother.prevActor) {
-			let diff = half - this.rect.center + this.father.x;
+		if (first == this.leftSide.prevActor || first == this.rightSide.prevActor) {
+			let diff = half - this.rect.center + this.leftSide.x;
 
-			this.father.rx = diff;
-			return;
+			if (first.rest && this.leftSide.rx != diff) {
+				this.leftSide.rx = diff;
+				result = true;
+//console.log('reassign:親移動');
+			}
+		} else {
+			let diff = this.rect.center - first.prevActor.x - half;
+
+			if (first.prevActor.rest && first.rx != diff) {
+				first.rx = diff;
+				result = true;
+//console.log('reassign:子移動');
+			}
 		}
-		let diff = this.rect.center - first.prevActor.x - half;
-//console.log('diff:' + diff);
-
-		first.rx = diff;
+		return result;
 	}
 
 	removeChild(target) {
@@ -312,10 +360,8 @@ console.log('[reassign]');
 		let spacing = Field.Instance.spacing;
 		let x = this.x * spacing;
 		let y = this.y * spacing;
-let r = this.father.radius;
 
 		ctx.save();
-//ctx.strokeText('x:' + x + '/y:' + y + '/r:' + r, this.x, this.y);
 		this.drawChildLine(ctx);
 		if (this.hit) {
 			ctx.strokeStyle = 'aqua';

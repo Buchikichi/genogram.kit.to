@@ -226,6 +226,7 @@ if (this.touched) {
 	}
 
 	drawOccupancy(ctx) {
+		if (this.relationList.length == 0) return;
 		let spacing = Field.Instance.spacing;
 		let oc = this.ancestorOccupancy(new Occupancy(this));
 		let left = oc.left + .1;
@@ -239,7 +240,7 @@ if (this.touched) {
 		ctx.stroke();
 	}
 
-	drawConnection(ctx) {
+	drawChain(ctx) {
 		if (!this.prevActor) {
 			return;
 		}
@@ -260,7 +261,7 @@ if (this.touched) {
 		}
 		bx *= spacing;
 		by *= spacing;
-		ctx.lineWidth = .7;
+		ctx.lineWidth = .6;
 		ctx.strokeStyle = 'lime';
 		ctx.beginPath();
 		ctx.arc(bx, by, 4, 0, Math.PI * 2, false);
@@ -270,7 +271,6 @@ if (this.touched) {
 	}
 
 	draw(ctx) {
-this.move();
 		let spacing = Field.Instance.spacing;
 		let x = this.x * spacing;
 		let y = this.y * spacing;
@@ -279,7 +279,7 @@ this.move();
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
 //this.drawOccupancy(ctx);
 		ctx.translate(x, y);
-this.drawConnection(ctx);
+//this.drawChain(ctx);
 		this.drawSymbol(ctx);
 ctx.strokeStyle = 'green';
 //ctx.strokeText(this.x + '/' + this.y, 0, 10);
