@@ -66,12 +66,14 @@ class AppMain {
 	}
 
 	init() {
+		let root = new ChainRoot();
 		let newPerson = new Person();
 
 		newPerson.name = 'principal(本人)';
 		newPerson.principal = true;
-		this.field.setFocus(newPerson);
-		this.field.actorList.push(newPerson);
+		root.assignActor(newPerson);
+		this.field.setFocus(root);
+		this.field.addActor(root, newPerson);
 //this.field.actorList.push(new EnclosingLine());
 	}
 

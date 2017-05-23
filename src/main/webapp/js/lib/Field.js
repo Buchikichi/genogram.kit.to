@@ -164,19 +164,33 @@ class Field {
 
 		this.focus.x = 0;
 		this.focus.y = 0;
-		this.focus.scanAll(list);
+//		this.focus.scanAll(list);
 console.log('list:' + list.length);
 		Tally.reset();
 //		this.focus.calculate();
-		list.forEach(person => {
-			list.forEach(target => {
-				if (person == target) {
+/*
+		this.actorList.forEach(person => {
+			if (!(person instanceof Person)) {
+				return;
+			}
+			person.touched = false;
+		});
+		this.actorList.forEach(person => {
+			if (!(person instanceof Person)) {
+				return;
+			}
+			this.actorList.forEach(target => {
+				if (!(person instanceof Person) || person == target) {
 					return;
 				}
 				person.touch(target);
 			});
 		});
-		list.forEach(person => {
+//*/
+		this.actorList.forEach(person => {
+			if (!(person instanceof Person)) {
+				return;
+			}
 			let x = person.x;
 			let y = person.y;
 

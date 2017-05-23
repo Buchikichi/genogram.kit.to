@@ -59,6 +59,16 @@ class Relation extends Actor {
 		this.relationOrder = val;
 	}
 
+	get firstChild() {
+		// 子が存在するときだけ使う
+		return this.children[0];
+	}
+
+	get lastChild() {
+		// 子が存在するときだけ使う
+		return this.children[this.children.length - 1];
+	}
+
 	get rect() {
 		let half = 1;
 		let father = this.father;
@@ -66,7 +76,7 @@ class Relation extends Actor {
 		let top = father.y + .5;
 		let left = Math.min(father.x, mother.x);
 		let width = Math.abs(father.x - mother.x);
-		let marginBottom = (this.order - 1) * 0.05;
+		let marginBottom = (this.order - 1) * 0.1;
 		let height = half / 4 + marginBottom;
 		let center = this.fatherOrder < this.motherOrder ? mother.x - 1 : father.x + 1;
 
@@ -146,17 +156,48 @@ class Relation extends Actor {
 		let len = this.children.length;
 		child.parents = this;
 		this.children.push(child);
-		this.mother.assign(child, len * 2, 2);
+		if (0 < len) {
+			let older = this.children[len - 1];
+
+			if (older.isMale) {
+				let shift = older.numOfPartner + 1;
+
+				older.assignActor(child, shift * 2);
+			} else {
+				older.assignActor(child, 2);
+			}
+		} else {
+			this.mother.assignActor(child, len * 2, 2);
+		}
 		this.reassign();
 	}
 
 	reassign() {
-		let x = /*this.rect.center*/ - this.occupancy.left;
+console.log('[reassign]');
+		let first = this.firstChild;
+		let last = this.lastChild;
+		let right = last.prevActor.x + last.rx;
+		let left = right;
+		let prev = last;
 
-		this.allChildren.forEach(ch => {
-			this.mother.reassign(ch, x, 2);
-			x += 2;
-		});
+		while (prev != first) {
+			prev = prev.prevActor;
+			left = prev.prevActor.x + prev.rx;
+//console.log('left:' + left);
+		}
+		let half = (right - left) / 2;
+
+//console.log('left:' + left + '/half:' + half + '/right:' + right);
+		if (first == this.father.prevActor || first == this.mother.prevActor) {
+			let diff = half - this.rect.center + this.father.x;
+
+			this.father.rx = diff;
+			return;
+		}
+		let diff = this.rect.center - first.prevActor.x - half;
+//console.log('diff:' + diff);
+
+		first.rx = diff;
 	}
 
 	removeChild(target) {

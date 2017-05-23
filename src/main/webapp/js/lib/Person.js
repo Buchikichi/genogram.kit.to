@@ -1,4 +1,4 @@
-class Person extends Chain {
+class Person extends Ties {
 	constructor(id = null, gender = '') {
 		super(id, gender);
 		this.name = '';
@@ -193,7 +193,7 @@ class Person extends Chain {
 		let diffY = this.y - target.y;
 		let distance = Math.sqrt(diffX * diffX + diffY * diffY);
 
-		if (distance < 1) {
+		if (distance <= 1) {
 			this.touched = true;
 		}
 		return this.touched;
@@ -260,6 +260,7 @@ if (this.touched) {
 		}
 		bx *= spacing;
 		by *= spacing;
+		ctx.lineWidth = .7;
 		ctx.strokeStyle = 'lime';
 		ctx.beginPath();
 		ctx.arc(bx, by, 4, 0, Math.PI * 2, false);
@@ -276,7 +277,7 @@ this.move();
 
 		ctx.save();
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
-this.drawOccupancy(ctx);
+//this.drawOccupancy(ctx);
 		ctx.translate(x, y);
 this.drawConnection(ctx);
 		this.drawSymbol(ctx);
