@@ -39,16 +39,49 @@ class PartnerPanel {
 		}});
 	}
 
-	reorganizeChildren() {
+	makeChainList() {
+		let list = [];
+
+		this.relation.children.forEach(child => {
+			let chain = new Chain();
+
+			chain.copyChainProperties(child);
+			list.push(chain);
+		});
+		return list;
+	}
+
+	makeNewList() {
+		let list = [];
+		let idMap = {};
 		let children = this.childrenView.querySelectorAll('li');
 
-		this.relation.children = [];
-		Array.prototype.forEach.call(children, li => {
-			let child = $(li).prop('child');
+		this.relation.children.forEach(child => {
+			idMap[child.id] = child;
+		});
+		Array.prototype.forEach.call(children, (li, ix) => {
+			let id = li.getAttribute('data-id');
+			let child = idMap[id];
 
-			if (child) {
-				this.relation.addChild(child);
-			}
+			list.push(child);
+		});
+		return list;
+	}
+
+	reorganizeChildren() {
+		let chainList = this.makeChainList();
+		let children = this.makeNewList();
+		let prev = this.relation.children[0].prevActor;
+		let prevList = [prev].concat(children);
+
+console.log('prev:');
+console.log(prev);
+		this.relation.children = [];
+		children.forEach((child, ix) => {
+			child.copyChainProperties(chainList[ix]);
+			child.prevActor = prevList[ix];
+console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
+			this.relation.children.push(child);
 		});
 		$(this.childrenView).listview('refresh');
 	}
@@ -75,9 +108,9 @@ class PartnerPanel {
 //				anchor.appendChild(count);
 //			}
 			li.appendChild(anchor);
+			li.setAttribute('data-id', child.id);
 			li.setAttribute('data-icon', false);
 			ul.appendChild(li);
-			$(li).prop('child', child);
 		});
 		$(ul).listview('refresh');
 	}

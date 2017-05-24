@@ -1,7 +1,7 @@
 class Person extends Ties {
 	constructor(id = null, gender = '') {
 		super(id, gender);
-		this.name = '';
+		this.name = AlphabeticalTally.increment();
 		this._description = null;
 		this.dob = ''; // Date of birth
 		this.dod = ''; // Date of death
@@ -245,8 +245,10 @@ if (this.touched) {
 			return;
 		}
 		let spacing = Field.Instance.spacing;
-		let bx = this.prevActor.x - this.x;
-		let by = this.prevActor.y - this.y;
+		let prev = this.prevActor;
+		let isSibling = this.isSibling(prev);
+		let bx = prev.x - this.x;
+		let by = prev.y - this.y;
 		let ex = 0;
 		let ey = 0;
 
@@ -266,7 +268,14 @@ if (this.touched) {
 		ctx.beginPath();
 		ctx.arc(bx, by, 4, 0, Math.PI * 2, false);
 		ctx.moveTo(bx, by);
-		ctx.lineTo(ex, ey);
+		if (isSibling) {
+			let cx = bx + (ex - bx) / 2;
+			let cy = by - spacing * .5;
+
+			ctx.quadraticCurveTo(cx, cy, ex, ey);
+		} else {
+			ctx.lineTo(ex, ey);
+		}
 		ctx.stroke();
 	}
 
@@ -281,9 +290,6 @@ if (this.touched) {
 		ctx.translate(x, y);
 //this.drawChain(ctx);
 		this.drawSymbol(ctx);
-ctx.strokeStyle = 'green';
-//ctx.strokeText(this.x + '/' + this.y, 0, 10);
-//ctx.strokeText(this.count, 0, 10);
 		ctx.restore();
 	}
 }

@@ -178,7 +178,7 @@ class Relation extends Actor {
 				older.assignActor(child, 2);
 			}
 		} else {
-			this.mother.assignActor(child, 0, 2);
+			this.father.assignActor(child, 0, 2);
 		}
 		this.reassign();
 	}

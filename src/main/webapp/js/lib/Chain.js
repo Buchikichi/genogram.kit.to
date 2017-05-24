@@ -1,9 +1,9 @@
 class Chain extends Actor {
 	constructor() {
 		super();
-		this.prevActor = null;
 		this.rx = 0;
 		this.ry = 0;
+		this.prevActor = null;
 		this.nextActor = []; // 複数ある
 		this.generation  = 0;
 	}
@@ -30,6 +30,24 @@ class Chain extends Actor {
 			return true;
 		}
 		return this.x == this.ax && this.y == this.ay;
+	}
+
+	copyChainProperties(other) {
+		this.x = other.x;
+		this.y = other.y;
+		this.rx = other.rx;
+		this.ry = other.ry;
+		this.prevActor = other.prevActor;
+		this.nextActor = other.nextActor;
+		if (this instanceof Person) {
+			this.nextActor.forEach(next => {
+				if (next.generation < this.generation) {
+//console.log(this.info + ':next:' + next.info);
+//console.log(this);
+					next.prevActor = this;
+				}
+			});
+		}
 	}
 
 	/**
@@ -276,13 +294,19 @@ class Ties extends Chain {
 		return result;
 	}
 
-	addParents(relation) {
-		let father = relation.father;
-		let mother = relation.mother;
+	/**
+	 * 兄弟関係にあるか.
+	 */
+	isSibling(other) {
+		return this.parents && this.parents == other.parents;
+	}
 
-		this.assignActor(mother, 0, -2);
+	addParents(relation) {
+		let parent = relation.leftSide;
+
+		this.assignActor(parent, 0, -2);
 		relation.addChild(this);
-		mother.addPartner(relation);
+		parent.addPartner(relation);
 	}
 
 	/**
