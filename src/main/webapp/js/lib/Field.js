@@ -155,6 +155,7 @@ class Field {
 		if (!this.dirty) {
 			return;
 		}
+console.log('[dirty]');
 		this.dirty = false;
 		let minX = 0;
 		let minY = 0;
@@ -167,7 +168,6 @@ class Field {
 		this.focus.x = 0;
 		this.focus.y = 0;
 //		this.focus.scanAll(list);
-console.log('list:' + list.length);
 		Tally.reset();
 //		this.focus.calculate();
 /*

@@ -83,6 +83,21 @@ class Chain extends Actor {
 		return oc;
 	}
 
+	descendantOccupancy(occupancy = new Occupancy(), depth = 0) {
+		let oc = occupancy;
+		let partnerList = [];
+
+		if (oc.isDone(this)) {
+			return oc;
+		}
+		oc.merge(new Occupancy(this));
+		this.listPartner(partnerList);
+		partnerList.forEach(partner => {
+			partner.descendantOccupancy(oc);
+		});
+		return oc;
+	}
+
 	/**
 	 * 占める領域を求める.
 	 * @return {left, right}
@@ -131,6 +146,7 @@ class Chain extends Actor {
 	}
 
 	addActor(other, rx, ry = 0) {
+console.log('addActor');
 		let next = this.getNextPartner();
 
 		other.prevActor = this;
@@ -179,8 +195,6 @@ console.log('nextあり!');
 		}
 		other.nextActor.push(this);
 		this.prevActor = other;
-		this.rx = rx;
-		this.ry = ry;
 	}
 
 	reassignActor(other, rx, ry = 0) {
@@ -195,10 +209,18 @@ console.log('nextあり!');
 	}
 
 	getPrevPartner() {
-		if (!this.prevActor || this.prevActor.generation != this.generation) {
+		let prev = this.prevActor;
+
+		if (!(prev instanceof Person)) {
 			return null;
 		}
-		return this.prevActor;
+		if (prev.generation != this.generation) {
+			return null;
+		}
+		if (this.isSibling(prev)) {
+			return null;
+		}
+		return prev;
 	}
 
 	getNextPartner() {
@@ -206,7 +228,7 @@ console.log('nextあり!');
 
 		this.nextActor.forEach(next => {
 //console.log('generation:' + next.generation + ':' + this.generation);
-			if (next.generation == this.generation) {
+			if (next.generation == this.generation && !this.isSibling(next)) {
 				result = next;
 			}
 		});
@@ -214,13 +236,22 @@ console.log('nextあり!');
 	}
 
 	addPartner(partner) {
-		let prev = this.prevActor && this.generation == this.prevActor.generation ? this.prevActor : null;
-		let next = this.getNextPartner();
+		let prev = this.getPrevPartner();
 
 		if (this.isMale) {
 			this.addActor(partner, 2);
-		} else {
+			// TODO
+			return;
+		}
+		// Female
+		if (prev) {
+console.log('prevあり');
+console.log(prev);
 			this.insertActor(partner, 2);
+		} else {
+console.log('prevなし');
+// TODO nextありの判定
+			this.assignActor(partner, this.isMale ? 2 : -2);
 		}
 	}
 }
@@ -298,7 +329,10 @@ class Ties extends Chain {
 	 * 兄弟関係にあるか.
 	 */
 	isSibling(other) {
-		return this.parents && this.parents == other.parents;
+		if (this.parents && other.parents) {
+			return this.parents == other.parents;
+		}
+		return false;
 	}
 
 	addParents(relation) {

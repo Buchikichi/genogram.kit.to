@@ -195,7 +195,7 @@ class Relation extends Actor {
 //console.log('[reassignOccupancy]');
 		let leftOc = this.leftSide.ancestorOccupancy(new Occupancy(this.leftSide));
 		let rightOc = this.rightSide.ancestorOccupancy(new Occupancy(this.rightSide));
-		let diff = rightOc.left - leftOc.right;
+		let diff = rightOc.left - leftOc.right - 2;
 
 //console.log('diff:' + diff);
 		if (diff) {
@@ -205,15 +205,48 @@ class Relation extends Actor {
 		return false;
 	}
 
-	reassign() {
-		let result = this.reassignOccupancy();
+	reassignChildren() {
+		let result = false;
 
-		if (result) {
+		if (this.children.length == 0) {
 			return result;
+		}
+		let margin = 0;
+
+		this.children.forEach((child, ix) => {
+			let oc = child.descendantOccupancy();
+
+//console.log(child.info + ': width:' + oc.width + ',' + oc.left + '|' + oc.right);
+			if (child.isMale) {
+				if (0 < ix && child.rx != margin) {
+					child.rx = margin;
+					result = true;
+				}
+				margin = 2 + oc.width;
+			} else {
+				let rx = oc.width + margin;
+
+				if (0 < ix && child.rx != rx) {
+					child.rx = rx;
+					result = true;
+				}
+				margin = 2;
+			}
+		});
+		return result;
+	}
+
+	reassign() {
+		if (this.reassignOccupancy()) {
+			return true;
+		}
+		if (this.reassignChildren()) {
+			return true;
 		}
 		if (this.children.length == 0) {
 			return false;
 		}
+		let result = false;
 		let first = this.firstChild;
 		let last = this.lastChild;
 		let right = last.prevActor.x + last.rx;

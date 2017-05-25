@@ -225,19 +225,41 @@ if (this.touched) {
 		this.symbol.draw(ctx);
 	}
 
-	drawOccupancy(ctx) {
-		if (this.relationList.length == 0) return;
+	drawAncestorOccupancy(ctx) {
+		if (!this.parents) {
+			return;
+		}
 		let spacing = Field.Instance.spacing;
 		let oc = this.ancestorOccupancy(new Occupancy(this));
 		let left = oc.left + .1;
 		let right = oc.right - .1;
 		let y = (this.y - .1) * spacing;
 
+		ctx.strokeStyle = 'purple';
+		ctx.beginPath();
+		ctx.moveTo(left * spacing, y);
+		ctx.lineTo(right * spacing, y);
+		ctx.stroke();
+	}
+
+	drawDescendantOccupancy(ctx) {
+		let spacing = Field.Instance.spacing;
+		let oc = this.descendantOccupancy();
+		let left = oc.left + .2;
+		let right = oc.right - .2;
+		let y = (this.y + .1) * spacing;
+
+		ctx.lineWidth = 3;
 		ctx.strokeStyle = 'green';
 		ctx.beginPath();
 		ctx.moveTo(left * spacing, y);
 		ctx.lineTo(right * spacing, y);
 		ctx.stroke();
+	}
+
+	drawOccupancy(ctx) {
+//		this.drawAncestorOccupancy(ctx);
+		this.drawDescendantOccupancy(ctx);
 	}
 
 	drawChain(ctx) {
