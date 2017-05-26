@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import to.kit.genogram.entity.Diagram;
+import to.kit.genogram.entity.Partner;
+import to.kit.genogram.entity.Person;
 import to.kit.genogram.repository.DiagramRepository;
 
 /**
@@ -32,6 +34,16 @@ public class DiagramService {
 
 	/**
 	 * 一件取得.
+	 * @param id ダイアグラムID
+	 * @return レコード
+	 */
+	@Transactional
+	public Diagram select(String id) {
+		return this.diagramRepository.findOne(id);
+	}
+
+	/**
+	 * 一件取得(ドキュメントID指定).
 	 * @param documentId ドキュメントID
 	 * @return レコード
 	 */
@@ -47,17 +59,24 @@ public class DiagramService {
 	@Transactional
 	public Diagram save(Diagram diagram) {
 		String id = diagram.getId();
-		Diagram entity = null;
 
 		if (id == null || id.isEmpty()) {
 			diagram.setId(UUID.randomUUID().toString());
-		} else {
-			entity = this.diagramRepository.findOne(id);
-			if (entity != null) {
-				diagram.setCreated(entity.getCreated());
-				diagram.setUpdated(new Date());
+		}
+		diagram.setUpdated(new Date());
+		for (Person person : diagram.getPersonList()) {
+			Partner parents = person.getParents();
+
+			person.setDiagram(diagram);
+			person.setUpdated(new Date());
+			if (parents != null) {
+				parents.setDiagram(diagram);
+				parents.setUpdated(new Date());
 			}
 		}
-		return this.diagramRepository.saveAndFlush(diagram);
+		Diagram saved = this.diagramRepository.saveAndFlush(diagram);
+
+//		savePersonlist(saved, personList);
+		return saved;
 	}
 }

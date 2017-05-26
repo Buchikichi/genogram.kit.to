@@ -1,10 +1,11 @@
 class Person extends Ties {
-	constructor(id = null, gender = '') {
-		super(id, gender);
+	constructor(gender = '') {
+		super(gender);
 		this.name = AlphabeticalTally.increment();
 		this._description = null;
 		this.dob = ''; // Date of birth
 		this.dod = ''; // Date of death
+		this.attr = '';
 		this.principal = false; // 本人(主役?)かどうか
 	}
 
@@ -28,6 +29,30 @@ class Person extends Ties {
 				this.spawnList.push(this._description);
 			}
 		}
+	}
+	get dx() {
+		if (this._description == null) {
+			return 0;
+		}
+		return this._description.dx;
+	}
+	set dx(val) {
+		if (this._description == null) {
+			return;
+		}
+		this._description.dx = val;
+	}
+	get dy() {
+		if (this._description == null) {
+			return 0;
+		}
+		return this._description.dy;
+	}
+	set dy(val) {
+		if (this._description == null) {
+			return;
+		}
+		this._description.dy = val;
 	}
 
 	get age() {
@@ -310,8 +335,22 @@ if (this.touched) {
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
 //this.drawOccupancy(ctx);
 		ctx.translate(x, y);
-//this.drawChain(ctx);
+this.drawChain(ctx);
 		this.drawSymbol(ctx);
 		ctx.restore();
 	}
+
+	static createFromEntity(rec) {
+		let person = new Person();
+
+		Person.Properties.forEach(prop => {
+			let val = rec[prop];
+
+			if (val) {
+				person[prop] = val;
+			}
+		});
+		return person;
+	}
 }
+Person.Properties = ['id', 'name', 'description', 'dx', 'dy', 'gender', 'dob', 'dod', 'attr'];

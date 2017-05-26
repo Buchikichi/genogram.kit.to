@@ -3,40 +3,50 @@ package to.kit.genogram.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
 /**
- * ダイアグラムエンティティ.
+ * パートナーエンティティ.
  * @author H.Sasai
  */
 @Entity
 @Data
-public class Diagram {
+public class Partner {
 	@Id
 	private String id;
-	private String documentId;
-	private String personId;
-	private String description;
-	private String image;
+	private String type;
 	@Column(insertable = false, updatable = false)
 	private Date created;
 	@Column(insertable = false)
 	private Date updated;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "diagram", cascade = CascadeType.ALL)
+	@ManyToOne
+	@JsonBackReference
+	private Diagram diagram;
+
+	@OneToOne
 	@NotFound(action = NotFoundAction.IGNORE)
-	@JsonManagedReference
-	private List<Person> personList;
+	private Person person;
+
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+	private Person other;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parents")
+	@JsonBackReference
+//	@JsonManagedReference
+	private List<Person> children;
 }

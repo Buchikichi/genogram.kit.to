@@ -178,6 +178,7 @@ class Relation extends Actor {
 				older.assignActor(child, 2);
 			}
 		} else {
+console.log('father.assignActor');
 			this.father.assignActor(child, 0, 2);
 		}
 		this.reassign();
@@ -407,5 +408,11 @@ this.drawText(ctx);
 		}
 //this.drawOccupancy(ctx);
 		ctx.restore();
+	}
+
+	createEntity() {
+		return {
+			id: this.id,
+		};
 	}
 }

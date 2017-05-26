@@ -5,6 +5,10 @@ class ChainRoot extends Chain {
 		this.radius = 5;
 	}
 
+	get info() {
+		return this.id + '(' + this.x + ',' + this.y + ')';
+	}
+
 	draw(ctx) {
 		ctx.save();
 		ctx.beginPath();

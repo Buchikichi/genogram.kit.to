@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import to.kit.genogram.entity.Diagram;
@@ -36,6 +37,17 @@ public class DiagramController {
 	}
 
 	/**
+	 * 一件取得.
+	 * @param id ダイアグラムID
+	 * @return レコード
+	 */
+	@RequestMapping("/select")
+	@ResponseBody
+	public Diagram select(@RequestParam String id) {
+		return this.diagramService.select(id);
+	}
+
+	/**
 	 * 編集画面表示.
 	 * @param model モデル
 	 * @param documentId ドキュメントID
@@ -47,6 +59,7 @@ public class DiagramController {
 
 		if (diagram == null) {
 			diagram = new Diagram();
+			diagram.setDocumentId(documentId);
 		}
 		model.addAttribute("diagram", diagram);
 		return "edit";
@@ -65,6 +78,9 @@ public class DiagramController {
 		BeanUtils.copyProperties(form, entity);
 		Diagram saved = this.diagramService.save(entity);
 
+		if (saved == null) {
+			return result;
+		}
 		result.setInfo(saved);
 		result.setOk(true);
 		return result;

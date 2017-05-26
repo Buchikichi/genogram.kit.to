@@ -236,7 +236,9 @@ console.log('nextあり!');
 	}
 
 	addPartner(partner) {
+console.log('[addPartner]');
 		let prev = this.getPrevPartner();
+		let next = this.getNextPartner();
 
 		if (this.isMale) {
 			this.addActor(partner, 2);
@@ -251,20 +253,17 @@ console.log(prev);
 		} else {
 console.log('prevなし');
 // TODO nextありの判定
+			if (next) {
+console.log('nextあり');
+			}
 			this.assignActor(partner, this.isMale ? 2 : -2);
 		}
 	}
 }
 
 class Ties extends Chain {
-	constructor(id = null, gender) {
+	constructor(gender) {
 		super();
-		if (id == null) {
-			this.id = UUID.toString();
-//console.log('UUID:' + this.id);
-		} else {
-			this.id = id;
-		}
 		this.gender = gender;
 		this.parents = null; // 誰の子か
 		this.relationList = [];

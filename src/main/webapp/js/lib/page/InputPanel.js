@@ -81,8 +81,8 @@ class InputPanel {
 	}
 
 	addParents() {
-		let father = new Person(null, 'm');
-		let mother = new Person(null, 'f');
+		let father = new Person('m');
+		let mother = new Person('f');
 		let relation = new Relation(father, mother);
 
 		this.person.addParents(relation);
@@ -92,7 +92,7 @@ class InputPanel {
 
 	addPartner() {
 		let gender = this.person.isMale ? 'f' : 'm';
-		let partner = new Person(null, gender);
+		let partner = new Person(gender);
 		let relation = new Relation(this.person, partner);
 
 		this.person.addPartner(relation);

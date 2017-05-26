@@ -1,5 +1,6 @@
 class Actor {
 	constructor(x = 0, y = 0) {
+		this.id = UUID.toString();
 		this.x = x;
 		this.y = y;
 		this.z = 0;

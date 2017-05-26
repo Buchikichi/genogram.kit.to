@@ -10,7 +10,7 @@ class PartnerPanel {
 		let mChildButton = document.getElementById('mChildButton');
 		let fChildButton = document.getElementById('fChildButton');
 		let addChild = gender => {
-			let child = new Person(null, gender);
+			let child = new Person(gender);
 
 			this.relation.addChild(child);
 			Field.Instance.addActor(child);

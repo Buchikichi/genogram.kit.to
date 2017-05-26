@@ -52,6 +52,17 @@ class Field {
 		return 'gray';
 	}
 
+	get personList() {
+		let list = [];
+
+		this.actorList.forEach(actor => {
+			if (actor instanceof Person) {
+				list.push(actor);
+			}
+		});
+		return list;
+	}
+
 	getRelationship(person, other) {
 		let result = null;
 
@@ -124,7 +135,9 @@ class Field {
 
 	addActor(...actors) {
 		actors.forEach(act => {
-			this.actorList.push(act);
+			if (this.actorList.indexOf(act) == -1) {
+				this.actorList.push(act);
+			}
 		});
 		this.dirty = true;
 	}
@@ -155,14 +168,13 @@ class Field {
 		if (!this.dirty) {
 			return;
 		}
-console.log('[dirty]');
+console.log('[dirty]' + this.actorList.length);
 		this.dirty = false;
 		let minX = 0;
 		let minY = 0;
 		let maxX = 0;
 		let maxY = 0;
 		let list = [];
-		let personList = [];
 		let relationList = [];
 
 		this.focus.x = 0;
@@ -190,13 +202,11 @@ console.log('[dirty]');
 		});
 //*/
 		this.actorList.forEach(actor => {
-			if (actor instanceof Person) {
-				personList.push(actor);
-			} else if (actor instanceof Relation) {
+			if (actor instanceof Relation) {
 				relationList.push(actor);
 			}
 		});
-		personList.forEach(person => {
+		this.personList.forEach(person => {
 			let moved = person.move();
 			let x = person.x;
 			let y = person.y;
