@@ -15,6 +15,10 @@ class Actor {
 		return result;
 	}
 
+	reserve(...actors) {
+		this.spawnList = this.spawnList.concat(actors);
+	}
+
 	getDistance(target) {
 		let diffX = this.x - target.x;
 		let diffY = this.y - target.y;

@@ -155,6 +155,16 @@ class Relation extends Actor {
 		return {left: left, right: right};
 	}
 
+	isPair(person, other) {
+		if (this.leftSide == person && this.rightSide == other) {
+			return true;
+		}
+		if (this.leftSide == other && this.rightSide == person) {
+			return true;
+		}
+		return false;
+	}
+
 	getPartner(person) {
 		if (person == this.father) {
 			return this.mother;
@@ -167,6 +177,7 @@ class Relation extends Actor {
 
 		child.parents = this;
 		this.children.push(child);
+		this.reserve(child);
 		if (0 < len) {
 			let older = this.children[len - 1];
 

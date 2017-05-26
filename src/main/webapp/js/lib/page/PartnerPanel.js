@@ -36,15 +36,14 @@ class PartnerPanel {
 		let field = Field.Instance;
 		let father = this.relation.father;
 
-//console.log(field.numOfGeneration + '/min:' + field.minGeneration + '/max:' + field.maxGeneration);
-		if (father.generation == field.maxGeneration && field.numOfGeneration == Field.MAX_GENERATION) {
+console.log(field.numOfGeneration + '/min:' + field.minGeneration + '/max:' + field.maxGeneration);
+		if (field.maxGeneration <= father.generation && field.numOfGeneration == Field.MAX_GENERATION) {
 			alert('世代数は、' + Field.MAX_GENERATION + 'までの設定になっています。');
 			return;
 		}
 		let child = new Person(gender);
 
-		this.relation.addChild(child);
-		Field.Instance.addActor(child);
+		child.addParents(this.relation);
 		this.setupChildren();
 	}
 

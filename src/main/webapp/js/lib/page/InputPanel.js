@@ -95,7 +95,6 @@ console.log('person.generation:' + this.person.generation);
 
 		this.person.addParents(relation);
 		this.refreshControls();
-		field.addActor(father, mother, relation);
 	}
 
 	addPartner() {

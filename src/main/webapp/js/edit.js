@@ -121,17 +121,16 @@ console.log('person[G' + person.generation + ']:' + person.info);
 //console.log(parents);
 					let father = personMap[parents.person.id];
 					let mother = personMap[parents.other.id];
-					let relation = new Relation(father, mother);
+					let relation = this.field.createPair(father, mother);
 
 					relation.id = parents.id;
 					relation.type = parents.type;
-//					father.addPartner(relation);
 //console.log('father:');
 //console.log(father);
 //console.log('mother:');
 //console.log(mother);
 					person.addParents(relation);
-					this.field.addActor(relation);
+//					this.field.addActor(relation);
 				}
 				this.field.addActor(person);
 			});

@@ -128,7 +128,7 @@ class Chain extends Actor {
 	 * (自分の側に)配置する.
 	 */
 	assignActor(other, rx = 0, ry = 0) {
-		if (this.prevActor == other) {
+		if (this.prevActor == other || other.prevActor == this) {
 			return;
 		}
 console.log('[assignActor]');
@@ -337,11 +337,15 @@ class Ties extends Chain {
 	}
 
 	addParents(relation) {
+console.log('== addParents ==');
 		let parent = relation.leftSide;
 
-		this.assignActor(parent, 0, -2);
-		relation.addChild(this);
+		if (parent.prevActor == null) {
+			this.assignActor(parent, 0, -2);
+		}
 		parent.addPartner(relation);
+		relation.addChild(this);
+		this.reserve(relation, relation.leftSide, relation.rightSide);
 	}
 
 	/**

@@ -65,8 +65,33 @@ class Field {
 		return list;
 	}
 
+	get pairList() {
+		let list = [];
+
+		this.actorList.forEach(actor => {
+			if (actor instanceof Relation) {
+				list.push(actor);
+			}
+		});
+		return list;
+	}
+
 	get numOfGeneration() {
 		return this.maxGeneration - this.minGeneration + 1;
+	}
+
+	createPair(person, other) {
+		let result = null;
+
+		this.pairList.forEach(pair => {
+			if (pair.isPair(person, other)) {
+				result = pair;
+			}
+		});
+		if (result == null) {
+			result = new Relation(person, other);
+		}
+		return result;
 	}
 
 	getRelationship(person, other) {
@@ -249,18 +274,20 @@ console.log('[dirty]' + this.actorList.length);
 	}
 
 	choiceActor() {
-		let list = [];
+		let list = [].concat(this.actorList);
 
-		this.actorList.forEach(actor => {
+		this.actorList = [];
+		list.forEach(actor => {
 			if (!actor.isGone) {
-				list.push(actor);
+				this.actorList.push(actor);
 				actor.spawn.forEach(roe => {
-					list.push(roe);
+					if (list.indexOf() == -1) {
+						this.addActor(roe);
+					}
 				});
 			}
 		});
 		if (this.actorList.length != list.length) {
-			this.actorList = list;
 			this.dirty = true;
 		}
 		this.actorList.sort((a, b) => {
