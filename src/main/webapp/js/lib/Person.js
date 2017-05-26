@@ -335,7 +335,7 @@ if (this.touched) {
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
 //this.drawOccupancy(ctx);
 		ctx.translate(x, y);
-this.drawChain(ctx);
+//this.drawChain(ctx);
 		this.drawSymbol(ctx);
 		ctx.restore();
 	}

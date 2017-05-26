@@ -38,7 +38,7 @@ class AppMain {
 
 			if (!ctrlKey) {
 				if (target instanceof Person) {
-if (target.prevActor) console.log('prevActor:' + target.prevActor.info);
+if (target.prevActor) console.log('G' + target.generation + '|prevActor:' + target.prevActor.info);
 					this.inputPanel.open(target);
 					return;
 				}
@@ -125,7 +125,7 @@ console.log('person[G' + person.generation + ']:' + person.info);
 
 					relation.id = parents.id;
 					relation.type = parents.type;
-					father.addPartner(relation);
+//					father.addPartner(relation);
 //console.log('father:');
 //console.log(father);
 //console.log('mother:');
@@ -154,8 +154,8 @@ class SettingPanel {
 
 	setupEvents() {
 		if (0 < this.appMain.documentId.length) {
-			saveButton.classList.remove('ui-state-disabled');
-			saveButton.addEventListener('click', ()=> {this.save()});
+			this.saveButton.classList.remove('ui-state-disabled');
+			this.saveButton.addEventListener('click', ()=> {this.save()});
 		}
 	}
 

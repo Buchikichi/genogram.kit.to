@@ -9,13 +9,6 @@ class PartnerPanel {
 	setupEvents() {
 		let mChildButton = document.getElementById('mChildButton');
 		let fChildButton = document.getElementById('fChildButton');
-		let addChild = gender => {
-			let child = new Person(gender);
-
-			this.relation.addChild(child);
-			Field.Instance.addActor(child);
-			this.setupChildren();
-		}
 
 		$('[name="relationType"]').click(()=> {
 			let val = $('[name="relationType"]:checked').val();
@@ -23,10 +16,10 @@ class PartnerPanel {
 			this.relation.type = val;
 		});
 		mChildButton.addEventListener('click', ()=> {
-			addChild('m');
+			this.addChild('m');
 		});
 		fChildButton.addEventListener('click', ()=> {
-			addChild('f');
+			this.addChild('f');
 		});
 		$(this.childrenView).sortable({
 			stop: (event, ui)=> {
@@ -37,6 +30,22 @@ class PartnerPanel {
 		$(this.panel).panel({close: () => {
 			Field.Instance.clearSelection();
 		}});
+	}
+
+	addChild(gender) {
+		let field = Field.Instance;
+		let father = this.relation.father;
+
+//console.log(field.numOfGeneration + '/min:' + field.minGeneration + '/max:' + field.maxGeneration);
+		if (father.generation == field.maxGeneration && field.numOfGeneration == Field.MAX_GENERATION) {
+			alert('世代数は、' + Field.MAX_GENERATION + 'までの設定になっています。');
+			return;
+		}
+		let child = new Person(gender);
+
+		this.relation.addChild(child);
+		Field.Instance.addActor(child);
+		this.setupChildren();
 	}
 
 	makeChainList() {

@@ -81,13 +81,21 @@ class InputPanel {
 	}
 
 	addParents() {
+		let field = Field.Instance;
+
+console.log(field.numOfGeneration + '/min:' + field.minGeneration + '/max:' + field.maxGeneration);
+console.log('person.generation:' + this.person.generation);
+		if (this.person.generation == field.minGeneration && field.numOfGeneration == Field.MAX_GENERATION) {
+			alert('世代数は、' + Field.MAX_GENERATION + 'までの設定になっています。');
+			return;
+		}
 		let father = new Person('m');
 		let mother = new Person('f');
 		let relation = new Relation(father, mother);
 
 		this.person.addParents(relation);
 		this.refreshControls();
-		Field.Instance.addActor(father, mother, relation);
+		field.addActor(father, mother, relation);
 	}
 
 	addPartner() {

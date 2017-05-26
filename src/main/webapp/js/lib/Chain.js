@@ -131,6 +131,7 @@ class Chain extends Actor {
 		if (this.prevActor == other) {
 			return;
 		}
+console.log('[assignActor]');
 		other.prevActor = this;
 		other.x = this.x + rx;
 		other.y = this.y;
@@ -142,11 +143,12 @@ class Chain extends Actor {
 		} else if (0 < ry) {
 			other.generation++;
 		}
+console.log(this.info + ':G' + this.generation + ' -> ' + other.info + ':G' + other.generation);
 		this.nextActor.push(other);
 	}
 
 	addActor(other, rx, ry = 0) {
-console.log('addActor');
+console.log('[addActor]');
 		let next = this.getNextPartner();
 
 		other.prevActor = this;
@@ -172,7 +174,7 @@ console.log('nextあり!');
 		} else if (0 < ry) {
 			other.generation++;
 		}
-//console.log('generation:' + other.generation);
+console.log(this.info + ':G' + this.generation + ' -> ' + other.info + ':G' + other.generation);
 		this.nextActor.push(other);
 	}
 

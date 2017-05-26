@@ -13,6 +13,8 @@ class Field {
 		this.actorList = [];
 		this.dirty = false;
 		this.setupEvents();
+		this.minGeneration = 0;
+		this.maxGeneration = 0;
 		Field.Instance = this;
 	}
 
@@ -61,6 +63,10 @@ class Field {
 			}
 		});
 		return list;
+	}
+
+	get numOfGeneration() {
+		return this.maxGeneration - this.minGeneration + 1;
 	}
 
 	getRelationship(person, other) {
@@ -135,8 +141,14 @@ class Field {
 
 	addActor(...actors) {
 		actors.forEach(act => {
-			if (this.actorList.indexOf(act) == -1) {
-				this.actorList.push(act);
+			if (this.actorList.indexOf(act) != -1) {
+				// 既に存在
+				return;
+			}
+			this.actorList.push(act);
+			if (act instanceof Person) {
+				this.minGeneration = Math.min(this.minGeneration, act.generation);
+				this.maxGeneration = Math.max(this.maxGeneration, act.generation);
 			}
 		});
 		this.dirty = true;
@@ -318,3 +330,4 @@ console.log('[dirty]' + this.actorList.length);
 		ctx.restore();
 	}
 }
+Field.MAX_GENERATION = 3;

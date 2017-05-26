@@ -25,7 +25,7 @@
     <input type="hidden" name="id" th:value="${diagram.id}"/>
     <input type="hidden" name="documentId" th:value="${diagram.documentId}"/>
   </div>
-  <div id="settingPanel" data-role="panel" data-position="left" data-position-fixed="true">
+  <div id="settingPanel" data-role="panel" data-position="left" data-swipe-close="false">
     <form>
       <input type="text" name="documentId" th:value="${diagram.documentId}" disabled="disabled"/>
       <label>Description:<textarea name="description" th:text="${diagram.description}"></textarea></label>
@@ -37,7 +37,7 @@
       <button type="button" data-rel="close">Close</button>
     </form>
   </div>
-  <div id="inputPanel" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay" data-animate="false">
+  <div id="inputPanel" data-role="panel" data-position="right" data-swipe-close="false" data-display="overlay" data-animate="false">
     <form>
       <label>Name:<input name="name" type="text"/></label>
       <label for="productDescription">Description:</label>
@@ -54,8 +54,9 @@
     <button id="parentsButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u">Parents</button>
     <button id="partnerButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus">Partner</button>
     <button name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close">Delete</button>
+    <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all">Close</button>
   </div>
-  <div id="partnerPanel" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay">
+  <div id="partnerPanel" data-role="panel" data-position="right" data-display="overlay">
     <form>
       <label>Father:<input type="text" name="father" readonly="readonly"/></label>
       <label>Mother:<input type="text" name="mother" readonly="readonly"/></label>
@@ -70,7 +71,7 @@
       <ul id="childrenView" data-role="listview" data-inset="true"></ul>
     </form>
   </div>
-  <div id="relationPanel" data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay">
+  <div id="relationPanel" data-role="panel" data-position="right" data-display="overlay">
     <form>
       <label>From:<input type="text" name="from" readonly="readonly"/></label>
       <label>To:<input type="text" name="to" readonly="readonly"/></label>
