@@ -182,7 +182,7 @@ console.log(this.info + ':G' + this.generation + ' -> ' + other.info + ':G' + ot
 	}
 
 	addActor(other, rx, ry = 0) {
-console.log('[addActor]');
+console.log('Chain#addActor');
 		let next = this.getNextPartner();
 
 		other.prevActor = this;
@@ -193,13 +193,13 @@ console.log('[addActor]');
 		if (next) {
 			let ix = this.nextActor.indexOf(next);
 
-console.log('nextあり!');
+console.log(other.info + ' -> ' + next.info);
 			next.prevActor = other;
 			next.rx = rx;
 			next.ry = ry;
 			other.rx = next.rx;
 			other.ry = next.ry;
-			other.nextActor.push(other);
+			other.nextActor.push(next);
 			this.nextActor.splice(ix, 1);
 		}
 		other.generation = this.generation;
@@ -272,27 +272,27 @@ console.log(this.info + ':G' + this.generation + ' -> ' + other.info + ':G' + ot
 	}
 
 	addPartner(partner) {
-console.log('[addPartner]');
+console.log('Chain#addPartner:' + this.info);
 		let prev = this.getPrevPartner();
 		let next = this.getNextPartner();
+		let addToPrev = false;
+		let dir = this.isMale ? 2 : -2;
 
-		if (this.isMale) {
-			this.addActor(partner, 2);
-			// TODO
-			return;
-		}
-		// Female
 		if (prev) {
-console.log('prevあり');
-console.log(prev);
-			this.insertActor(partner, 2);
-		} else {
-console.log('prevなし');
-// TODO nextありの判定
-			if (next) {
-console.log('nextあり');
+			// 以下を三項演算子にすると closure-compiler の最適化で想定外の動作になる
+			if (this.isMale) {
+				addToPrev = (this.x < prev.x);
+			} else {
+				addToPrev = (prev.x < this.x);
 			}
-			this.assignActor(partner, this.isMale ? 2 : -2);
+//console.log('isMale:' + this.isMale + '|x:' + this.x + '|prev:' + prev.x);
+		}
+		if (addToPrev) {
+//console.log('addToPrev');
+			prev.addActor(partner, -dir);
+		} else {
+//console.log('prevなし');
+			this.addActor(partner, dir);
 		}
 	}
 }
@@ -371,14 +371,14 @@ class Ties extends Chain {
 	}
 
 	addParents(relation) {
-console.log('== addParents ==');
+console.log('Ties#addParents');
 		let parent = relation.leftSide;
 
-		if (parent.prevActor == null) {
-			this.assignActor(parent, 0, -2);
-		}
 		parent.addPartner(relation);
 		relation.addChild(this);
+//		if (parent.prevActor == null) {
+//			this.assignActor(parent, 0, -2);
+//		}
 		this.reserve(relation, relation.leftSide, relation.rightSide);
 	}
 
@@ -435,6 +435,7 @@ console.log('== addParents ==');
 		if (this.hasRelation(relation)) {
 			return this.relationList.length;
 		}
+console.log('Ties#addPartner');
 		let len = this.relationList.unshift(relation);
 		let partner = relation.getPartner(this);
 		let isRev = partner.hasRelation(relation);

@@ -173,6 +173,7 @@ class Relation extends Actor {
 	}
 
 	addChild(child) {
+console.log('Relation#addChild');
 		let len = this.children.length;
 
 		child.parents = this;
@@ -189,8 +190,13 @@ class Relation extends Actor {
 				older.assignActor(child, 2);
 			}
 		} else {
-console.log('father.assignActor');
-			this.father.assignActor(child, 0, 2);
+			if (child.prevActor) {
+console.log('child.assign father');
+				child.assignActor(this.father, 0, -2);
+			} else {
+console.log('father.assign child');
+				this.father.assignActor(child, 0, 2);
+			}
 		}
 		this.reassign();
 	}

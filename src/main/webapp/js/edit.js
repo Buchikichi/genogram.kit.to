@@ -39,6 +39,9 @@ class AppMain {
 			if (!ctrlKey) {
 				if (target instanceof Person) {
 if (target.prevActor) console.log('G' + target.generation + '|prevActor:' + target.prevActor.info);
+target.nextActor.forEach(nx => {
+	console.log('(' + target.info + '->' + nx.info + ')');
+});
 					this.inputPanel.open(target);
 					return;
 				}
@@ -109,7 +112,7 @@ if (target.prevActor) console.log('G' + target.generation + '|prevActor:' + targ
 			diagram.personList.forEach((rec, ix) => {
 				let person = personMap[rec.id];
 
-console.log('person[G' + person.generation + ']:' + person.info);
+console.log('*person:' + person.info);
 //console.log(person);
 				if (ix == 0) {
 //					person.principal = true;
@@ -125,12 +128,8 @@ console.log('person[G' + person.generation + ']:' + person.info);
 
 					relation.id = parents.id;
 					relation.type = parents.type;
-//console.log('father:');
-//console.log(father);
-//console.log('mother:');
-//console.log(mother);
+console.log('father:' + father.info + '/mother:' + mother.info);
 					person.addParents(relation);
-//					this.field.addActor(relation);
 				}
 				this.field.addActor(person);
 			});
