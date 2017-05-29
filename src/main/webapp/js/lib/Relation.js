@@ -209,9 +209,10 @@ console.log('father.assignActor');
 		let rightOc = this.rightSide.ancestorOccupancy(new Occupancy(this.rightSide));
 		let diff = rightOc.left - leftOc.right - 2;
 
-//console.log('diff:' + diff);
-		if (diff) {
-			this.mother.rx -= diff;
+		if (diff != 0) {
+//console.log('diff:' + diff + '/' + leftOc.right + '|' + rightOc.left);
+
+			this.leftSide.leave(this.rightSide);
 			return true;
 		}
 		return false;

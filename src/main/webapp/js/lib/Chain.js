@@ -12,14 +12,20 @@ class Chain extends Actor {
 	 * 目標の位置X.
 	 */
 	get ax() {
-		return this.prevActor.x + this.rx;
+		if (this.prevActor) {
+			return this.prevActor.ax + this.rx;
+		}
+		return this.x;
 	}
 
 	/**
 	 * 目標の位置Y.
 	 */
 	get ay() {
-		return this.prevActor.y + this.ry;;
+		if (this.prevActor) {
+			return this.prevActor.ay + this.ry;
+		}
+		return this.y;
 	}
 
 	/**
@@ -121,7 +127,35 @@ class Chain extends Actor {
 	/**
 	 * 距離を置く.
 	 */
-	leave(other) {
+	leave(other, dist = 1) {
+		if (!this.rest || !other.rest) {
+			return;
+		}
+		let diff = other.x - this.x;
+
+		if (this.prevActor == other) {
+//console.log('leave:this:' + diff);
+			if (diff < 0) {
+				this.rx++;
+			} else if (0 < diff) {
+				this.rx--;
+			}
+			if (8 < Math.abs(this.rx)) {
+				// TODO 固定値 8 をどうにかする
+console.log('**error** #leave.this/rx:' + this.rx);
+				this.rx %= 8;
+			}
+		} else if (other.prevActor == this) {
+//console.log('leave:other:' + dist);
+			if (diff < 0) {
+				other.rx--;
+			} else if (0 < diff) {
+				other.rx++;
+			}
+		} else {
+console.log('**error** #leave.else');
+console.log(this);
+		}
 	}
 
 	/**

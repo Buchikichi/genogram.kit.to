@@ -6,7 +6,7 @@ class Occupancy {
 		this.bottom = bottom;
 		this.personList = [];
 		if (person) {
-			let x = person.x;
+			let x = person.ax;
 
 			this.left = x;
 			this.right = x;
