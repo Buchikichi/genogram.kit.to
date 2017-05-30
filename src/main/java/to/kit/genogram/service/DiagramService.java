@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import to.kit.genogram.entity.Diagram;
 import to.kit.genogram.entity.Partner;
 import to.kit.genogram.entity.Person;
+import to.kit.genogram.entity.Relationship;
 import to.kit.genogram.repository.DiagramRepository;
 
 /**
@@ -85,9 +86,12 @@ public class DiagramService {
 				parents.setUpdated(new Date());
 			}
 		}
+		for (Relationship relationship: diagram.getRelationshipList()) {
+			relationship.setDiagram(diagram);
+			relationship.setUpdated(new Date());
+		}
 		Diagram saved = this.diagramRepository.saveAndFlush(diagram);
 
-//		savePersonlist(saved, personList);
 		return saved;
 	}
 }

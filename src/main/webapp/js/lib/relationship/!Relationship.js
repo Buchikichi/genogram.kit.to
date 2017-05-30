@@ -134,3 +134,6 @@ class Relationship extends Actor {
 		return relation
 	}
 }
+Relationship.Type = {
+	Close: 1,
+};

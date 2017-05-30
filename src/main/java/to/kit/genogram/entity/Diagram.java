@@ -39,4 +39,9 @@ public class Diagram {
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonManagedReference
 	private List<Person> personList;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "diagram", cascade = CascadeType.ALL)
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonManagedReference
+	private List<Relationship> relationshipList;
 }

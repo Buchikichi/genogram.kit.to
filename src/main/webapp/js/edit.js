@@ -79,7 +79,7 @@ target.nextActor.forEach(nx => {
 			this.initSandbox(root);
 			return;
 		}
-		this.loadPersons(root);
+		this.loadDiagram(root);
 //this.field.actorList.push(new EnclosingLine());
 	}
 
@@ -103,37 +103,54 @@ target.nextActor.forEach(nx => {
 		return map;
 	}
 
-	loadPersons(root) {
+	loadDiagram(root) {
 		let entity = new DiagramEntity();
 
 		entity.select(this.diagramId).then(diagram => {
-			let personList = diagram.personList;
-			let personMap = this.makePersonMap(personList);
-			let seq = 0;
+			let personMap = this.makePersonMap(diagram.personList);
 
-			personMap[diagram.personId].principal = true;
-			personList.forEach((rec, ix) => {
-				let person = personMap[rec.id];
+			this.loadPersons(root, diagram, personMap);
+			this.loadRelationship(diagram, personMap);
+		});
+	}
+
+	loadPersons(root, diagram, personMap) {
+		let seq = 0;
+
+		personMap[diagram.personId].principal = true;
+		diagram.personList.forEach((rec, ix) => {
+			let person = personMap[rec.id];
 
 console.log('*** #' + rec.seq + '.' + person.info + ' ***');
-				seq = rec.seq;
-				if (ix == 0) {
-					root.assignActor(person);
-				}
-				if (rec.parents) {
-					let parents = rec.parents;
-					let father = personMap[parents.person.id];
-					let mother = personMap[parents.other.id];
+			seq = rec.seq;
+			if (ix == 0) {
+				root.assignActor(person);
+			}
+			if (rec.parents) {
+				let parents = rec.parents;
+				let father = personMap[parents.person.id];
+				let mother = personMap[parents.other.id];
 console.log('  *  father:' + father.info + '/mother:' + mother.info);
-					let relation = this.field.createPair(father, mother);
+				let relation = this.field.createPair(father, mother);
 
-					relation.id = parents.id;
-					relation.type = parents.type;
-					person.addParents(relation);
-				}
-				this.field.addActor(person);
-			});
-			Tally.reset(seq);
+				relation.id = parents.id;
+				relation.type = parents.type;
+				person.addParents(relation);
+			}
+			this.field.addActor(person);
+		});
+		Tally.reset(seq);
+	}
+
+	loadRelationship(diagram, personMap) {
+		diagram.relationshipList.forEach(rel => {
+//console.log('rel type:' + rel.type);
+//console.log(rel);
+			let person = personMap[rel.person.id];
+			let other = personMap[rel.other.id];
+			let relationship = Relationship.create('fused', person, other);
+
+			this.field.addActor(relationship);
 		});
 	}
 
@@ -197,6 +214,21 @@ console.log('person:' + actor.id);
 		});
 	}
 
+	createRelationshipList(formData) {
+		let field = this.appMain.field;
+		let relationshipList = field.relationshipList;
+
+		relationshipList.forEach((rel, ix) => {
+			let prefix = 'relationshipList[' + ix + '].';
+
+			formData.append(prefix + 'id', rel.id);
+// TODO 正しい値にする
+			formData.append(prefix + 'type', Relationship.Type.Close);
+			formData.append(prefix + 'person.id', rel.person.id);
+			formData.append(prefix + 'other.id', rel.other.id);
+		});
+	}
+
 	save() {
 		let settingPanel = document.getElementById('settingPanel');
 		let description = settingPanel.querySelector('[name="description"]');
@@ -211,6 +243,7 @@ console.log('person:' + actor.id);
 		formData.append('description', description.value);
 		formData.append('image', canvas.toDataURL());
 		this.createPersonList(formData);
+		this.createRelationshipList(formData);
 		$.mobile.loading('show', {text: 'Save...', textVisible: true});
 		entity.save(formData).then(data => {
 			$.mobile.loading('hide');

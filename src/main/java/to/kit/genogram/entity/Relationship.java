@@ -16,12 +16,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 /**
- * パートナーエンティティ.
+ * リレーションシップエンティティ.
  * @author H.Sasai
  */
 @Entity
 @Data
-public class Partner {
+public class Relationship {
 	@Id
 	private String id;
 	private String type;
@@ -41,9 +41,4 @@ public class Partner {
 	@OneToOne
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Person other;
-
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parents")
-//	@JsonBackReference
-////	@JsonManagedReference
-//	private List<Person> children;
 }

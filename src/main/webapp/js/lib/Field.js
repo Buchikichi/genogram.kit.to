@@ -76,6 +76,17 @@ class Field {
 		return list;
 	}
 
+	get relationshipList() {
+		let list = [];
+
+		this.actorList.forEach(actor => {
+			if (actor instanceof Relationship) {
+				list.push(actor);
+			}
+		});
+		return list;
+	}
+
 	get numOfGeneration() {
 		return this.maxGeneration - this.minGeneration + 1;
 	}
