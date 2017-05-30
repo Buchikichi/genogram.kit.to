@@ -281,7 +281,7 @@ console.log('[dirty]' + this.actorList.length);
 			if (!actor.isGone) {
 				this.actorList.push(actor);
 				actor.spawn.forEach(roe => {
-					if (list.indexOf() == -1) {
+					if (list.indexOf(roe) == -1 && this.actorList.indexOf(roe) == -1) {
 						this.addActor(roe);
 					}
 				});

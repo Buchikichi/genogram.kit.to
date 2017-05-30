@@ -193,6 +193,7 @@ console.log('Relation#addChild');
 			if (child.prevActor) {
 console.log('child.assign father');
 				child.assignActor(this.father, 0, -2);
+				this.mother.generation = this.father.generation;
 			} else {
 console.log('father.assign child');
 				this.father.assignActor(child, 0, 2);
