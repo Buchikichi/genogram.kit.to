@@ -100,21 +100,11 @@ console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
 		ul.textContent = null;
 		this.relation.children.forEach(child => {
 			let name = document.createElement('span');
-			let description = document.createElement('p');
 			let anchor = document.createElement('a');
 			let li = document.createElement('li');
 
 			name.textContent = child.info;
-			description.textContent = child.description;
 			anchor.appendChild(name);
-			anchor.appendChild(description);
-//			if (child.age) {
-//				let count = document.createElement('span');
-//
-//				count.classList.add('ui-li-count');
-//				count.textContent = child.age;
-//				anchor.appendChild(count);
-//			}
 			li.appendChild(anchor);
 			li.setAttribute('data-id', child.id);
 			li.setAttribute('data-icon', false);

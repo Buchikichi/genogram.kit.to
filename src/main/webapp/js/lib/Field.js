@@ -218,7 +218,6 @@ console.log('[dirty]' + this.actorList.length);
 		this.focus.x = 0;
 		this.focus.y = 0;
 //		this.focus.scanAll(list);
-		Tally.reset();
 //		this.focus.calculate();
 /*
 		this.actorList.forEach(person => {

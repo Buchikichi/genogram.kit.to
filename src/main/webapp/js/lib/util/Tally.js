@@ -1,6 +1,6 @@
 class Tally {
-	static reset() {
-		Tally.val = 0;
+	static reset(val = 0) {
+		Tally.val = val;
 	}
 
 	static increment() {

@@ -107,32 +107,33 @@ target.nextActor.forEach(nx => {
 		let entity = new DiagramEntity();
 
 		entity.select(this.diagramId).then(diagram => {
-			let personMap = this.makePersonMap(diagram.personList);
+			let personList = diagram.personList;
+			let personMap = this.makePersonMap(personList);
+			let seq = 0;
 
-			diagram.personList.forEach((rec, ix) => {
+			personMap[diagram.personId].principal = true;
+			personList.forEach((rec, ix) => {
 				let person = personMap[rec.id];
 
-console.log('*person:' + person.info);
-//console.log(person);
+console.log('*** #' + rec.seq + '.' + person.info + ' ***');
+				seq = rec.seq;
 				if (ix == 0) {
-//					person.principal = true;
 					root.assignActor(person);
 				}
 				if (rec.parents) {
 					let parents = rec.parents;
-//console.log('parents:');
-//console.log(parents);
 					let father = personMap[parents.person.id];
 					let mother = personMap[parents.other.id];
+console.log('  *  father:' + father.info + '/mother:' + mother.info);
 					let relation = this.field.createPair(father, mother);
 
 					relation.id = parents.id;
 					relation.type = parents.type;
-console.log('father:' + father.info + '/mother:' + mother.info);
 					person.addParents(relation);
 				}
 				this.field.addActor(person);
 			});
+			Tally.reset(seq);
 		});
 	}
 
@@ -170,12 +171,15 @@ class SettingPanel {
 			let parents = actor.parents;
 			let prefix = 'personList[' + ix + '].';
 
+			if (actor.principal) {
+				formData.append('personId', actor.id);
+			}
 			Person.Properties.forEach(prop => {
 				formData.append(prefix + prop, actor[prop]);
 			});
 console.log('person:' + actor.id);
 			if (parents) {
-console.log('親:' + parents.father.id + '|' + parents.mother.id);
+//console.log('親:' + parents.father.id + '|' + parents.mother.id);
 				let pp = prefix + 'parents.';
 				let parentsId = parents.id;
 
@@ -204,7 +208,6 @@ console.log('親:' + parents.father.id + '|' + parents.mother.id);
 
 		formData.append('id', this.appMain.diagramId);
 		formData.append('documentId', this.appMain.documentId);
-		formData.append('personId', 'test');
 		formData.append('description', description.value);
 		formData.append('image', canvas.toDataURL());
 		this.createPersonList(formData);

@@ -1,5 +1,7 @@
 package to.kit.genogram.service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +41,16 @@ public class DiagramService {
 	 */
 	@Transactional
 	public Diagram select(String id) {
-		return this.diagramRepository.findOne(id);
+		Diagram diagram = this.diagramRepository.findOne(id);
+		List<Person> personList = diagram.getPersonList();
+
+		Collections.sort(personList, new Comparator<Person>() {
+			@Override
+			public int compare(Person o1, Person o2) {
+				return o1.getSeq() - o2.getSeq();
+			}
+		});
+		return diagram;
 	}
 
 	/**

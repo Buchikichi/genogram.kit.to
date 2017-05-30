@@ -8,9 +8,7 @@ class Chain extends Actor {
 		this.generation  = 0;
 	}
 
-	/**
-	 * 目標の位置X.
-	 */
+	/** 目標の位置X. */
 	get ax() {
 		if (this.prevActor) {
 			return this.prevActor.ax + this.rx;
@@ -18,9 +16,7 @@ class Chain extends Actor {
 		return this.x;
 	}
 
-	/**
-	 * 目標の位置Y.
-	 */
+	/** 目標の位置Y. */
 	get ay() {
 		if (this.prevActor) {
 			return this.prevActor.ay + this.ry;
@@ -28,9 +24,7 @@ class Chain extends Actor {
 		return this.y;
 	}
 
-	/**
-	 * 静止中.
-	 */
+	/** 静止中. */
 	get rest() {
 		if (!this.prevActor) {
 			return true;
@@ -188,7 +182,7 @@ console.log('Chain#addActor');
 		other.prevActor = this;
 		other.rx = rx;
 		other.ry = ry;
-		other.x = this.x;
+		other.x = this.x + rx;
 		other.y = this.y;
 		if (next) {
 			let ix = this.nextActor.indexOf(next);
@@ -197,6 +191,7 @@ console.log(other.info + ' -> ' + next.info);
 			next.prevActor = other;
 			next.rx = rx;
 			next.ry = ry;
+			next.x = other.x + rx;
 			other.rx = next.rx;
 			other.ry = next.ry;
 			other.nextActor.push(next);
@@ -334,6 +329,14 @@ class Ties extends Chain {
 			return null;
 		}
 		return this.parents.father;
+	}
+
+	/** 何番目の子か. */
+	get bornOrder() {
+		if (!this.parents) {
+			return 0;
+		}
+		return this.parents.getBornOrder(this);
 	}
 
 	get numOfPartner() {

@@ -202,6 +202,10 @@ console.log('father.assign child');
 		this.reassign();
 	}
 
+	getBornOrder(child) {
+		return this.children.indexOf(child) + 1;
+	}
+
 	reassignOccupancy() {
 		let hasBothParents = this.father.parents && this.mother.parents;
 
@@ -239,7 +243,8 @@ console.log('father.assign child');
 //console.log(child.info + ': width:' + oc.width + ',' + oc.left + '|' + oc.right);
 			if (child.isMale) {
 				if (0 < ix && child.rx != margin) {
-					child.rx = margin;
+//					child.rx = margin;
+					child.leave(child.prevActor);
 					result = true;
 				}
 				margin = 2 + oc.width;
@@ -247,7 +252,8 @@ console.log('father.assign child');
 				let rx = oc.width + margin;
 
 				if (0 < ix && child.rx != rx) {
-					child.rx = rx;
+//					child.rx = rx;
+					child.leave(child.prevActor);
 					result = true;
 				}
 				margin = 2;

@@ -27,11 +27,13 @@ import lombok.Data;
 public class Person {
 	@Id
 	private String id;
+	private int seq;
 	private String name;
 	private String description;
 	private float dx;
 	private float dy;
 	private String gender;
+	private int bornOrder;
 	private String dob;
 	private String dod;
 	private String attr;

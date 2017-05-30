@@ -1,6 +1,7 @@
 class Person extends Ties {
 	constructor(gender = '') {
 		super(gender);
+		this.seq = Tally.increment();
 		this.name = AlphabeticalTally.increment();
 		this._description = null;
 		this.dob = ''; // Date of birth
@@ -283,8 +284,8 @@ if (this.touched) {
 	}
 
 	drawOccupancy(ctx) {
-//		this.drawAncestorOccupancy(ctx);
-		this.drawDescendantOccupancy(ctx);
+		this.drawAncestorOccupancy(ctx);
+//		this.drawDescendantOccupancy(ctx);
 	}
 
 	drawChain(ctx) {
@@ -353,4 +354,4 @@ if (this.touched) {
 		return person;
 	}
 }
-Person.Properties = ['id', 'name', 'description', 'dx', 'dy', 'gender', 'dob', 'dod', 'attr'];
+Person.Properties = ['id', 'seq', 'name', 'description', 'dx', 'dy', 'gender', 'bornOrder', 'dob', 'dod', 'attr'];
