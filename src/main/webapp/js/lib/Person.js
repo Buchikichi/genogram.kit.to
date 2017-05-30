@@ -284,6 +284,9 @@ if (this.touched) {
 	}
 
 	drawOccupancy(ctx) {
+		if (!Field.DEBUG) {
+			return;
+		}
 		this.drawAncestorOccupancy(ctx);
 //		this.drawDescendantOccupancy(ctx);
 	}
@@ -334,9 +337,11 @@ if (this.touched) {
 
 		ctx.save();
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
-//this.drawOccupancy(ctx);
+		this.drawOccupancy(ctx);
 		ctx.translate(x, y);
-//this.drawChain(ctx);
+		if (Field.DEBUG) {
+			this.drawChain(ctx);
+		}
 		this.drawSymbol(ctx);
 		ctx.restore();
 	}

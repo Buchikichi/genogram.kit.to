@@ -78,5 +78,6 @@ class RelationPanel {
 		}
 		this.setupForm();
 		$(this.panel).panel('open');
+		window.getSelection().collapse(document.body, 0);
 	}
 }

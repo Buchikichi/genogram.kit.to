@@ -357,4 +357,5 @@ console.log('[dirty]' + this.actorList.length);
 		ctx.restore();
 	}
 }
-Field.MAX_GENERATION = 3;
+Field.DEBUG = false;
+Field.MAX_GENERATION = Field.DEBUG ? 99 : 3;
