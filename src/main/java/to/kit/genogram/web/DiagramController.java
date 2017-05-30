@@ -1,9 +1,16 @@
 package to.kit.genogram.web;
 
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,6 +70,34 @@ public class DiagramController {
 		}
 		model.addAttribute("diagram", diagram);
 		return "edit";
+	}
+
+	/**
+	 * イメージ表示.
+	 * @param documentId ドキュメントID
+	 * @return 画面名
+	 */
+	@RequestMapping("/image/{id}")
+	@ResponseBody
+	public ResponseEntity<Resource> image(@PathVariable("id") String documentId) {
+		Diagram diagram = this.diagramService.detail(documentId);
+		HttpHeaders headers = new HttpHeaders();
+
+		if (diagram == null) {
+			return new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
+		}
+		String image = diagram.getImage();
+		if (image == null || image.isEmpty()) {
+			return new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
+		}
+		String[] elements = image.split("[:;,]");
+		String type = elements[1];
+		String base64 = elements[3];
+		byte[] bytes = Base64.getMimeDecoder().decode(base64);
+		Resource resource = new ByteArrayResource(bytes);
+
+		headers.setContentType(MediaType.valueOf(type));
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
 
 	/**
