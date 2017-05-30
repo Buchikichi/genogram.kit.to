@@ -91,20 +91,21 @@ console.log('person.generation:' + this.person.generation);
 		}
 		let father = new Person('m');
 		let mother = new Person('f');
-		let relation = new Relation(father, mother);
+		let relation = field.createPair(father, mother);
 
 		this.person.addParents(relation);
 		this.refreshControls();
 	}
 
 	addPartner() {
+		let field = Field.Instance;
 		let gender = this.person.isMale ? 'f' : 'm';
 		let partner = new Person(gender);
-		let relation = new Relation(this.person, partner);
+		let relation = field.createPair(this.person, partner);
 
 		this.person.addPartner(relation);
 		this.refreshControls();
-		Field.Instance.addActor(partner, relation);
+		field.addActor(partner);
 	}
 
 	refreshControls() {

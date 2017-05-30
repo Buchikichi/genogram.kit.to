@@ -90,6 +90,7 @@ class Field {
 		});
 		if (result == null) {
 			result = new Relation(person, other);
+			this.addActor(result);
 		}
 		return result;
 	}

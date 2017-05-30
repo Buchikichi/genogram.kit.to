@@ -160,6 +160,7 @@ class SettingPanel {
 	createPersonList(formData) {
 		let field = this.appMain.field;
 		let personList = field.personList;
+		let parentsList = [];
 		let ix = 0;
 
 		personList.sort((a, b) => {
@@ -174,9 +175,16 @@ class SettingPanel {
 			});
 console.log('person:' + actor.id);
 			if (parents) {
-				let pp = prefix + 'parents.';
 console.log('親:' + parents.father.id + '|' + parents.mother.id);
-				formData.append(pp + 'id', parents.id);
+				let pp = prefix + 'parents.';
+				let parentsId = parents.id;
+
+				if (parentsList.indexOf(parents) == -1) {
+					parentsList.push(parents);
+				} else {
+					parentsId = UUID.toString();
+				}
+				formData.append(pp + 'id', parentsId);
 				formData.append(pp + 'type', parents.type);
 				formData.append(pp + 'person.id', parents.father.id);
 				formData.append(pp + 'other.id', parents.mother.id);

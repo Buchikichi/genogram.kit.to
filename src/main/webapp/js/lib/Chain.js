@@ -379,7 +379,7 @@ console.log('Ties#addParents');
 //		if (parent.prevActor == null) {
 //			this.assignActor(parent, 0, -2);
 //		}
-		this.reserve(relation, relation.leftSide, relation.rightSide);
+		this.reserve(relation.leftSide, relation.rightSide);
 	}
 
 	/**
