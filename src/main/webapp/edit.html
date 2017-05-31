@@ -28,34 +28,42 @@
   <div id="settingPanel" data-role="panel" data-position="left" data-swipe-close="false">
     <form>
       <input type="text" name="documentId" th:value="${diagram.documentId}" disabled="disabled"/>
-      <label>Description:<textarea name="description" th:text="${diagram.description}"></textarea></label>
+      <textarea name="description" th:text="${diagram.description}" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
       <label>Grid:<input type="checkbox" name="grid" data-role="flipswitch" data-on-text="ON" data-off-text="OFF" checked="checked"/></label>
       <input type="range" name="gridSpacing" min="30" max="120" step="10" value="80"/>
       <label>Name:<input type="checkbox" name="showName" data-role="flipswitch" data-on-text="ON" data-off-text="OFF"/></label>
       <label>Font size:<input type="range" name="fontSize" min="8" max="40" step="4" value="20"/></label>
-      <button id="saveButton" type="button" data-theme="b" class="ui-state-disabled">Save</button>
-      <button type="button" data-rel="close">Close</button>
+      <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled">Save</button>
+      <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all" th:text="#{button.close}">Close</button>
     </form>
   </div>
   <div id="inputPanel" data-role="panel" data-position="right" data-swipe-close="false" data-display="overlay" data-animate="false">
     <form>
-      <input name="name" type="text" placeholder="Name"/>
-      <label for="productDescription">Description:</label>
-      <textarea id="productDescription" name="description" placeholder="Description"></textarea>
+      <input name="name" type="text" placeholder="Name" th:placeholder="#{placeholder.name}"/>
+      <textarea name="description" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
       <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <label>Male<input name="gender" type="radio" value="m"/></label>
-        <label>Female<input name="gender" type="radio" value="f"/></label>
-        <label>Unclear<input name="gender" type="radio" value=""/></label>
+        <label for="gm" th:text="#{label.male}">Male</label><input id="gm" name="gender" type="radio" value="m"/>
+        <label for="gf" th:text="#{label.female}">Female</label><input id="gf" name="gender" type="radio" value="f"/>
+        <label for="gu" th:text="#{label.unclear}">Unclear</label><input id="gu" name="gender" type="radio" value=""/>
       </fieldset>
-      <label>Age:<input name="age" type="number" min="0" max="120"/></label>
-      <label>Date of birth:<input name="dob" type="date"/></label>
-      <label>Date of death:<input name="dod" type="date"/></label>
-      <button id="parentsButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u">Parents</button>
-      <button id="partnerButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus">Partner</button>
+      <div class="ui-field-contain">
+        <label for="input-age" th:text="#{label.age}">Age:</label>
+        <input id="input-age" name="age" type="number" min="0" max="120"/>
+      </div>
+      <div class="ui-field-contain">
+        <label for="input-dob" th:text="#{label.dob}">Date of birth:</label>
+        <input id="input-dob" name="dob" type="date"/>
+      </div>
+      <div class="ui-field-contain">
+        <label for="input-dod" th:text="#{label.dod}">Date of death:</label>
+        <input id="input-dod" name="dod" type="date"/>
+      </div>
+      <button id="parentsButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u" th:text="#{button.parents}">Parents</button>
+      <button id="partnerButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.partner}">Partner</button>
       <ul id="partnerView" data-role="listview" data-inset="true"></ul>
     </form>
-    <button name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" disabled="disabled">Delete</button>
-    <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all">Close</button>
+    <button name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" disabled="disabled" th:text="#{button.delete}">Delete</button>
+    <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all" th:text="#{button.close}">Close</button>
   </div>
   <div id="partnerPanel" data-role="panel" data-position="right" data-display="overlay">
     <form>

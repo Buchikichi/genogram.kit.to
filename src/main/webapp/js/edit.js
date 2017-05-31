@@ -244,7 +244,7 @@ console.log(ix + ':' + person.id);
 			$.mobile.loading('hide');
 			if (data.ok) {
 				$(settingPanel).panel('close');
-				content.textContent = 'Stage saved.';
+				content.textContent = '保存しました。';
 			} else {
 				content.textContent = 'Save failed.';
 			}
