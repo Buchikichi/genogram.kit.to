@@ -10,11 +10,14 @@ class ChainRoot extends Chain {
 	}
 
 	draw(ctx) {
-//		ctx.save();
-//		ctx.beginPath();
-//		ctx.arc(0, 0, this.radius, 0, Math.PI * 2, false);
-//		ctx.fillStyle = 'green';
-//		ctx.fill();
-//		ctx.restore();
+		if (!Field.DEBUG) {
+			return;
+		}
+		ctx.save();
+		ctx.beginPath();
+		ctx.arc(0, 0, this.radius, 0, Math.PI * 2, false);
+		ctx.fillStyle = 'green';
+		ctx.fill();
+		ctx.restore();
 	}
 }

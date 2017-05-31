@@ -1,6 +1,7 @@
 class InputPanel {
 	constructor() {
 		this.panel = document.getElementById('inputPanel');
+		this.partnerView = document.getElementById('partnerView');
 		this.person = null;
 		this.setupEvents();
 	}
@@ -138,6 +139,27 @@ console.log('person.generation:' + this.person.generation);
 //		Field.Instance.dirty = true;
 	}
 
+	setupPartner() {
+		let ul = this.partnerView;
+
+console.log('setupPartner');
+		ul.textContent = null;
+		this.person.relationList.forEach(relation => {
+			let partner = relation.getPartner(this.person);
+			let name = document.createElement('span');
+			let anchor = document.createElement('a');
+			let li = document.createElement('li');
+
+			name.textContent = partner.info;
+			anchor.appendChild(name);
+			li.appendChild(anchor);
+			li.setAttribute('data-id', partner.id);
+			li.setAttribute('data-icon', false);
+			ul.appendChild(li);
+		});
+		$(ul).listview('refresh');
+	}
+
 	setupForm() {
 		$('#inputPanel form :input').each((ix, element) => {
 			let name = element.getAttribute('name');
@@ -152,6 +174,7 @@ console.log('person.generation:' + this.person.generation);
 				element.value = val;
 			}
 		});
+		this.setupPartner();
 		this.refreshControls();
 	}
 

@@ -33,10 +33,14 @@ public class Person {
 	private float dx;
 	private float dy;
 	private String gender;
-	private int bornOrder;
 	private String dob;
 	private String dod;
 	private String attr;
+	private int bornOrder;
+	private int generation;
+	private String prevId;
+	private float rx;
+	private float ry;
 	@Column(insertable = false, updatable = false)
 	private Date created;
 	@Column(insertable = false)

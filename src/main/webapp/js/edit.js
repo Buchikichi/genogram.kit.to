@@ -96,9 +96,7 @@ target.nextActor.forEach(nx => {
 		let map = {};
 
 		personList.forEach(rec => {
-			let person = Person.createFromEntity(rec);
-
-			map[person.id] = person;
+			map[rec.id] = Person.createFromEntity(rec);
 		});
 		return map;
 	}
@@ -118,13 +116,15 @@ target.nextActor.forEach(nx => {
 		let seq = 0;
 
 		personMap[diagram.personId].principal = true;
-		diagram.personList.forEach((rec, ix) => {
+		diagram.personList.forEach(rec => {
 			let person = personMap[rec.id];
 
 console.log('*** #' + rec.seq + '.' + person.info + ' ***');
 			seq = rec.seq;
-			if (ix == 0) {
+			if (rec.prevId == null) {
 				root.assignActor(person);
+			} else {
+				person.prevActor = personMap[rec.prevId];
 			}
 			if (rec.parents) {
 				let parents = rec.parents;
@@ -179,22 +179,19 @@ class SettingPanel {
 		let field = this.appMain.field;
 		let personList = field.personList;
 		let parentsList = [];
-		let ix = 0;
 
 		personList.sort((a, b) => {
 			return a.generation - b.generation;
 		});
-		personList.forEach(actor => {
-			let parents = actor.parents;
+		personList.forEach((person, ix) => {
+			let parents = person.parents;
 			let prefix = 'personList[' + ix + '].';
 
-			if (actor.principal) {
-				formData.append('personId', actor.id);
+			if (person.principal) {
+				formData.append('personId', person.id);
 			}
-			Person.Properties.forEach(prop => {
-				formData.append(prefix + prop, actor[prop]);
-			});
-console.log('person:' + actor.id);
+			person.appendTo(formData, prefix);
+console.log(ix + ':' + person.id);
 			if (parents) {
 //console.log('親:' + parents.father.id + '|' + parents.mother.id);
 				let pp = prefix + 'parents.';
@@ -210,7 +207,6 @@ console.log('person:' + actor.id);
 				formData.append(pp + 'person.id', parents.father.id);
 				formData.append(pp + 'other.id', parents.mother.id);
 			}
-			ix++;
 		});
 	}
 

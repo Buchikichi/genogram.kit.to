@@ -50,9 +50,10 @@
       <label>Age:<input name="age" type="number" min="0" max="120"/></label>
       <label>Date of birth:<input name="dob" type="date"/></label>
       <label>Date of death:<input name="dod" type="date"/></label>
+      <button id="parentsButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u">Parents</button>
+      <button id="partnerButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus">Partner</button>
+      <ul id="partnerView" data-role="listview" data-inset="true"></ul>
     </form>
-    <button id="parentsButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u">Parents</button>
-    <button id="partnerButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus">Partner</button>
     <button name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" disabled="disabled">Delete</button>
     <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all">Close</button>
   </div>

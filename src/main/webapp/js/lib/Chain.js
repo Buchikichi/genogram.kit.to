@@ -32,6 +32,14 @@ class Chain extends Actor {
 		return this.x == this.ax && this.y == this.ay;
 	}
 
+	/** 一つ前の位置(保存用). */
+	get prevId() {
+		if (this.prevActor instanceof Person) {
+			return this.prevActor.id;
+		}
+		return null;
+	}
+
 	copyChainProperties(other) {
 		this.x = other.x;
 		this.y = other.y;
@@ -267,12 +275,16 @@ console.log(this.info + ':G' + this.generation + ' -> ' + other.info + ':G' + ot
 	}
 
 	addPartner(partner) {
-console.log('Chain#addPartner:' + this.info);
 		let prev = this.getPrevPartner();
 		let next = this.getNextPartner();
 		let addToPrev = false;
 		let dir = this.isMale ? 2 : -2;
 
+		if (this.prevActor == partner || partner.prevActor == this) {
+			// すでに結合済み
+			return;
+		}
+console.log('Chain#addPartner:' + this.info + '_' + partner.info);
 		if (prev) {
 			// 以下を三項演算子にすると closure-compiler の最適化で想定外の動作になる
 			if (this.isMale) {

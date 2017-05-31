@@ -346,6 +346,19 @@ if (this.touched) {
 		ctx.restore();
 	}
 
+	/**
+	 * フォームに値をセット.(保存用)
+	 */
+	appendTo(form, prefix) {
+		Person.Properties.forEach(prop => {
+			let val = this[prop];
+
+			if (val) {
+				form.append(prefix + prop, val);
+			}
+		});
+	}
+
 	static createFromEntity(rec) {
 		let person = new Person();
 
@@ -359,4 +372,8 @@ if (this.touched) {
 		return person;
 	}
 }
-Person.Properties = ['id', 'seq', 'name', 'description', 'dx', 'dy', 'gender', 'bornOrder', 'dob', 'dod', 'attr'];
+Person.Properties = [
+	'id', 'seq', 'name', 'description', 'dx', 'dy',
+	'gender', 'dob', 'dod', 'attr', 'bornOrder',
+	'prevId', 'rx', 'ry',
+];
