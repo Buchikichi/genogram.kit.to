@@ -109,31 +109,42 @@ class Relationship extends Actor {
 
 	static create(emotion, person, other) {
 		let relation;
-		//<label>融合<input name="emotion" type="radio" value="fused"/></label>
-		//<label>親密<input name="emotion" type="radio" value="close"/></label>
-		//<label>疎遠<input name="emotion" type="radio" value="distant"/></label>
-		//<label>敵対<input name="emotion" type="radio" value="hostile"/></label>
-		//<label>融合し敵対<input name="emotion" type="radio" value="fusedHostile"/></label>
-		//<label>親密で敵対<input name="emotion" type="radio" value="close-hostile"/></label>
-		//<label>遮断<input name="emotion" type="radio" value="cutOff"/></label>
-		//<label>強い関心/干渉<input name="emotion" type="radio" value="focused"/></label>
-		//<label>性的虐待<input name="emotion" type="radio" value="sexualAbuse"/></label>
-		//<label>身体的虐待<input name="emotion" type="radio" value="physicalAbuse"/></label>
-		if (emotion == 'fused') {
+
+		if (emotion == 'Fused') {
+			// 融合
 			relation = new FusedRelation(person, other);
-		} else if (emotion == 'close') {
+		} else if (emotion == 'Close') {
+			// 親密
 			relation = new CloseRelation(person, other);
-		} else if (emotion == 'distant') {
+		} else if (emotion == 'Distant') {
+			// 疎遠
 			relation = new DistantRelation(person, other);
-		} else if (emotion == 'hostile') {
+		} else if (emotion == 'Hostile') {
+			// 敵対
 			relation = new HostileRelation(person, other);
+		} else if (emotion == 'FusedHostile') {
+			// 融合し敵対
+			relation = new Relationship(person, other);
+		} else if (emotion == 'CloseHostile') {
+			// 親密で敵対
+			relation = new Relationship(person, other);
+		} else if (emotion == 'CutOff') {
+			// 遮断
+			relation = new Relationship(person, other);
+		} else if (emotion == 'Focused') {
+			// 強い関心/干渉
+			relation = new Relationship(person, other);
+		} else if (emotion == 'SexualAbuse') {
+			// 性的虐待
+			relation = new Relationship(person, other);
+		} else if (emotion == 'PhysicalAbuse') {
+			// 身体的虐待
+			relation = new Relationship(person, other);
 		} else {
+			// ?
 			relation = new Relationship(person, other);
 		}
 		relation.emotion = emotion;
 		return relation
 	}
 }
-Relationship.Type = {
-	Close: 1,
-};

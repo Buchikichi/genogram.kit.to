@@ -148,7 +148,7 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 //console.log(rel);
 			let person = personMap[rel.person.id];
 			let other = personMap[rel.other.id];
-			let relationship = Relationship.create('fused', person, other);
+			let relationship = Relationship.create(rel.emotion, person, other);
 
 			this.field.addActor(relationship);
 		});
@@ -222,8 +222,7 @@ console.log('person:' + actor.id);
 			let prefix = 'relationshipList[' + ix + '].';
 
 			formData.append(prefix + 'id', rel.id);
-// TODO 正しい値にする
-			formData.append(prefix + 'type', Relationship.Type.Close);
+			formData.append(prefix + 'emotion', rel.emotion);
 			formData.append(prefix + 'person.id', rel.person.id);
 			formData.append(prefix + 'other.id', rel.other.id);
 		});
