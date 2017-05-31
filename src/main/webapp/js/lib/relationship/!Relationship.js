@@ -125,7 +125,7 @@ class Relationship extends Actor {
 		ctx.fillStyle = this.fillStyle;
 		ctx.fillRect(0, 0, width, height);
 		if (this.hit) {
-			ctx.fillStyle = 'rgba(140, 255, 255, 0.5)';
+			ctx.fillStyle = Field.Instance.hitStyle;
 			ctx.fillRect(0, 0, width, height);
 		}
 		ctx.restore();

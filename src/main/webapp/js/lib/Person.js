@@ -2,7 +2,11 @@ class Person extends Ties {
 	constructor(gender = '') {
 		super(gender);
 		this.seq = Tally.increment();
-		this.name = AlphabeticalTally.increment();
+		if (Field.DEBUG) {
+			this.name = AlphabeticalTally.increment();
+		} else {
+			this.name = '';
+		}
 		this._description = null;
 		this.dob = ''; // Date of birth
 		this.dod = ''; // Date of death

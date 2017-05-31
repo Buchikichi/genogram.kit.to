@@ -106,7 +106,6 @@ console.log('person.generation:' + this.person.generation);
 
 		this.person.addPartner(relation);
 		this.refreshControls();
-		field.addActor(partner);
 	}
 
 	refreshControls() {
@@ -142,7 +141,6 @@ console.log('person.generation:' + this.person.generation);
 	setupPartner() {
 		let ul = this.partnerView;
 
-console.log('setupPartner');
 		ul.textContent = null;
 		this.person.relationList.forEach(relation => {
 			let partner = relation.getPartner(this.person);

@@ -54,6 +54,10 @@ class Field {
 		return 'gray';
 	}
 
+	get hitStyle() {
+		return 'rgba(100, 255, 255, 0.6)';
+	}
+
 	get personList() {
 		let list = [];
 
@@ -101,7 +105,7 @@ class Field {
 		});
 		if (result == null) {
 			result = new Relation(person, other);
-			this.addActor(result);
+			this.addActor(person, other, result);
 		}
 		return result;
 	}

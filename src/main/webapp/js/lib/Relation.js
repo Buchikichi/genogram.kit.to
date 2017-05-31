@@ -19,6 +19,13 @@ class Relation extends Actor {
 		this.divorceImage.src = 'img/ralation.divorce.png';
 		this.separateImage = new Image();
 		this.separateImage.src = 'img/ralation.separate.png';
+		this.dottedImage = new Image();
+		this.dottedImage.src = 'img/relation.dotted.png';
+		this.dottedImage.onload = ()=> {
+			let ctx = FlexibleView.Instance.ctx;
+
+			this.dottedStyle = ctx.createPattern(this.dottedImage, 'repeat');
+		};
 	}
 
 	get father() {
@@ -353,6 +360,7 @@ console.log('father.assign child');
 		let bottom = rect.bottom * spacing;
 		let center = rect.center * spacing;
 
+		ctx.save();
 		ctx.beginPath();
 		ctx.moveTo(left, top);
 		ctx.lineTo(left, bottom);
@@ -365,6 +373,7 @@ console.log('father.assign child');
 		} else if (this.type == 's') {
 			ctx.drawImage(this.separateImage, center, bottom);
 		}
+		ctx.restore();
 	}
 
 	drawText(ctx) {
@@ -421,15 +430,21 @@ console.log('father.assign child');
 		let y = this.y * spacing;
 
 		ctx.save();
+		ctx.lineWidth = 2;
 		this.drawChildLine(ctx);
-		if (this.hit) {
-			ctx.strokeStyle = 'aqua';
-			ctx.lineWidth = 5;
-			this.drawNormal(ctx);
-this.drawText(ctx);
+		if (this.type == 'c') {
+			ctx.strokeStyle = this.dottedStyle;
 		} else {
 			ctx.strokeStyle = Field.Instance.lineStyle;
+		}
+		this.drawNormal(ctx);
+		if (this.hit) {
+			ctx.lineWidth = 6;
+			ctx.strokeStyle = Field.Instance.hitStyle;
 			this.drawNormal(ctx);
+			if (Field.DEBUG) {
+				this.drawText(ctx);
+			}
 		}
 //this.drawOccupancy(ctx);
 		ctx.restore();
