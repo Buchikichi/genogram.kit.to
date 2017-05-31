@@ -16,6 +16,7 @@ import to.kit.genogram.entity.Partner;
 import to.kit.genogram.entity.Person;
 import to.kit.genogram.entity.Relationship;
 import to.kit.genogram.repository.DiagramRepository;
+import to.kit.genogram.repository.RelationshipRepository;
 
 /**
  * ダイアグラムサービス.
@@ -25,6 +26,8 @@ import to.kit.genogram.repository.DiagramRepository;
 public class DiagramService {
 	@Autowired
 	private DiagramRepository diagramRepository;
+	@Autowired
+	private RelationshipRepository relationshipRepository;
 
 	/**
 	 * 一覧取得.
@@ -86,6 +89,7 @@ public class DiagramService {
 				parents.setUpdated(new Date());
 			}
 		}
+		this.relationshipRepository.deleteByDiagramId(id);
 		for (Relationship relationship: diagram.getRelationshipList()) {
 			relationship.setDiagram(diagram);
 			relationship.setUpdated(new Date());

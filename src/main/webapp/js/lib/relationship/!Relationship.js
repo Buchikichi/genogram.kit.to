@@ -7,13 +7,14 @@ class Relationship extends Actor {
 	}
 
 	createFillStyle(imgsrc = null) {
+		let spacing = Field.Instance.spacing;
 		let ctx = FlexibleView.Instance.ctx;
 
-		this.height = 16;
+		this.height = 16 / spacing;
 		this.fillStyle = 'rgba(200, 200, 255, 0.7)';
 		this.img = new Image();
 		this.img.onload = ()=> {
-			this.height = this.img.height;
+			this.height = this.img.height / spacing;
 			this.fillStyle = ctx.createPattern(this.img, 'repeat-x');
 		};
 		if (imgsrc) {
@@ -32,8 +33,8 @@ class Relationship extends Actor {
 		this.cy = this.by + diffY / 2;
 		this.radian = Math.atan2(diffY, diffX);
 		this.length = Math.sqrt(diffX * diffX + diffY * diffY);
-		this.left = (-this.length + 1) / 2;
-		this.width = this.length - 1;
+		this.width = this.length - 1.1;
+		this.left = -this.width / 2;
 	}
 
 	isHit(px, py) {
@@ -45,7 +46,7 @@ class Relationship extends Actor {
 		let rad = -this.radian;
 		let rx = Math.cos(rad) * tx - Math.sin(rad) * ty;
 		let ry = Math.sin(rad) * tx + Math.cos(rad) * ty;
-		let height = this.height / spacing;
+		let height = this.height;
 		let top = -height / 2;
 		let left = this.left;
 		let right = this.width + left;
@@ -84,24 +85,48 @@ class Relationship extends Actor {
 		ctx.restore();
 	}
 
+	drawTriangle(ctx) {
+		let spacing = Field.Instance.spacing;
+		let cx = this.cx * spacing;
+		let cy = this.cy * spacing;
+		let x = this.width / 2 * spacing;
+
+		ctx.save();
+		ctx.translate(cx, cy);
+		ctx.rotate(this.radian);
+//ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
+//ctx.beginPath();
+//ctx.arc(this.width / 2 * spacing, 0, this.height, 0, Math.PI * 2, false);
+//ctx.fill();
+		ctx.translate(x, 0);
+		ctx.beginPath();
+		ctx.moveTo(0, 0);
+		ctx.lineTo(0 - 16, -8);
+		ctx.lineTo(0 - 16, 8);
+		ctx.lineTo(0, 0);
+		ctx.fill();
+		ctx.restore();
+	}
+
 	draw(ctx) {
 		this.calculatePosition();
 		let spacing = Field.Instance.spacing;
+		let width = this.width * spacing;
+		let height = this.height * spacing + 1;
 		let x = this.left * spacing;
-		let y = -this.height / 2;
+		let y = -height / 2;
 		let cx = this.cx * spacing;
 		let cy = this.cy * spacing;
-		let width = this.width * spacing;
 
 		ctx.save();
 		ctx.translate(cx, cy);
 		ctx.rotate(this.radian);
 		ctx.translate(x, y);
 		ctx.fillStyle = this.fillStyle;
-		ctx.fillRect(0, 0, width, this.height);
+		ctx.fillRect(0, 0, width, height);
 		if (this.hit) {
 			ctx.fillStyle = 'rgba(140, 255, 255, 0.5)';
-			ctx.fillRect(0, 0, width, this.height);
+			ctx.fillRect(0, 0, width, height);
 		}
 		ctx.restore();
 //this.drawAuxiliary(ctx);
@@ -136,7 +161,7 @@ class Relationship extends Actor {
 			relation = new Relationship(person, other);
 		} else if (emotion == 'SexualAbuse') {
 			// 性的虐待
-			relation = new Relationship(person, other);
+			relation = new SexualAbuseRelation(person, other);
 		} else if (emotion == 'PhysicalAbuse') {
 			// 身体的虐待
 			relation = new Relationship(person, other);
