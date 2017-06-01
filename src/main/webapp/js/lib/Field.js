@@ -306,7 +306,8 @@ console.log('[dirty]' + this.actorList.length);
 			this.dirty = true;
 		}
 		this.actorList.sort((a, b) => {
-			return a.z - b.z;
+			// zが大きいほうが前
+			return b.z - a.z;
 		});
 	}
 

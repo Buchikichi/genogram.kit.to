@@ -58,7 +58,7 @@ class InputPanel {
 		parentsButton.addEventListener('click', ()=> this.addParents());
 		partnerButton.addEventListener('click', ()=> this.addPartner());
 		deleteButton.addEventListener('click', ()=> this.person.remove());
-		$(this.panel).panel({close: () => {
+		$(this.panel).panel({beforeclose: () => {
 			Field.Instance.clearSelection();
 		}});
 	}

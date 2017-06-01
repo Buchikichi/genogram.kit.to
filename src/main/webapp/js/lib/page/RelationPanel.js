@@ -17,7 +17,7 @@ class RelationPanel {
 			this.deleteRelationship();
 			this.resetControls();
 		});
-		$(this.panel).panel({close: () => {
+		$(this.panel).panel({beforeclose: () => {
 			Field.Instance.clearSelection();
 		}});
 	}

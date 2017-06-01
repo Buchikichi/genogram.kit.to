@@ -27,7 +27,7 @@ class PartnerPanel {
 				this.reorganizeChildren();
 			}
 		});
-		$(this.panel).panel({close: () => {
+		$(this.panel).panel({beforeclose: () => {
 			Field.Instance.clearSelection();
 		}});
 	}

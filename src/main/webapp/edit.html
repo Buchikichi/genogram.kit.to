@@ -16,10 +16,12 @@
 
 <body>
 <div data-role="page">
+<!--
   <div data-role="header" data-theme="b" data-position="fixed">
     <h1>Genogram prototype</h1>
     <a href="#settingPanel" class="ui-btn ui-btn-left ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-gear ui-btn-icon-notext"></a>
   </div>
+-->
   <div id="view" data-role="content">
     <canvas id="canvas"></canvas>
     <input type="hidden" name="id" th:value="${diagram.id}"/>
@@ -29,7 +31,7 @@
     <form>
       <input type="text" name="documentId" th:value="${diagram.documentId}" disabled="disabled"/>
       <textarea name="description" th:text="${diagram.description}" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
-      <label>Grid:<input type="checkbox" name="grid" data-role="flipswitch" data-on-text="ON" data-off-text="OFF" checked="checked"/></label>
+      <label>Grid:<input type="checkbox" name="grid" data-role="flipswitch" data-on-text="ON" data-off-text="OFF"/></label>
       <input type="range" name="gridSpacing" min="30" max="120" step="10" value="80"/>
       <label>Name:<input type="checkbox" name="showName" data-role="flipswitch" data-on-text="ON" data-off-text="OFF"/></label>
       <label>Font size:<input type="range" name="fontSize" min="8" max="40" step="4" value="20"/></label>
