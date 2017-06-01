@@ -42,9 +42,9 @@
       <input name="name" type="text" placeholder="Name" th:placeholder="#{placeholder.name}"/>
       <textarea name="description" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
       <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <label for="gm" th:text="#{label.male}">Male</label><input id="gm" name="gender" type="radio" value="m"/>
-        <label for="gf" th:text="#{label.female}">Female</label><input id="gf" name="gender" type="radio" value="f"/>
-        <label for="gu" th:text="#{label.unclear}">Unclear</label><input id="gu" name="gender" type="radio" value=""/>
+        <label><span th:text="#{label.male}">Male</span><input name="gender" type="radio" value="m"/></label>
+        <label><span th:text="#{label.female}">Female</span><input name="gender" type="radio" value="f"/></label>
+        <label><span th:text="#{label.unclear}">Unclear</span><input name="gender" type="radio" value=""/></label>
       </fieldset>
       <div class="ui-field-contain">
         <label for="input-age" th:text="#{label.age}">Age:</label>
@@ -67,17 +67,17 @@
   </div>
   <div id="partnerPanel" data-role="panel" data-position="right" data-display="overlay">
     <form>
-      <label>Father:<input type="text" name="father" readonly="readonly"/></label>
-      <label>Mother:<input type="text" name="mother" readonly="readonly"/></label>
+      <input type="text" name="father" disabled="disabled" placeholder="Male" th:placeholder="#{placeholder.male}"/>
+      <input type="text" name="mother" disabled="disabled" placeholder="Female" th:placeholder="#{placeholder.female}"/>
       <fieldset data-role="controlgroup" data-mini="true">
-        <label>Marriage<input name="relationType" type="radio" value="m"/></label>
-        <label>Separated<input name="relationType" type="radio" value="s"/></label>
-        <label>Divorced<input name="relationType" type="radio" value="d"/></label>
-        <label>Concubinage<input name="relationType" type="radio" value="c"/></label>
+        <label><span th:text="#{label.marriage}">Marriage</span><input name="relationType" type="radio" value="m"/></label>
+        <label><span th:text="#{label.separated}">Separated</span><input name="relationType" type="radio" value="s"/></label>
+        <label><span th:text="#{label.divorced}">Divorced</span><input name="relationType" type="radio" value="d"/></label>
+        <label><span th:text="#{label.concubinage}">Concubinage</span><input name="relationType" type="radio" value="c"/></label>
       </fieldset>
       <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <button id="mChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus">Male child</button>
-        <button id="fChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus">Female child</button>
+        <button id="mChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{label.maleChild}">Male child</button>
+        <button id="fChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{label.femaleChild}">Female child</button>
       </fieldset>
       <ul id="childrenView" data-role="listview" data-inset="true"></ul>
     </form>
@@ -98,7 +98,7 @@
         <label>性的虐待<input name="emotion" type="radio" value="SexualAbuse"/></label>
         <label>身体的虐待<input name="emotion" type="radio" value="PhysicalAbuse"/></label>
       </fieldset>
-      <button type="button" name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close">Delete</button>
+      <button type="button" name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" th:text="#{button.delete}">Delete</button>
     </form>
   </div>
   <div id="messagePopup" data-role="popup" data-overlay-theme="b" class="ui-content" style="max-width:280px">

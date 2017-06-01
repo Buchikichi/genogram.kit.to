@@ -86,7 +86,9 @@ target.nextActor.forEach(nx => {
 	initSandbox(root) {
 		let newPerson = new Person();
 
-		newPerson.name = 'principal(本人)';
+		if (Field.DEBUG) {
+			newPerson.name = 'principal(本人)';
+		}
 		newPerson.principal = true;
 		root.assignActor(newPerson);
 		this.field.addActor(newPerson);
