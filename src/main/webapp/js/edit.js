@@ -78,6 +78,7 @@ target.nextActor.forEach(nx => {
 	init() {
 		let root = new ChainRoot();
 
+//this.field.actorList.push(new EnclosingLine());
 		this.field.setFocus(root);
 		this.field.addActor(root);
 		if (this.diagramId.length == 0 || this.documentId.length == 0) {
@@ -85,7 +86,6 @@ target.nextActor.forEach(nx => {
 			return;
 		}
 		this.loadDiagram(root);
-//this.field.actorList.push(new EnclosingLine());
 	}
 
 	initSandbox(root) {

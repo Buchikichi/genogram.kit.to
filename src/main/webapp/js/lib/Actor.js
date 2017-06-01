@@ -5,6 +5,7 @@ class Actor {
 		this.y = y;
 		this.z = z;
 		this.radius = 0;
+		this.holdable = false;
 		this.spawnList = [];
 	}
 
@@ -51,7 +52,7 @@ class Actor {
 	includes(x, y, radius = null) {
 		let diffX = this.x - x;
 		let diffY = this.y - y;
-		let r = radius | this.radius;
+		let r = radius ? radius : this.radius;
 
 //console.log('includes:' + r);
 		return Math.sqrt(diffX * diffX + diffY * diffY) < r;

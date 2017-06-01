@@ -146,7 +146,7 @@ class Field {
 			if (this.allowTarget(target)) {
 				this.targetList.push(target);
 			}
-			if (target instanceof Description || target instanceof ActorHandle) {
+			if (target && target.holdable) {
 				this.hold = target;
 			}
 		});
@@ -165,11 +165,9 @@ class Field {
 				let px = pt.x - this.tx;
 				let py = pt.y - this.ty;
 
-//				this.hold.x = px / spacing;
-//				this.hold.y = py / spacing;
 				this.hold.move(dx / spacing, dy / spacing);
 				beginPt = pt;
-				return;
+//				return;
 			}
 			this.scan(pt.x, pt.y);
 		});

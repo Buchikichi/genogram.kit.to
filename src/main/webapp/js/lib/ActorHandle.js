@@ -1,7 +1,8 @@
 class ActorHandle extends Actor {
-	constructor(x, y) {
-		super(x, y);
-		this.radius = 4;
+	constructor(x, y, z) {
+		super(x, y, z);
+		this.holdable = true;
+		this.radius = .1;
 		this.logicalRadius = this.radius * 2;
 		this.prev = this;
 		this.next = this;
@@ -73,7 +74,14 @@ class ActorHandle extends Actor {
 		next.prev = node;
 	}
 
-	isHit(x, y) {
+	isHit(px, py) {
+		if (!this.parent.selected) {
+			return false;
+		}
+		let spacing = Field.Instance.spacing;
+		let x = px / spacing;
+		let y = py / spacing;
+
 		this.hit = this.includes(x, y, this.logicalRadius);
 		return this.hit;
 	}
@@ -105,10 +113,20 @@ class ActorHandle extends Actor {
 		return hit;
 	}
 
+	move(dx, dy) {
+		super.move(dx, dy);
+		this.parent.selected = true;
+	}
+
 	draw(ctx) {
+		this.drawCurve(ctx);
 		if (!this.parent.selected) {
 			return;
 		}
+		let spacing = Field.Instance.spacing;
+		let x = this.x * spacing;
+		let y = this.y * spacing;
+
 		ctx.save();
 		ctx.beginPath();
 		if (this.hit) {
@@ -116,27 +134,34 @@ class ActorHandle extends Actor {
 		} else {
 			ctx.fillStyle = 'gray';
 		}
-		ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+		ctx.arc(x, y, this.radius * spacing, 0, Math.PI * 2, false);
 		ctx.fill();
 		ctx.restore();
 	}
 
 	drawGuide(ctx) {
+		let spacing = Field.Instance.spacing;
+		let x = this.x * spacing;
+		let y = this.y * spacing;
 		let prevCp = this.prevCp;
 		let nextCp = this.nextCp;
+		let px = prevCp.x * spacing;
+		let py = prevCp.y * spacing;
+		let nx = nextCp.x * spacing;
+		let ny = nextCp.y * spacing;
 
 		ctx.save();
 		ctx.lineWidth = 1;
 		ctx.strokeStyle = 'cyan';
 		ctx.beginPath();
-		ctx.moveTo(this.x, this.y);
-		ctx.lineTo(prevCp.x, prevCp.y);
+		ctx.moveTo(x, y);
+		ctx.lineTo(px, py);
 		ctx.stroke();
 
 		ctx.strokeStyle = 'lime';
 		ctx.beginPath();
-		ctx.moveTo(this.x, this.y);
-		ctx.lineTo(nextCp.x, nextCp.y);
+		ctx.moveTo(x, y);
+		ctx.lineTo(nx, ny);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -145,10 +170,12 @@ class ActorHandle extends Actor {
 	 * 自作の曲線.
 	 */
 	drawSelfCurve(ctx) {
+		let spacing = Field.Instance.spacing;
 		let fCp = this.nextCp;
 		let sCp = this.next.prevCp;
 		let dist = this.getDistance(this.next);
 		let max = dist / this.radius;
+		let radius = this.radius * spacing;
 
 		ctx.save();
 		for (let cnt = 0; cnt < max; cnt++) {
@@ -158,10 +185,12 @@ class ActorHandle extends Actor {
 			let mpt = fpt.getInterimPoint(cpt, cnt, max);
 			let npt = cpt.getInterimPoint(spt, cnt, max);
 			let ppt = mpt.getInterimPoint(npt, cnt, max);
+			let x = ppt.x * spacing;
+			let y = ppt.y * spacing;
 
 			ctx.strokeStyle = 'pink';
 			ctx.beginPath();
-			ctx.arc(ppt.x, ppt.y, this.radius, 0, Math.PI * 2, false);
+			ctx.arc(x, y, radius, 0, Math.PI * 2, false);
 			ctx.stroke();
 		}
 		ctx.restore();
@@ -171,12 +200,34 @@ class ActorHandle extends Actor {
 	 * 曲線を描画.
 	 */
 	drawCurve(ctx) {
+		let spacing = Field.Instance.spacing;
+		let x = this.x * spacing;
+		let y = this.y * spacing;
+		let ex = this.next.x * spacing;
+		let ey = this.next.y * spacing;
 		let fCp = this.nextCp;
 		let sCp = this.next.prevCp;
+		let fx = fCp.x * spacing;
+		let fy = fCp.y * spacing;
+		let sx = sCp.x * spacing;
+		let sy = sCp.y * spacing;
 
+		ctx.save();
+		if (this.parent.selected) {
+			ctx.lineWidth = 2;
+			ctx.strokeStyle = 'navy';
+		} else if (this.parent.hit) {
+			ctx.lineWidth = 3;
+			ctx.strokeStyle = Field.Instance.hitStyle;
+		} else {
+			ctx.lineWidth = 1;
+		}
 		ctx.beginPath();
-		ctx.moveTo(this.x, this.y);
-		ctx.bezierCurveTo(fCp.x, fCp.y, sCp.x, sCp.y, this.next.x, this.next.y);
+		ctx.moveTo(x, y);
+		ctx.bezierCurveTo(fx, fy, sx, sy, ex, ey);
 		ctx.stroke();
+		ctx.restore();
+//		this.drawGuide(ctx);
+//		this.drawSelfCurve(ctx);
 	}
 }
