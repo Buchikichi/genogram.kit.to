@@ -33,7 +33,14 @@
       <textarea name="description" th:text="${diagram.description}" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
       <label>Grid:<input type="checkbox" name="grid" data-role="flipswitch" data-on-text="ON" data-off-text="OFF"/></label>
       <input type="range" name="gridSpacing" min="30" max="120" step="10" value="80"/>
-      <label>Name:<input type="checkbox" name="showName" data-role="flipswitch" data-on-text="ON" data-off-text="OFF"/></label>
+      <div class="ui-field-contain">
+        <label th:text="#{label.name}">Name:</label>
+      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+        <label><span>OFF</span><input name="showName" type="radio" value="0" checked="checked"/></label>
+        <label><span>中</span><input name="showName" type="radio" value="m"/></label>
+        <label><span>下</span><input name="showName" type="radio" value="b"/></label>
+      </fieldset>
+      </div>
       <label>Font size:<input type="range" name="fontSize" min="8" max="40" step="4" value="20"/></label>
       <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled" th:text="#{button.save}">Save</button>
       <button id="printButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-action" th:text="#{button.print}">Print</button>

@@ -62,13 +62,19 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 	}
 
 	drawName(ctx) {
-		if (!Field.Instance.showName) {
+		let showName = Field.Instance.showName;
+
+		if (showName == '0') {
 			return;
 		}
 		let text = this.person.name;
-//text = this.person.count + ':' + text;
-		let y = this.textHh + this.radius;
+		let y = this.radius;
 
+		if (showName == 'm') {
+			y -= this.textHh;
+		} else if (showName == 'b') {
+			y += this.textHh;
+		}
 		if (Field.DEBUG) {
 			text = '#' + this.person.generation + ':' + text;
 		}

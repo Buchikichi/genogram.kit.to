@@ -25,9 +25,15 @@ class Field {
 	}
 
 	get showName() {
-		let check = document.querySelector('[name="showName"]');
+		let result = '0';
+		let radio = document.querySelectorAll('[name="showName"]');
 
-		return check.checked;
+		Array.prototype.forEach.call(radio, element => {
+			if (element.checked) {
+				result = element.value;
+			}
+		});
+		return result;
 	}
 
 	get spacing() {
