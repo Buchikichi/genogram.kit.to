@@ -1,6 +1,6 @@
 class Relationship extends Actor {
 	constructor(person, other) {
-		super();
+		super(0, 0, Chain.Z + 2);
 		this.person = person;
 		this.other = other;
 		this.createFillStyle();

@@ -69,6 +69,14 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 //text = this.person.count + ':' + text;
 		let y = this.textHh + this.radius;
 
+		if (Field.DEBUG) {
+			text = '#' + this.person.generation + ':' + text;
+		}
+		ctx.save();
+		ctx.lineWidth = 3;
+		ctx.strokeStyle = 'rgba(220, 220, 220, .7)';
+		ctx.strokeText(text, 1, y + 1);
+		ctx.restore();
 		ctx.fillText(text, 0, y);
 	}
 

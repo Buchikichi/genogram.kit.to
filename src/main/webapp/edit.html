@@ -35,7 +35,8 @@
       <input type="range" name="gridSpacing" min="30" max="120" step="10" value="80"/>
       <label>Name:<input type="checkbox" name="showName" data-role="flipswitch" data-on-text="ON" data-off-text="OFF"/></label>
       <label>Font size:<input type="range" name="fontSize" min="8" max="40" step="4" value="20"/></label>
-      <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled">Save</button>
+      <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled" th:text="#{button.save}">Save</button>
+      <button id="printButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-action" th:text="#{button.print}">Print</button>
       <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all" th:text="#{button.close}">Close</button>
     </form>
   </div>
@@ -107,6 +108,7 @@
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
     <p></p>
   </div>
+  <iframe id="printFrame" src="print.html"></iframe>
 </div>
 </body>
 </html>

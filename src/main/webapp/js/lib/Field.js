@@ -198,6 +198,10 @@ class Field {
 		let px = x - this.tx;
 		let py = y - this.ty;
 
+		// zの降順にスキャン
+		this.actorList.sort((a, b) => {
+			return b.z - a.z;
+		});
 		this.actorList.forEach(actor => {
 			actor.hit = false;
 			if (result) {
@@ -303,9 +307,9 @@ console.log('[dirty]' + this.actorList.length);
 		if (this.actorList.length != list.length) {
 			this.dirty = true;
 		}
+		// zの昇順に描画
 		this.actorList.sort((a, b) => {
-			// zが大きいほうが前
-			return b.z - a.z;
+			return a.z - b.z;
 		});
 	}
 
@@ -356,8 +360,8 @@ console.log('[dirty]' + this.actorList.length);
 		let ctx = this.view.ctx;
 		let fontSize = this.fontSize;
 
-		this.view.clear();
 		this.choiceActor();
+		this.view.clear();
 		this.drawGrid(ctx);
 		ctx.save();
 		ctx.font = fontSize + "px 'Times New Roman'";

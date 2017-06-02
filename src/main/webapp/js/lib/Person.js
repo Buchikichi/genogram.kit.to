@@ -378,6 +378,6 @@ if (this.touched) {
 }
 Person.Properties = [
 	'id', 'seq', 'name', 'description', 'dx', 'dy',
-	'gender', 'dob', 'dod', 'attr', 'bornOrder',
+	'gender', 'dob', 'dod', 'attr', 'bornOrder', 'generation',
 	'prevId', 'rx', 'ry',
 ];

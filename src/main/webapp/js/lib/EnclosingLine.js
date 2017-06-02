@@ -1,6 +1,6 @@
 class EnclosingLine extends Actor {
 	constructor() {
-		super(1, 1, 1);
+		super(1, 1, 110);
 		this.holdable = true;
 		this.root = this.addHandle(this.x, this.y);
 		this.addHandle(2, 1);

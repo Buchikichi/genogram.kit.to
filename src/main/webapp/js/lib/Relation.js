@@ -37,6 +37,10 @@ class Relation extends Actor {
 		return this.leftSide.isMale ? this.rightSide : this.leftSide;
 	}
 
+	get info() {
+		return this.leftSide.info + '_' + this.rightSide.info;
+	}
+
 	get x() {
 		let width = Math.abs(this.leftSide.x - this.rightSide.x);
 

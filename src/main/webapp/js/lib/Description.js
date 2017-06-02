@@ -1,6 +1,6 @@
 class Description extends Actor {
 	constructor(person, text, dx, dy = 0) {
-		super(0, 0, 9);
+		super(0, 0, Chain.Z + 1);
 		this.holdable = true;
 		this.person = person;
 		this.dx = dx; // 相対位置

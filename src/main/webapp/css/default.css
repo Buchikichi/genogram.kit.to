@@ -29,6 +29,9 @@ body {
 	height: 100%;
 	background-color: #f8f8f8;
 }
+#printFrame {
+	display: none;
+}
 /* Button */
 div.ui-panel button.ui-icon-delete {
 	background-color: #FFaaaa;

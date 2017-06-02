@@ -1,6 +1,6 @@
 class Chain extends Actor {
 	constructor() {
-		super();
+		super(0, 0, Chain.Z);
 		this.rx = 0;
 		this.ry = 0;
 		this.prevActor = null;
@@ -303,6 +303,7 @@ console.log('Chain#addPartner:' + this.info + '_' + partner.info);
 		}
 	}
 }
+Chain.Z = 100;
 
 class Ties extends Chain {
 	constructor(gender) {

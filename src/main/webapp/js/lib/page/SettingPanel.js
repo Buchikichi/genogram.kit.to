@@ -7,6 +7,9 @@ class SettingPanel {
 	}
 
 	setupEvents() {
+		let printButton = document.getElementById('printButton');
+
+		printButton.addEventListener('click', () => {this.print()});
 		if (0 < this.appMain.documentId.length) {
 			this.saveButton.classList.remove('ui-state-disabled');
 			this.saveButton.addEventListener('click', ()=> {this.save()});
@@ -16,6 +19,25 @@ class SettingPanel {
 
 			grid.checked = true;
 		}
+	}
+
+	print() {
+		let iframe = document.getElementById('printFrame');
+		let description = document.querySelector('[name="description"]');
+		let win = iframe.contentWindow;
+		let title = win.document.querySelector('title');
+		let img = win.document.querySelector('img');
+		let canvas = FlexibleView.Instance.canvas;
+
+		iframe.style.position = 'fixed';
+		iframe.style.right = '0';
+		iframe.style.bottom = '0';
+		title.textContent = description.value;
+		img.src = canvas.toDataURL();
+		img.addEventListener('load', () => {
+			win.focus();
+			win.print();
+		});
 	}
 
 	createPersonList(formData) {
