@@ -43,5 +43,10 @@ public class Diagram {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "diagram", cascade = CascadeType.ALL)
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonManagedReference
+	private List<Partner> partnerList;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "diagram", cascade = CascadeType.ALL)
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonManagedReference
 	private List<Relationship> relationshipList;
 }

@@ -8,6 +8,7 @@ class Relation extends Actor {
 			this.leftSide = other;
 			this.rightSide = person;
 		}
+		person.addPartner(this);
 		this.type = 'm';
 		this.children = [];
 		this.hit = false;

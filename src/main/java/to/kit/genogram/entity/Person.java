@@ -54,9 +54,4 @@ public class Person {
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonManagedReference
 	private Partner parents;
-
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.ALL)
-//	@NotFound(action = NotFoundAction.IGNORE)
-//	@JsonManagedReference
-//	private List<Partner> partnerList;
 }

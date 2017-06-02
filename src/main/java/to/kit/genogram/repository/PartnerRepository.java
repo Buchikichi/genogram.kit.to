@@ -1,5 +1,7 @@
 package to.kit.genogram.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import to.kit.genogram.entity.Partner;
@@ -9,5 +11,10 @@ import to.kit.genogram.entity.Partner;
  * @author H.Sasai
  */
 public interface PartnerRepository extends JpaRepository<Partner, String> {
-	// nop
+	/**
+	 * ダイアグラム内のパートナーを取得.
+	 * @param diagramId ダイアグラムID
+	 * @return パートナー一覧
+	 */
+	List<Partner> findByDiagramId(String diagramId);
 }

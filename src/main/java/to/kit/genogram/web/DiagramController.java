@@ -1,6 +1,6 @@
 package to.kit.genogram.web;
 
-import java.util.Base64;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -13,12 +13,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import to.kit.genogram.entity.Diagram;
+import to.kit.genogram.entity.Partner;
 import to.kit.genogram.service.DiagramService;
 import to.kit.genogram.web.form.DiagramForm;
 import to.kit.genogram.web.form.ResultForm;
@@ -93,7 +95,8 @@ public class DiagramController {
 		String[] elements = image.split("[:;,]");
 		String type = elements[1];
 		String base64 = elements[3];
-		byte[] bytes = Base64.getMimeDecoder().decode(base64);
+//		byte[] bytes = Base64.getMimeDecoder().decode(base64);
+		byte[] bytes = Base64Utils.decodeFromString(base64);
 		Resource resource = new ByteArrayResource(bytes);
 
 		headers.setContentType(MediaType.valueOf(type));
@@ -109,13 +112,16 @@ public class DiagramController {
 	@ResponseBody
 	public ResultForm save(DiagramForm form) {
 		ResultForm result = new ResultForm();
-		Diagram entity = new Diagram();
-		BeanUtils.copyProperties(form, entity);
-		Diagram saved = this.diagramService.save(entity);
+		Diagram diagram = new Diagram();
+		List<Partner> pairList = new ArrayList<>(form.getPartnerList());
+		BeanUtils.copyProperties(form, diagram);
+		Diagram saved = this.diagramService.save(diagram);
 
 		if (saved == null) {
 			return result;
 		}
+		diagram.setPartnerList(pairList); // clearしたリストを戻す
+		this.diagramService.clearUnused(diagram);
 		result.setInfo(saved);
 		result.setOk(true);
 		return result;

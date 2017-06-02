@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import to.kit.genogram.entity.Partner;
 import to.kit.genogram.entity.Person;
 import to.kit.genogram.entity.Relationship;
 
@@ -20,5 +21,6 @@ public class DiagramForm {
 	private String image;
 
 	private List<Person> personList;
+	private List<Partner> partnerList = new ArrayList<>();
 	private List<Relationship> relationshipList = new ArrayList<>();
 }

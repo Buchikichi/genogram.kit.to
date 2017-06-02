@@ -115,6 +115,7 @@ target.nextActor.forEach(nx => {
 			let personMap = this.makePersonMap(diagram.personList);
 
 			this.loadPersons(root, diagram, personMap);
+			this.loadPartner(diagram, personMap);
 			this.loadRelationship(diagram, personMap);
 		});
 	}
@@ -147,6 +148,21 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 			this.field.addActor(person);
 		});
 		Tally.reset(seq);
+	}
+
+	loadPartner(diagram, personMap) {
+		// 子のないパートナーを追加
+		diagram.partnerList.forEach(rec => {
+			let father = personMap[rec.person.id];
+			let mother = personMap[rec.other.id];
+			let relation = this.field.createPair(father, mother);
+
+			if (0 < relation.children.length) {
+				return;
+			}
+			relation.id = rec.id;
+			relation.type = rec.type;
+		});
 	}
 
 	loadRelationship(diagram, personMap) {

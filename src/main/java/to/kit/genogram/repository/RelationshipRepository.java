@@ -1,5 +1,7 @@
 package to.kit.genogram.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import to.kit.genogram.entity.Relationship;
@@ -10,9 +12,9 @@ import to.kit.genogram.entity.Relationship;
  */
 public interface RelationshipRepository extends JpaRepository<Relationship, String> {
 	/**
-	 * リレーションシップを削除.
+	 * ダイアグラム内のリレーションシップを取得.
 	 * @param diagramId ダイアグラムID
-	 * @return 削除件数
+	 * @return リレーションシップ一覧
 	 */
-	int deleteByDiagramId(String diagramId);
+	List<Relationship> findByDiagramId(String diagramId);
 }

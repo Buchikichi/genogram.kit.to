@@ -1,5 +1,5 @@
 class Person extends Ties {
-	constructor(gender = '') {
+	constructor(gender = 'u') {
 		super(gender);
 		this.seq = Tally.increment();
 		if (Field.DEBUG) {

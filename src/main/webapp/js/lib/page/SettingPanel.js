@@ -53,6 +53,25 @@ console.log(ix + ':' + person.id);
 		});
 	}
 
+	createPartnerList(formData) {
+		let field = this.appMain.field;
+		let pairList = field.pairList;
+		let ix = 0;
+
+		pairList.forEach(partner => {
+			if (0 < partner.children.length) {
+				return;
+			}
+			let prefix = 'partnerList[' + ix + '].';
+
+			formData.append(prefix + 'id', partner.id);
+			formData.append(prefix + 'type', partner.type);
+			formData.append(prefix + 'person.id', partner.father.id);
+			formData.append(prefix + 'other.id', partner.mother.id);
+			ix++;
+		});
+	}
+
 	createRelationshipList(formData) {
 		let field = this.appMain.field;
 		let relationshipList = field.relationshipList;
@@ -81,6 +100,7 @@ console.log(ix + ':' + person.id);
 		formData.append('description', description.value);
 		formData.append('image', canvas.toDataURL());
 		this.createPersonList(formData);
+		this.createPartnerList(formData);
 		this.createRelationshipList(formData);
 		$.mobile.loading('show', {text: 'Save...', textVisible: true});
 		entity.save(formData).then(data => {
