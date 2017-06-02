@@ -6,7 +6,7 @@ class Relationship extends Actor {
 		this.createFillStyle();
 	}
 
-	createFillStyle(imgsrc = null) {
+	createFillStyle(imgsrc = null, repeat = 'repeat-x') {
 		let spacing = Field.Instance.spacing;
 		let ctx = FlexibleView.Instance.ctx;
 
@@ -15,7 +15,7 @@ class Relationship extends Actor {
 		this.img = new Image();
 		this.img.onload = ()=> {
 			this.height = this.img.height / spacing;
-			this.fillStyle = ctx.createPattern(this.img, 'repeat-x');
+			this.fillStyle = ctx.createPattern(this.img, repeat);
 		};
 		if (imgsrc) {
 			this.img.src = imgsrc;
@@ -35,6 +35,7 @@ class Relationship extends Actor {
 		this.length = Math.sqrt(diffX * diffX + diffY * diffY);
 		this.width = this.length - 1.1;
 		this.left = -this.width / 2;
+		this.right = this.width / 2;
 	}
 
 	isHit(px, py) {
@@ -108,25 +109,44 @@ class Relationship extends Actor {
 		ctx.restore();
 	}
 
+	drawLine(ctx, width, height) {
+		let spacing = Field.Instance.spacing;
+		let x = this.left * spacing;
+		let y = -height / 2;
+
+		ctx.save();
+		ctx.translate(x, y);
+		ctx.fillStyle = this.fillStyle;
+		ctx.fillRect(0, 0, width, height);
+		ctx.restore();
+	}
+
+	drawHitted(ctx, width, height) {
+		let spacing = Field.Instance.spacing;
+		let x = this.left * spacing;
+		let y = -height / 2;
+
+		ctx.save();
+		ctx.translate(x, y);
+		ctx.fillStyle = Field.Instance.hitStyle;
+		ctx.fillRect(0, 0, width, height);
+		ctx.restore();
+	}
+
 	draw(ctx) {
 		this.calculatePosition();
 		let spacing = Field.Instance.spacing;
 		let width = this.width * spacing;
 		let height = this.height * spacing + 1;
-		let x = this.left * spacing;
-		let y = -height / 2;
 		let cx = this.cx * spacing;
 		let cy = this.cy * spacing;
 
 		ctx.save();
 		ctx.translate(cx, cy);
 		ctx.rotate(this.radian);
-		ctx.translate(x, y);
-		ctx.fillStyle = this.fillStyle;
-		ctx.fillRect(0, 0, width, height);
+		this.drawLine(ctx, width, height);
 		if (this.hit) {
-			ctx.fillStyle = Field.Instance.hitStyle;
-			ctx.fillRect(0, 0, width, height);
+			this.drawHitted(ctx, width, height);
 		}
 		ctx.restore();
 //this.drawAuxiliary(ctx);
@@ -149,22 +169,22 @@ class Relationship extends Actor {
 			relation = new HostileRelation(person, other);
 		} else if (emotion == 'FusedHostile') {
 			// 融合し敵対
-			relation = new Relationship(person, other);
+			relation = new FusedHostileRelation(person, other);
 		} else if (emotion == 'CloseHostile') {
 			// 親密で敵対
-			relation = new Relationship(person, other);
+			relation = new CloseHostileRelation(person, other);
 		} else if (emotion == 'CutOff') {
 			// 遮断
-			relation = new Relationship(person, other);
+			relation = new CutOffRelation(person, other);
 		} else if (emotion == 'Focused') {
 			// 強い関心/干渉
-			relation = new Relationship(person, other);
+			relation = new FocusedRelation(person, other);
 		} else if (emotion == 'SexualAbuse') {
 			// 性的虐待
 			relation = new SexualAbuseRelation(person, other);
 		} else if (emotion == 'PhysicalAbuse') {
 			// 身体的虐待
-			relation = new Relationship(person, other);
+			relation = new PhysicalAbuseRelation(person, other);
 		} else {
 			// ?
 			relation = new Relationship(person, other);

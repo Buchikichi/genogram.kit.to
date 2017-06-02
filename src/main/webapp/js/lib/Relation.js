@@ -17,9 +17,9 @@ class Relation extends Actor {
 
 	initImage() {
 		this.divorceImage = new Image();
-		this.divorceImage.src = 'img/ralation.divorce.png';
+		this.divorceImage.src = 'img/relation.divorce.png';
 		this.separateImage = new Image();
-		this.separateImage.src = 'img/ralation.separate.png';
+		this.separateImage.src = 'img/relation.separate.png';
 		this.dottedImage = new Image();
 		this.dottedImage.src = 'img/relation.dotted.png';
 		this.dottedImage.onload = ()=> {
