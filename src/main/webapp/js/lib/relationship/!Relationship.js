@@ -121,14 +121,13 @@ class Relationship extends Actor {
 		ctx.restore();
 	}
 
-	drawHitted(ctx, width, height) {
+	drawRect(ctx, width, height) {
 		let spacing = Field.Instance.spacing;
 		let x = this.left * spacing;
 		let y = -height / 2;
 
 		ctx.save();
 		ctx.translate(x, y);
-		ctx.fillStyle = Field.Instance.hitStyle;
 		ctx.fillRect(0, 0, width, height);
 		ctx.restore();
 	}
@@ -144,9 +143,12 @@ class Relationship extends Actor {
 		ctx.save();
 		ctx.translate(cx, cy);
 		ctx.rotate(this.radian);
+		ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+		this.drawRect(ctx, width, height / 2);
 		this.drawLine(ctx, width, height);
 		if (this.hit) {
-			this.drawHitted(ctx, width, height);
+			ctx.fillStyle = Field.Instance.hitStyle;
+			this.drawRect(ctx, width, height);
 		}
 		ctx.restore();
 //this.drawAuxiliary(ctx);
