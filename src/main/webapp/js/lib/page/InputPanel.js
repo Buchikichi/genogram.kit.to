@@ -1,21 +1,22 @@
-class InputPanel {
-	constructor() {
-		this.panel = document.getElementById('inputPanel');
+class InputPanel extends AbstractPane {
+	constructor(isPanel) {
+		super('inputPanel', isPanel);
 		this.partnerView = document.getElementById('partnerView');
 		this.person = null;
 		this.setupEvents();
 	}
 
 	setupEvents() {
-		let name = this.panel.querySelector('[name="name"]');
-		let description = this.panel.querySelector('[name="description"]');
+		super.setupEvents();
+		let name = this.pane.querySelector('[name="name"]');
+		let description = this.pane.querySelector('[name="description"]');
 		let genderList = $('[name="gender"]');
-		let dob = this.panel.querySelector('[name="dob"]');
-		let dod = this.panel.querySelector('[name="dod"]');
-		let age = this.panel.querySelector('[name="age"]');
+		let dob = this.pane.querySelector('[name="dob"]');
+		let dod = this.pane.querySelector('[name="dod"]');
+		let age = this.pane.querySelector('[name="age"]');
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
-		let deleteButton = this.panel.querySelector('[name="deleteButton"]');
+		let deleteButton = this.pane.querySelector('[name="deleteButton"]');
 
 		name.addEventListener('change', ()=> {
 			this.person.name = name.value;
@@ -58,15 +59,12 @@ class InputPanel {
 		parentsButton.addEventListener('click', ()=> this.addParents());
 		partnerButton.addEventListener('click', ()=> this.addPartner());
 		deleteButton.addEventListener('click', ()=> this.person.remove());
-		$(this.panel).panel({beforeclose: () => {
-			Field.Instance.clearSelection();
-		}});
 	}
 
 	ageChanged() {
-		let dob = this.panel.querySelector('[name="dob"]');
-		let dod = this.panel.querySelector('[name="dod"]');
-		let age = this.panel.querySelector('[name="age"]');
+		let dob = this.pane.querySelector('[name="dob"]');
+		let dod = this.pane.querySelector('[name="dod"]');
+		let age = this.pane.querySelector('[name="age"]');
 		let val = parseInt(age.value);
 
 		this.person.age = null;
@@ -113,7 +111,7 @@ console.log('person.generation:' + this.person.generation);
 		let plen = this.person.relationList.length;
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
-		let deleteButton = this.panel.querySelector('[name="deleteButton"]');
+		let deleteButton = this.pane.querySelector('[name="deleteButton"]');
 
 		if (plen == 0) {
 			$('[name="gender"]').checkboxradio('enable');
@@ -125,7 +123,7 @@ console.log('person.generation:' + this.person.generation);
 		} else {
 			$(parentsButton).removeClass('ui-state-disabled');
 		}
-		if (gender == null || gender == '') {
+		if (gender != 'f' && gender != 'm') {
 			$(partnerButton).addClass('ui-state-disabled');
 		} else {
 			$(partnerButton).removeClass('ui-state-disabled');
@@ -179,6 +177,6 @@ console.log('person.generation:' + this.person.generation);
 	open(person) {
 		this.person = person;
 		this.setupForm();
-		$(this.panel).panel('open');
+		this.showPane();
 	}
 }

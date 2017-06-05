@@ -16,10 +16,13 @@ class AppMain {
 		this.documentId = document.querySelector('[name="documentId"]').value;
 		this.controller = new Controller();
 		this.field = new Field(1024, 768);
+		this.pane = document.getElementById('pane');
+		this.isPanel = this.pane.getAttribute('data-draggable') != 'true';
 		this.settingPanel = new SettingPanel(this);
-		this.inputPanel = new InputPanel();
-		this.partnerPanel = new PartnerPanel();
-		this.relationPanel = new RelationPanel();
+		this.inputPanel = new InputPanel(this.isPanel);
+		this.partnerPanel = new PartnerPanel(this.isPanel);
+		this.relationPanel = new RelationPanel(this.isPanel);
+		this.paneList = [this.inputPanel, this.partnerPanel, this.relationPanel];
 		this.setupEvents();
 		this.init();
 	}
@@ -28,8 +31,10 @@ class AppMain {
 		let view = document.getElementById('view');
 		let gridSpacing = $('[name="gridSpacing"]');
 
+		$(this.pane).hide();
 		view.addEventListener('mouseup', () => {
 			if (this.field.targetList.length == 0) {
+				$(this.pane).hide();
 				return;
 			}
 			let target = this.field.targetList[0];
@@ -42,15 +47,15 @@ if (target.prevActor) console.log('G' + target.generation + '|prevActor:' + targ
 target.nextActor.forEach(nx => {
 	console.log('(' + target.info + '->' + nx.info + ')');
 });
-					this.inputPanel.open(target);
+					this.openPane(this.inputPanel, target);
 					return;
 				}
 				if (target instanceof Relation) {
-					this.partnerPanel.open(target);
+					this.openPane(this.partnerPanel, target);
 					return;
 				}
 				if (target instanceof Relationship) {
-					this.relationPanel.open(target);
+					this.openPane(this.relationPanel, target);
 					return;
 				}
 			}
@@ -59,10 +64,10 @@ target.nextActor.forEach(nx => {
 				let relationship = this.field.getRelationship(target, other);
 
 				if (relationship) {
-					this.relationPanel.open(relationship);
+					this.openPane(this.relationPanel, relationship);
 					return;
 				}
-				this.relationPanel.open(target, other);
+				this.openPane(this.relationPanel, target, other);
 			}
 		});
 		gridSpacing.change(()=> {
@@ -73,6 +78,21 @@ target.nextActor.forEach(nx => {
 				this.settingPanel.open();
 			}
 		});
+		if (!this.isPanel) {
+			this.pane.style.position = 'absolute';
+			$(this.pane).draggable();
+		}
+	}
+
+	openPane(targetPane, target, other = null) {
+		this.paneList.forEach(pane => {
+			if (pane == targetPane) {
+				pane.open(target, other);
+			} else {
+				pane.hidePane();
+			}
+		});
+		$(this.pane).show();
 	}
 
 	init() {

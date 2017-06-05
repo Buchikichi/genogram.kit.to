@@ -75,7 +75,7 @@ class Relation extends Actor {
 		return this.relationOrder;
 	}
 	set order(val) {
-		this.z = val;
+		this.z = Chain.Z - val;
 		this.relationOrder = val;
 	}
 

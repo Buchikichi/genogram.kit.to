@@ -1,12 +1,13 @@
-class PartnerPanel {
-	constructor() {
-		this.panel = document.getElementById('partnerPanel');
+class PartnerPanel extends AbstractPane {
+	constructor(isPanel) {
+		super('partnerPanel', isPanel);
 		this.childrenView = document.getElementById('childrenView');
 		this.relation = null;
 		this.setupEvents();
 	}
 
 	setupEvents() {
+		super.setupEvents();
 		let mChildButton = document.getElementById('mChildButton');
 		let fChildButton = document.getElementById('fChildButton');
 
@@ -27,9 +28,6 @@ class PartnerPanel {
 				this.reorganizeChildren();
 			}
 		});
-		$(this.panel).panel({beforeclose: () => {
-			Field.Instance.clearSelection();
-		}});
 	}
 
 	addChild(gender) {
@@ -114,8 +112,8 @@ console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
 	}
 
 	setupForm() {
-		let father = this.panel.querySelector('[name="father"]');
-		let mother = this.panel.querySelector('[name="mother"]');
+		let father = this.pane.querySelector('[name="father"]');
+		let mother = this.pane.querySelector('[name="mother"]');
 
 		father.value = this.relation.father.info;
 		mother.value = this.relation.mother.info;
@@ -126,6 +124,6 @@ console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
 		this.relation = relation;
 		this.setupForm();
 		this.setupChildren();
-		$(this.panel).panel('open');
+		this.showPane();
 	}
 }

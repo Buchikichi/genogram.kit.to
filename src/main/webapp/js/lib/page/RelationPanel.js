@@ -1,13 +1,14 @@
-class RelationPanel {
-	constructor() {
-		this.panel = document.getElementById('relationPanel');
-		this.deleteButton = this.panel.querySelector('[name="deleteButton"]');
+class RelationPanel extends AbstractPane {
+	constructor(isPanel) {
+		super('relationPanel', isPanel);
+		this.deleteButton = this.pane.querySelector('[name="deleteButton"]');
 		this.from = null;
 		this.to = null;
 		this.setupEvents();
 	}
 
 	setupEvents() {
+		super.setupEvents();
 		$('[name="emotion"]').click(()=> {
 			this.deleteRelationship();
 			this.relationship = this.createRelationship();
@@ -17,9 +18,6 @@ class RelationPanel {
 			this.deleteRelationship();
 			this.resetControls();
 		});
-		$(this.panel).panel({beforeclose: () => {
-			Field.Instance.clearSelection();
-		}});
 	}
 
 	createRelationship() {
@@ -47,8 +45,8 @@ class RelationPanel {
 	}
 
 	setupForm() {
-		let from = this.panel.querySelector('[name="from"]');
-		let to = this.panel.querySelector('[name="to"]');
+		let from = this.pane.querySelector('[name="from"]');
+		let to = this.pane.querySelector('[name="to"]');
 		let emotion = $('[name="emotion"]');
 
 		from.value = this.from.info;
@@ -77,7 +75,7 @@ class RelationPanel {
 			this.isNew = false;
 		}
 		this.setupForm();
-		$(this.panel).panel('open');
+		this.showPane();
 		window.getSelection().collapse(document.body, 0);
 	}
 }

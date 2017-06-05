@@ -47,69 +47,71 @@
       <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all" th:text="#{button.close}">Close</button>
     </form>
   </div>
-  <div id="inputPanel" data-role="panel" data-position="right" data-swipe-close="false" data-display="overlay" data-animate="false">
-    <form>
-      <input name="name" type="text" placeholder="Name" th:placeholder="#{placeholder.name}"/>
-      <textarea name="description" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
-      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <label><span th:text="#{label.male}">Male</span><input name="gender" type="radio" value="m"/></label>
-        <label><span th:text="#{label.female}">Female</span><input name="gender" type="radio" value="f"/></label>
-        <label><span th:text="#{label.unclear}">Unclear</span><input name="gender" type="radio" value="u"/></label>
-      </fieldset>
-      <div class="ui-field-contain">
-        <label for="input-age" th:text="#{label.age}">Age:</label>
-        <input id="input-age" name="age" type="number" min="0" max="120"/>
-      </div>
-      <div class="ui-field-contain">
-        <label for="input-dob" th:text="#{label.dob}">Date of birth:</label>
-        <input id="input-dob" name="dob" type="date"/>
-      </div>
-      <div class="ui-field-contain">
-        <label for="input-dod" th:text="#{label.dod}">Date of death:</label>
-        <input id="input-dod" name="dod" type="date"/>
-      </div>
-      <button id="parentsButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u" th:text="#{button.parents}">Parents</button>
-      <button id="partnerButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.partner}">Partner</button>
-      <ul id="partnerView" data-role="listview" data-inset="true"></ul>
-    </form>
-    <button name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" disabled="disabled" th:text="#{button.delete}">Delete</button>
-    <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all" th:text="#{button.close}">Close</button>
-  </div>
-  <div id="partnerPanel" data-role="panel" data-position="right" data-display="overlay">
-    <form>
-      <input type="text" name="father" disabled="disabled" placeholder="Male" th:placeholder="#{placeholder.male}"/>
-      <input type="text" name="mother" disabled="disabled" placeholder="Female" th:placeholder="#{placeholder.female}"/>
-      <fieldset data-role="controlgroup" data-mini="true">
-        <label><span th:text="#{label.marriage}">Marriage</span><input name="relationType" type="radio" value="m"/></label>
-        <label><span th:text="#{label.separated}">Separated</span><input name="relationType" type="radio" value="s"/></label>
-        <label><span th:text="#{label.divorced}">Divorced</span><input name="relationType" type="radio" value="d"/></label>
-        <label><span th:text="#{label.concubinage}">Concubinage</span><input name="relationType" type="radio" value="c"/></label>
-      </fieldset>
-      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <button id="mChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{label.maleChild}">Male child</button>
-        <button id="fChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{label.femaleChild}">Female child</button>
-      </fieldset>
-      <ul id="childrenView" data-role="listview" data-inset="true"></ul>
-    </form>
-  </div>
-  <div id="relationPanel" data-role="panel" data-position="right" data-display="overlay">
-    <form>
-      <label>From:<input type="text" name="from" readonly="readonly"/></label>
-      <label>To:<input type="text" name="to" readonly="readonly"/></label>
-      <fieldset data-role="controlgroup" data-mini="true">
-        <label>融合<input name="emotion" type="radio" value="Fused"/></label>
-        <label>親密<input name="emotion" type="radio" value="Close"/></label>
-        <label>疎遠<input name="emotion" type="radio" value="Distant"/></label>
-        <label>敵対<input name="emotion" type="radio" value="Hostile"/></label>
-        <label>融合し敵対<input name="emotion" type="radio" value="FusedHostile"/></label>
-        <label>親密で敵対<input name="emotion" type="radio" value="CloseHostile"/></label>
-        <label>遮断<input name="emotion" type="radio" value="CutOff"/></label>
-        <label>強い関心/干渉<input name="emotion" type="radio" value="Focused"/></label>
-        <label>性的虐待<input name="emotion" type="radio" value="SexualAbuse"/></label>
-        <label>身体的虐待<input name="emotion" type="radio" value="PhysicalAbuse"/></label>
-      </fieldset>
-      <button type="button" name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" th:text="#{button.delete}">Delete</button>
-    </form>
+  <div id="pane" data-draggable="false">
+    <div id="inputPanel" data-position="right" data-swipe-close="false" data-display="overlay" data-animate="false">
+      <form>
+        <input name="name" type="text" placeholder="Name" th:placeholder="#{placeholder.name}"/>
+        <textarea name="description" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
+        <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+          <label><span th:text="#{label.male}">Male</span><input name="gender" type="radio" value="m"/></label>
+          <label><span th:text="#{label.female}">Female</span><input name="gender" type="radio" value="f"/></label>
+          <label><span th:text="#{label.unclear}">Unclear</span><input name="gender" type="radio" value="u"/></label>
+        </fieldset>
+        <div class="ui-field-contain">
+          <label for="input-age" th:text="#{label.age}">Age:</label>
+          <input id="input-age" name="age" type="number" min="0" max="120"/>
+        </div>
+        <div class="ui-field-contain">
+          <label for="input-dob" th:text="#{label.dob}">Date of birth:</label>
+          <input id="input-dob" name="dob" type="date"/>
+        </div>
+        <div class="ui-field-contain">
+          <label for="input-dod" th:text="#{label.dod}">Date of death:</label>
+          <input id="input-dod" name="dod" type="date"/>
+        </div>
+        <button id="parentsButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u" th:text="#{button.parents}">Parents</button>
+        <button id="partnerButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.partner}">Partner</button>
+        <ul id="partnerView" data-role="listview" data-inset="true"></ul>
+      </form>
+      <button name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" disabled="disabled" th:text="#{button.delete}">Delete</button>
+      <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all" th:text="#{button.close}">Close</button>
+    </div>
+    <div id="partnerPanel" data-position="right" data-display="overlay">
+      <form>
+        <input type="text" name="father" disabled="disabled" placeholder="Male" th:placeholder="#{placeholder.male}"/>
+        <input type="text" name="mother" disabled="disabled" placeholder="Female" th:placeholder="#{placeholder.female}"/>
+        <fieldset data-role="controlgroup" data-mini="true">
+          <label><span th:text="#{label.marriage}">Marriage</span><input name="relationType" type="radio" value="m"/></label>
+          <label><span th:text="#{label.separated}">Separated</span><input name="relationType" type="radio" value="s"/></label>
+          <label><span th:text="#{label.divorced}">Divorced</span><input name="relationType" type="radio" value="d"/></label>
+          <label><span th:text="#{label.concubinage}">Concubinage</span><input name="relationType" type="radio" value="c"/></label>
+        </fieldset>
+        <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+          <button id="mChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{label.maleChild}">Male child</button>
+          <button id="fChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{label.femaleChild}">Female child</button>
+        </fieldset>
+        <ul id="childrenView" data-role="listview" data-inset="true"></ul>
+      </form>
+    </div>
+    <div id="relationPanel" data-position="right" data-display="overlay">
+      <form>
+        <label>From:<input type="text" name="from" readonly="readonly"/></label>
+        <label>To:<input type="text" name="to" readonly="readonly"/></label>
+        <fieldset data-role="controlgroup" data-mini="true">
+          <label>融合<input name="emotion" type="radio" value="Fused"/></label>
+          <label>親密<input name="emotion" type="radio" value="Close"/></label>
+          <label>疎遠<input name="emotion" type="radio" value="Distant"/></label>
+          <label>敵対<input name="emotion" type="radio" value="Hostile"/></label>
+          <label>融合し敵対<input name="emotion" type="radio" value="FusedHostile"/></label>
+          <label>親密で敵対<input name="emotion" type="radio" value="CloseHostile"/></label>
+          <label>遮断<input name="emotion" type="radio" value="CutOff"/></label>
+          <label>強い関心/干渉<input name="emotion" type="radio" value="Focused"/></label>
+          <label>性的虐待<input name="emotion" type="radio" value="SexualAbuse"/></label>
+          <label>身体的虐待<input name="emotion" type="radio" value="PhysicalAbuse"/></label>
+        </fieldset>
+        <button type="button" name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" th:text="#{button.delete}">Delete</button>
+      </form>
+    </div>
   </div>
   <div id="messagePopup" data-role="popup" data-overlay-theme="b" class="ui-content" style="max-width:280px">
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>

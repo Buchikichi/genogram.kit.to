@@ -13,7 +13,6 @@ body {
 	margin: 0px;
 	padding: 0px;
 	overflow: hidden;
-	z-index: 0;
 	transform-origin: 0px 0px;
 	transform: scale(2);
 	color: white;
@@ -24,19 +23,31 @@ body {
 	-ms-user-select: none;
 }
 #canvas {
-	position: absolute;
+	position: relative;
 	width: 100%;
 	height: 100%;
 	background-color: #f8f8f8;
+}
+#pane {
+/*	position: absolute;*/
+	top: 1em;
+	left: 1em;
+	width: 17em;
+	max-width: 17em;
+	padding: 0px 14px 4px 2px;
+	border: 1px #ccc solid;
+	background-color: white;
+	box-shadow: 4px 4px 8px #999;
+	z-index: 1000;
 }
 #printFrame {
 	display: none;
 }
 /* Button */
-div.ui-panel button.ui-icon-delete {
+#pane button.ui-icon-delete {
 	background-color: #FFaaaa;
 }
-div.ui-panel button.ui-icon-delete:hover {
+#pane button.ui-icon-delete:hover {
 	background-color: #dd7777;
 }
 /* Input */
