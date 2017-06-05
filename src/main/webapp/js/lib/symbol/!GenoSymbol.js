@@ -45,9 +45,12 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		if (text.length <= 1) {
 			return;
 		}
-		let y = -(this.textHh + this.radius);
+		let y = -this.radius;
 
+		ctx.save();
+		ctx.textBaseline = 'bottom';
 		ctx.fillText(text, 0, y);
+		ctx.restore();
 	}
 
 	drawAge(ctx) {
@@ -68,22 +71,27 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 			return;
 		}
 		let text = this.person.name;
-		let y = this.radius;
+		let y = 0;
 
-		if (showName == 'm') {
-			y -= this.textHh;
+		ctx.save();
+		if (showName == 'u') {
+			y = -this.radius * .8;
+			ctx.textBaseline = 'top';
+		} else if (showName == 'm') {
+			y = this.radius * .9;
+			ctx.textBaseline = 'bottom';
 		} else if (showName == 'b') {
-			y += this.textHh;
+			ctx.textBaseline = 'top';
+			y = this.radius * 1.1;
 		}
 		if (Field.DEBUG) {
 			text = '#' + this.person.generation + ':' + text;
 		}
-		ctx.save();
 		ctx.lineWidth = 3;
 		ctx.strokeStyle = 'rgba(220, 220, 220, .7)';
 		ctx.strokeText(text, 1, y + 1);
-		ctx.restore();
 		ctx.fillText(text, 0, y);
+		ctx.restore();
 	}
 
 	resetProperties() {

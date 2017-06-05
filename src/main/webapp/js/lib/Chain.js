@@ -129,33 +129,28 @@ class Chain extends Actor {
 	/**
 	 * 距離を置く.
 	 */
-	leave(other, dist = 1) {
+	separate(other, desired = 1) {
 		if (!this.rest || !other.rest) {
 			return;
 		}
-		let diff = other.x - this.x;
+		let sign = desired < 0 ? -1 : 1;
+		let dist = other.ax - this.ax;
 
 		if (this.prevActor == other) {
-//console.log('leave:this:' + diff);
-			if (diff < 0) {
-				this.rx++;
-			} else if (0 < diff) {
-				this.rx--;
-			}
+			let diff = desired - this.rx;
+console.log('separate:this:' + dist);
+			this.rx -= sign;
 			if (8 < Math.abs(this.rx)) {
 				// TODO 固定値 8 をどうにかする
-console.log('**error** #leave.this/rx:' + this.rx);
+console.log('**error** #separate.this/rx:' + this.rx);
 				this.rx %= 8;
 			}
 		} else if (other.prevActor == this) {
-//console.log('leave:other:' + dist);
-			if (diff < 0) {
-				other.rx--;
-			} else if (0 < diff) {
-				other.rx++;
-			}
+			let diff = desired - other.rx;
+console.log('separate:other:' + desired);
+			other.rx += sign;
 		} else {
-console.log('**error** #leave.else');
+console.log('**error** #separate.else');
 console.log(this);
 		}
 	}
@@ -167,30 +162,29 @@ console.log(this);
 		if (this.prevActor == other || other.prevActor == this) {
 			return;
 		}
-console.log('[assignActor]');
 		other.prevActor = this;
-		other.x = this.x + rx;
-		other.y = this.y;
 		other.rx = rx;
 		other.ry = ry;
+		other.x = this.ax;
+		other.y = this.ay;
 		other.generation = this.generation;
 		if (ry < 0) {
 			other.generation--;
 		} else if (0 < ry) {
 			other.generation++;
 		}
-console.log(this.info + ':G' + this.generation + ' -> ' + other.info + ':G' + other.generation);
+console.log('[Chain#assignActor] ' + this.info + ':G' + this.generation + ' -> ' + other.info + ':G' + other.generation);
 		this.nextActor.push(other);
 	}
 
 	addActor(other, rx, ry = 0) {
-console.log('Chain#addActor');
+console.log('[Chain#addActor]' + other.info);
 		let next = this.getNextPartner();
 
 		other.prevActor = this;
 		other.rx = rx;
 		other.ry = ry;
-		other.x = this.x + rx;
+		other.x = this.ax;
 		other.y = this.y;
 		if (next) {
 			let ix = this.nextActor.indexOf(next);
@@ -366,6 +360,17 @@ class Ties extends Chain {
 		return list;
 	}
 
+	get hasBothParents() {
+		let list = this.partnerList;
+
+		if (list.length == 0) {
+			return false;
+		}
+		let partner = list[0];
+
+		return this.parents && partner.parents;
+	}
+
 	get hasChild() {
 		let result = false;
 
@@ -388,13 +393,17 @@ class Ties extends Chain {
 	}
 
 	addParents(relation) {
-console.log('Ties#addParents');
+console.log('Ties#addParents ' + relation.info);
 		let parent = relation.leftSide;
 
-		parent.addPartner(relation);
 		relation.addChild(this);
-//		if (parent.prevActor == null) {
-//			this.assignActor(parent, 0, -2);
+		parent.addPartner(relation);
+//		if (this.hasBothParents) {
+//console.log('両親あり!!');
+//			let partner = this.partnerList[0];
+//
+//			this.separate(partner, 3);
+//			this.moveQuickly();
 //		}
 		this.reserve(relation.leftSide, relation.rightSide);
 	}

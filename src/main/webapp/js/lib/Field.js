@@ -8,7 +8,6 @@ class Field {
 		this.view = new FlexibleView(width, height);
 		this.tx = 0;
 		this.ty = 0;
-		this.focus = null;
 		this.targetList = [];
 		this.actorList = [];
 		this.dirty = false;
@@ -179,11 +178,6 @@ class Field {
 		});
 	}
 
-	setFocus(actor) {
-		this.focus = actor;
-		this.dirty = true;
-	}
-
 	addActor(...actors) {
 		actors.forEach(act => {
 			if (this.actorList.indexOf(act) != -1) {
@@ -229,7 +223,7 @@ class Field {
 		if (!this.dirty) {
 			return;
 		}
-console.log('[dirty]' + this.actorList.length);
+console.log('*dirty* ' + this.actorList.length);
 		this.dirty = false;
 		let minX = 0;
 		let minY = 0;
@@ -238,29 +232,6 @@ console.log('[dirty]' + this.actorList.length);
 		let list = [];
 		let relationList = [];
 
-		this.focus.x = 0;
-		this.focus.y = 0;
-//		this.focus.scanAll(list);
-//		this.focus.calculate();
-/*
-		this.actorList.forEach(person => {
-			if (!(person instanceof Person)) {
-				return;
-			}
-			person.touched = false;
-		});
-		this.actorList.forEach(person => {
-			if (!(person instanceof Person)) {
-				return;
-			}
-			this.actorList.forEach(target => {
-				if (!(person instanceof Person) || person == target) {
-					return;
-				}
-				person.touch(target);
-			});
-		});
-//*/
 		this.actorList.forEach(actor => {
 			if (actor instanceof Relation) {
 				relationList.push(actor);
@@ -280,6 +251,7 @@ console.log('[dirty]' + this.actorList.length);
 			}
 		});
 		if (!this.dirty) {
+//console.log('*** !this.dirty ***');
 			relationList.forEach(relation => {
 				if (relation.reassign()) {
 					this.dirty = true;

@@ -34,7 +34,7 @@ class PartnerPanel extends AbstractPane {
 		let field = Field.Instance;
 		let father = this.relation.father;
 
-console.log(field.numOfGeneration + '/min:' + field.minGeneration + '/max:' + field.maxGeneration);
+//console.log(field.numOfGeneration + '/min:' + field.minGeneration + '/max:' + field.maxGeneration);
 		if (field.maxGeneration <= father.generation && field.numOfGeneration == Field.MAX_GENERATION) {
 			alert('世代数は、' + Field.MAX_GENERATION + 'までの設定になっています。');
 			return;

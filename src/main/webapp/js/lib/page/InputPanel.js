@@ -82,8 +82,8 @@ class InputPanel extends AbstractPane {
 	addParents() {
 		let field = Field.Instance;
 
-console.log(field.numOfGeneration + '/min:' + field.minGeneration + '/max:' + field.maxGeneration);
-console.log('person.generation:' + this.person.generation);
+//console.log(field.numOfGeneration + '/min:' + field.minGeneration + '/max:' + field.maxGeneration);
+//console.log('person.generation:' + this.person.generation);
 		if (this.person.generation == field.minGeneration && field.numOfGeneration == Field.MAX_GENERATION) {
 			alert('世代数は、' + Field.MAX_GENERATION + 'までの設定になっています。');
 			return;

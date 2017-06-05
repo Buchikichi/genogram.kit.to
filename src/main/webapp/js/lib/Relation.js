@@ -8,7 +8,6 @@ class Relation extends Actor {
 			this.leftSide = other;
 			this.rightSide = person;
 		}
-		person.addPartner(this);
 		this.type = 'm';
 		this.children = [];
 		this.hit = false;
@@ -185,12 +184,11 @@ class Relation extends Actor {
 	}
 
 	addChild(child) {
-console.log('Relation#addChild');
+console.log('Relation#addChild:' + child.info);
 		let len = this.children.length;
 
 		child.parents = this;
 		this.children.push(child);
-		this.reserve(child);
 		if (0 < len) {
 			let older = this.children[len - 1];
 
@@ -203,14 +201,15 @@ console.log('Relation#addChild');
 			}
 		} else {
 			if (child.prevActor) {
-console.log('child.assign father');
+//console.log('child.assign father');
 				child.assignActor(this.father, 0, -2);
 				this.mother.generation = this.father.generation;
 			} else {
-console.log('father.assign child');
+//console.log('father.assign child');
 				this.father.assignActor(child, 0, 2);
 			}
 		}
+		this.reserve(child);
 		this.reassign();
 	}
 
@@ -227,15 +226,14 @@ console.log('father.assign child');
 		if (!this.leftSide.rest || !this.rightSide.rest) {
 			return false;
 		}
-//console.log('[reassignOccupancy]');
+console.log('Relation#reassignOccupancy');
 		let leftOc = this.leftSide.ancestorOccupancy(new Occupancy(this.leftSide));
 		let rightOc = this.rightSide.ancestorOccupancy(new Occupancy(this.rightSide));
-		let diff = rightOc.left - leftOc.right - 2;
+		let desired = leftOc.right - rightOc.left + 2;
 
-		if (diff != 0) {
-//console.log('diff:' + diff + '/' + leftOc.right + '|' + rightOc.left);
-
-			this.leftSide.leave(this.rightSide);
+		if (desired != 0) {
+console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
+			this.leftSide.separate(this.rightSide, desired);
 			return true;
 		}
 		return false;
@@ -256,7 +254,7 @@ console.log('father.assign child');
 			if (child.isMale) {
 				if (0 < ix && child.rx != margin) {
 //					child.rx = margin;
-					child.leave(child.prevActor);
+					child.separate(child.prevActor, -margin);
 					result = true;
 				}
 				margin = 2 + oc.width;
@@ -265,7 +263,7 @@ console.log('father.assign child');
 
 				if (0 < ix && child.rx != rx) {
 //					child.rx = rx;
-					child.leave(child.prevActor);
+					child.separate(child.prevActor, -rx);
 					result = true;
 				}
 				margin = 2;

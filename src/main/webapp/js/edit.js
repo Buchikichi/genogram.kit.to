@@ -99,7 +99,6 @@ target.nextActor.forEach(nx => {
 		let root = new ChainRoot();
 
 //this.field.actorList.push(new EnclosingLine());
-		this.field.setFocus(root);
 		this.field.addActor(root);
 		if (this.diagramId.length == 0 || this.documentId.length == 0) {
 			this.initSandbox(root);
@@ -131,12 +130,14 @@ target.nextActor.forEach(nx => {
 	loadDiagram(root) {
 		let entity = new DiagramEntity();
 
+console.log('[loadDiagram]:BEGIN');
 		entity.select(this.diagramId).then(diagram => {
 			let personMap = this.makePersonMap(diagram.personList);
 
 			this.loadPersons(root, diagram, personMap);
 			this.loadPartner(diagram, personMap);
 			this.loadRelationship(diagram, personMap);
+console.log('[loadDiagram]:END');
 		});
 	}
 
@@ -182,6 +183,8 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 			}
 			relation.id = rec.id;
 			relation.type = rec.type;
+			father.addPartner(relation);
+			this.field.addActor(relation);
 		});
 	}
 
