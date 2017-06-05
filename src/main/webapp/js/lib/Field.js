@@ -111,7 +111,7 @@ class Field {
 		});
 		if (result == null) {
 			result = new Relation(person, other);
-			this.addActor(person, other, result);
+			this.addActor(result);
 		}
 		return result;
 	}

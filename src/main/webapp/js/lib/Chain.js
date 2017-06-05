@@ -301,6 +301,7 @@ console.log('Chain#addPartner:' + this.info + '_' + partner.info);
 //console.log('prevなし');
 			this.addActor(partner, dir);
 		}
+		this.reserve(partner);
 	}
 }
 Chain.Z = 100;
