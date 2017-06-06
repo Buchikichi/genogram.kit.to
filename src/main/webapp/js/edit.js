@@ -118,6 +118,10 @@ target.nextActor.forEach(nx => {
 		this.field.addActor(newPerson);
 	}
 
+	addEnclosure() {
+		this.field.actorList.push(new EnclosingLine());
+	}
+
 	makePersonMap(personList) {
 		let map = {};
 

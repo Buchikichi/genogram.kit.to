@@ -7,8 +7,10 @@ class SettingPanel {
 	}
 
 	setupEvents() {
+		let encloseButton = document.getElementById('encloseButton');
 		let printButton = document.getElementById('printButton');
 
+		encloseButton.addEventListener('click', () => {this.addEnclosure()});
 		printButton.addEventListener('click', () => {this.print()});
 		if (0 < this.appMain.documentId.length) {
 			this.saveButton.classList.remove('ui-state-disabled');
@@ -19,6 +21,10 @@ class SettingPanel {
 
 			grid.checked = true;
 		}
+	}
+
+	addEnclosure() {
+		this.appMain.addEnclosure();
 	}
 
 	print() {

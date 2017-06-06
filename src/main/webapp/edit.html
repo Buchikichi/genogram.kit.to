@@ -43,8 +43,9 @@
       </fieldset>
       </div>
       <label>Font size:<input type="range" name="fontSize" min="8" max="40" step="4" value="20"/></label>
-      <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled" th:text="#{button.save}">Save</button>
+      <button id="encloseButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus ui-state-disabled" th:text="#{button.enclose}">Enclosure</button>
       <button id="printButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-action" th:text="#{button.print}">Print</button>
+      <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled" th:text="#{button.save}">Save</button>
       <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all" th:text="#{button.close}">Close</button>
     </form>
   </div>
@@ -96,19 +97,19 @@
     </div>
     <div id="relationPanel" data-position="right" data-display="overlay">
       <form>
-        <label>From:<input type="text" name="from" readonly="readonly"/></label>
-        <label>To:<input type="text" name="to" readonly="readonly"/></label>
+        <label>From:<input type="text" name="from" disabled="disabled"/></label>
+        <label>To:<input type="text" name="to" disabled="disabled"/></label>
         <fieldset data-role="controlgroup" data-mini="true">
-          <label>融合<input name="emotion" type="radio" value="Fused"/></label>
-          <label>親密<input name="emotion" type="radio" value="Close"/></label>
-          <label>疎遠<input name="emotion" type="radio" value="Distant"/></label>
-          <label>敵対<input name="emotion" type="radio" value="Hostile"/></label>
-          <label>融合し敵対<input name="emotion" type="radio" value="FusedHostile"/></label>
-          <label>親密で敵対<input name="emotion" type="radio" value="CloseHostile"/></label>
-          <label>遮断<input name="emotion" type="radio" value="CutOff"/></label>
-          <label>強い関心/干渉<input name="emotion" type="radio" value="Focused"/></label>
-          <label>性的虐待<input name="emotion" type="radio" value="SexualAbuse"/></label>
-          <label>身体的虐待<input name="emotion" type="radio" value="PhysicalAbuse"/></label>
+          <label><span th:text="#{label.fused}">Fused</span><input name="emotion" type="radio" value="Fused"/></label>
+          <label><span th:text="#{label.close}">Close</span><input name="emotion" type="radio" value="Close"/></label>
+          <label><span th:text="#{label.distant}">Distant</span><input name="emotion" type="radio" value="Distant"/></label>
+          <label><span th:text="#{label.hostile}">Hostile</span><input name="emotion" type="radio" value="Hostile"/></label>
+          <label><span th:text="#{label.fusedHostile}">Fused hostile</span><input name="emotion" type="radio" value="FusedHostile"/></label>
+          <label><span th:text="#{label.closeHostile}">Close hostile</span><input name="emotion" type="radio" value="CloseHostile"/></label>
+          <label><span th:text="#{label.cutOff}">Cut off</span><input name="emotion" type="radio" value="CutOff"/></label>
+          <label><span th:text="#{label.focused}">Focused</span><input name="emotion" type="radio" value="Focused"/></label>
+          <label><span th:text="#{label.sexualAbuse}">Sexual abuse</span><input name="emotion" type="radio" value="SexualAbuse"/></label>
+          <label><span th:text="#{label.physicalAbuse}">Physical abuse</span><input name="emotion" type="radio" value="PhysicalAbuse"/></label>
         </fieldset>
         <button type="button" name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" th:text="#{button.delete}">Delete</button>
       </form>

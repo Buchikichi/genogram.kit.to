@@ -55,5 +55,5 @@ input[name=dob], input[name=dod] {
 	ime-mode: disabled;
 }
 div.ui-input-text.ui-state-disabled {
-	opacity: 0.5;
+	opacity: 0.6;
 }
