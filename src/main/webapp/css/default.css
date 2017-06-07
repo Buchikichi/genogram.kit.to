@@ -40,6 +40,18 @@ body {
 	box-shadow: 4px 4px 8px #999;
 	z-index: 1000;
 }
+#settingPanel {
+	background-image: url("../img/bg.setting.png");
+}
+#inputPanel {
+	background-image: url("../img/bg.input.png");
+}
+#partnerPanel {
+	background-image: url("../img/bg.partner.png");
+}
+#relationPanel {
+	background-image: url("../img/bg.relation.png");
+}
 #printFrame {
 	display: none;
 }
