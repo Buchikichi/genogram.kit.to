@@ -29,21 +29,24 @@
   </div>
   <div id="settingPanel" data-role="panel" data-position="left" data-swipe-close="false">
     <form>
-      <input type="text" name="documentId" th:value="${diagram.documentId}" disabled="disabled"/>
+      <input type="text" name="documentId" th:value="${diagram.documentId}" placeholder="ID" disabled="disabled"/>
       <textarea name="description" th:text="${diagram.description}" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
-      <label>Grid:<input type="checkbox" name="grid" data-role="flipswitch" data-on-text="On" data-off-text="Off"/></label>
+      <div class="ui-field-contain">
+        <label th:text="#{label.grid}" style="width:auto">Grid:</label>
+        <input type="checkbox" name="grid" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
+      </div>
       <input type="range" name="gridSpacing" min="30" max="120" step="10" value="80"/>
       <div class="ui-field-contain">
         <label th:text="#{label.name}">Name:</label>
-      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <label><span>Off</span><input name="showName" type="radio" value="0" checked="checked"/></label>
-        <label><span>^</span><input name="showName" type="radio" value="u"/></label>
-        <label><span>-</span><input name="showName" type="radio" value="m"/></label>
-        <label><span>_</span><input name="showName" type="radio" value="b"/></label>
-      </fieldset>
+        <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+          <label><span>Off</span><input name="showName" type="radio" value="0" checked="checked"/></label>
+          <label><span>^</span><input name="showName" type="radio" value="u"/></label>
+          <label><span>-</span><input name="showName" type="radio" value="m"/></label>
+          <label><span>_</span><input name="showName" type="radio" value="b"/></label>
+        </fieldset>
       </div>
       <label>Font size:<input type="range" name="fontSize" min="8" max="40" step="4" value="20"/></label>
-      <button id="encloseButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus ui-state-disabled" th:text="#{button.enclose}">Enclosure</button>
+      <button id="encloseButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.enclose}">Enclosure</button>
       <button id="printButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-action" th:text="#{button.print}">Print</button>
       <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled" th:text="#{button.save}">Save</button>
       <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all" th:text="#{button.close}">Close</button>
@@ -54,22 +57,38 @@
       <form>
         <input name="name" type="text" placeholder="Name" th:placeholder="#{placeholder.name}"/>
         <textarea name="description" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
-        <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-          <label><span th:text="#{label.male}">Male</span><input name="gender" type="radio" value="m"/></label>
-          <label><span th:text="#{label.female}">Female</span><input name="gender" type="radio" value="f"/></label>
-          <label><span th:text="#{label.unclear}">Unclear</span><input name="gender" type="radio" value="u"/></label>
-        </fieldset>
-        <div class="ui-field-contain">
-          <label for="input-age" th:text="#{label.age}">Age:</label>
-          <input id="input-age" name="age" type="number" min="0" max="120"/>
-        </div>
-        <div class="ui-field-contain">
-          <label for="input-dob" th:text="#{label.dob}">Date of birth:</label>
-          <input id="input-dob" name="dob" type="date"/>
-        </div>
-        <div class="ui-field-contain">
-          <label for="input-dod" th:text="#{label.dod}">Date of death:</label>
-          <input id="input-dod" name="dod" type="date"/>
+        <div data-role="collapsibleset" data-mini="true">
+          <div data-role="collapsible" data-inset="false" data-collapsed="false">
+            <h3 th:text="#{label.attributes.basic}">Basic attributes</h3>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <label><span th:text="#{label.male}">Male</span><input name="gender" type="radio" value="m"/></label>
+              <label><span th:text="#{label.female}">Female</span><input name="gender" type="radio" value="f"/></label>
+              <label><span th:text="#{label.unclear}">Unclear</span><input name="gender" type="radio" value="u"/></label>
+            </fieldset>
+            <div class="ui-field-contain">
+              <label for="input-age" th:text="#{label.age}">Age:</label>
+              <input id="input-age" name="age" type="number" min="0" max="120"/>
+            </div>
+            <div class="ui-field-contain">
+              <label for="input-dob" th:text="#{label.dob}">Date of birth:</label>
+              <input id="input-dob" name="dob" type="date"/>
+            </div>
+            <div class="ui-field-contain">
+              <label for="input-dod" th:text="#{label.dod}">Date of death:</label>
+              <input id="input-dod" name="dod" type="date"/>
+            </div>
+          </div>
+          <div data-role="collapsible" data-inset="false">
+            <h3 th:text="#{label.attributes.other}">Other attributes</h3>
+            <div class="ui-field-contain">
+              <label style="width:auto">薬物/ｱﾙｺｰﾙ依存:</label>
+              <input type="checkbox" name="aaa" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
+            </div>
+            <div class="ui-field-contain">
+              <label style="width:auto">身体/精神疾患:</label>
+              <input type="checkbox" name="bbb" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
+            </div>
+          </div>
         </div>
         <button id="parentsButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u" th:text="#{button.parents}">Parents</button>
         <button id="partnerButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.partner}">Partner</button>
@@ -97,8 +116,8 @@
     </div>
     <div id="relationPanel" data-position="right" data-display="overlay">
       <form>
-        <label>From:<input type="text" name="from" disabled="disabled"/></label>
-        <label>To:<input type="text" name="to" disabled="disabled"/></label>
+        <input type="text" name="from" disabled="disabled"/>
+        <input type="text" name="to" disabled="disabled"/>
         <fieldset data-role="controlgroup" data-mini="true">
           <label><span th:text="#{label.fused}">Fused</span><input name="emotion" type="radio" value="Fused"/></label>
           <label><span th:text="#{label.close}">Close</span><input name="emotion" type="radio" value="Close"/></label>
