@@ -33,7 +33,7 @@
       <textarea name="description" th:text="${diagram.description}" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
       <div class="ui-field-contain">
         <label th:text="#{label.grid}">Grid:</label>
-        <input type="checkbox" name="showGrid" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
+        <input type="checkbox" name="showGrid" value="1" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
       </div>
       <input type="range" name="gridSize" min="30" max="120" step="10" value="80"/>
       <div class="ui-field-contain">

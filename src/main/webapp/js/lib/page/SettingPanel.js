@@ -56,11 +56,9 @@ class SettingPanel {
 	}
 
 	createDiagramInfo(formData) {
-		let showGrid = this.panel.querySelector('[name="showGrid"]');
 		let canvas = FlexibleView.Instance.canvas;
 
-		formData.set('showGrid', showGrid.checked ? 1 : 0);
-		formData.set('image', canvas.toDataURL());
+		formData.append('image', canvas.toDataURL());
 	}
 
 	createPersonList(formData) {
