@@ -354,4 +354,4 @@ console.log('*dirty* ' + this.actorList.length);
 	}
 }
 Field.DEBUG = false;
-Field.MAX_GENERATION = Field.DEBUG ? 99 : 3;
+Field.MAX_GENERATION = Field.DEBUG ? 99 : 5;

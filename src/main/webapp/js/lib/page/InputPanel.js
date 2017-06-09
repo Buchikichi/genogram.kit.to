@@ -14,9 +14,6 @@ class InputPanel extends AbstractPane {
 		let dob = this.pane.querySelector('[name="dob"]');
 		let dod = this.pane.querySelector('[name="dod"]');
 		let age = this.pane.querySelector('[name="age"]');
-		let parentsButton = document.getElementById('parentsButton');
-		let partnerButton = document.getElementById('partnerButton');
-		let deleteButton = this.pane.querySelector('[name="deleteButton"]');
 
 		name.addEventListener('change', ()=> {
 			this.person.name = name.value;
@@ -56,6 +53,23 @@ class InputPanel extends AbstractPane {
 			dod.value = cal.toString();
 		});
 		age.addEventListener('keyup', ()=> this.ageChanged());
+		this.setupAttrEvents();
+		this.setupButtonEvents();
+	}
+
+	setupAttrEvents() {
+		let attr = this.pane.querySelector('[name="attr"]');
+
+		attr.addEventListener('keyup', ()=> {
+			this.person.attr = attr.value;
+		});
+	}
+
+	setupButtonEvents() {
+		let parentsButton = document.getElementById('parentsButton');
+		let partnerButton = document.getElementById('partnerButton');
+		let deleteButton = this.pane.querySelector('[name="deleteButton"]');
+
 		parentsButton.addEventListener('click', ()=> this.addParents());
 		partnerButton.addEventListener('click', ()=> this.addPartner());
 		deleteButton.addEventListener('click', ()=> this.person.remove());

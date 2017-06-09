@@ -81,12 +81,16 @@
           <div data-role="collapsible" data-inset="false">
             <h3 th:text="#{label.attributes.other}">Other attributes</h3>
             <div class="ui-field-contain">
+              <label style="width:auto">身体/精神疾患:</label>
+              <input type="checkbox" name="bbb" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
+            </div>
+            <div class="ui-field-contain">
               <label style="width:auto">薬物/ｱﾙｺｰﾙ依存:</label>
               <input type="checkbox" name="aaa" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
             </div>
             <div class="ui-field-contain">
-              <label style="width:auto">身体/精神疾患:</label>
-              <input type="checkbox" name="bbb" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
+              <label for="input-attr" th:text="#{label.mark}">Mark:</label>
+              <input id="input-attr" name="attr" type="text"/>
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ class GenoSymbol {
 	drawSymbol(ctx) {
 		let bx = -this.radius;
 		let by = -this.radius;
-		let width = this.radius * 2;
+		let width = this.width;
 
 		ctx.strokeRect(bx, by, width, width);
 		if (this.person.principal) {
@@ -88,7 +88,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 			text = '#' + this.person.generation + ':' + text;
 		}
 		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'rgba(220, 220, 220, .7)';
+		ctx.strokeStyle = 'rgba(220, 220, 220, .8)';
 		ctx.strokeText(text, 1, y + 1);
 		ctx.fillText(text, 0, y);
 		ctx.restore();
@@ -97,7 +97,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 	resetProperties() {
 		this.radius = this.person.radius;
 		this.width = this.radius * 2;
-		this.ir = this.radius * .8;
+		this.ir = this.radius * .85;
 		this.fontSize = this.person.fontSize;
 		this.textMargin = this.fontSize * .2;
 		this.textHh = this.fontSize / 2 + this.textMargin;
