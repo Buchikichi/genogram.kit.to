@@ -29,7 +29,6 @@ class AppMain {
 
 	setupEvents() {
 		let view = document.getElementById('view');
-		let gridSpacing = $('[name="gridSpacing"]');
 
 		$(this.pane).hide();
 		view.addEventListener('mouseup', () => {
@@ -69,9 +68,6 @@ target.nextActor.forEach(nx => {
 				}
 				this.openPane(this.relationPanel, target, other);
 			}
-		});
-		gridSpacing.change(()=> {
-			this.field.dirty = true;
 		});
 		window.addEventListener('contextmenu', event => {
 			if (this.field.targetList.length == 0) {
@@ -138,6 +134,7 @@ console.log('[loadDiagram]:BEGIN');
 		entity.select(this.diagramId).then(diagram => {
 			let personMap = this.makePersonMap(diagram.personList);
 
+			this.settingPanel.loadDiagram(diagram);
 			this.loadPersons(root, diagram, personMap);
 			this.loadPartner(diagram, personMap);
 			this.loadRelationship(diagram, personMap);

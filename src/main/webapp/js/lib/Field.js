@@ -18,7 +18,7 @@ class Field {
 	}
 
 	get showGrid() {
-		let check = document.querySelector('[name="grid"]');
+		let check = document.querySelector('[name="showGrid"]');
 
 		return check.checked;
 	}
@@ -36,17 +36,17 @@ class Field {
 	}
 
 	get spacing() {
-		let element = document.querySelector('[name="gridSpacing"]');
-		let gridSpacing = parseFloat(element.value);
+		let element = document.querySelector('[name="gridSize"]');
+		let gridSize = parseFloat(element.value);
 
-		if (!gridSpacing) {
-			gridSpacing = 80;
+		if (!gridSize) {
+			gridSize = 80;
 		}
-		return gridSpacing;
+		return gridSize;
 	}
 
 	get fontSize() {
-		let element = document.querySelector('[name="fontSize"]');
+		let element = document.querySelector('[name="nameSize"]');
 		let fontSize = parseFloat(element.value);
 
 		if (!fontSize) {

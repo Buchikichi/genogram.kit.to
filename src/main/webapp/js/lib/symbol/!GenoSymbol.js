@@ -92,20 +92,20 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 	drawName(ctx) {
 		let showName = Field.Instance.showName;
 
-		if (showName == '0') {
+		if (showName == 'Off') {
 			return;
 		}
 		let text = this.person.name;
 		let y = 0;
 
 		ctx.save();
-		if (showName == 'u') {
+		if (showName == 'Top') {
 			y = -this.radius * .8;
 			ctx.textBaseline = 'top';
-		} else if (showName == 'm') {
+		} else if (showName == 'Middle') {
 			y = this.radius * .8;
 			ctx.textBaseline = 'bottom';
-		} else if (showName == 'b') {
+		} else if (showName == 'Bottom') {
 			ctx.textBaseline = 'top';
 			y = this.radius * 1.1;
 		}
@@ -125,7 +125,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		let y = 0;
 
 		ctx.save();
-		if (showName == 'm') {
+		if (showName == 'Middle') {
 			y = -this.radius * .8;
 			ctx.textBaseline = 'top';
 		} else {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -16,6 +17,8 @@ import org.hibernate.annotations.NotFoundAction;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
+import to.kit.genogram.enumeration.ShowNameType;
+import to.kit.genogram.enumeration.ShowNameTypeCoverter;
 
 /**
  * ダイアグラムエンティティ.
@@ -30,6 +33,11 @@ public class Diagram {
 	private String personId;
 	private String description;
 	private String image;
+	private int showGrid;
+	private int gridSize;
+	@Convert(converter = ShowNameTypeCoverter.class)
+	private ShowNameType showName;
+	private int nameSize;
 	@Column(insertable = false, updatable = false)
 	private Date created;
 	@Column(insertable = false)

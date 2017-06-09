@@ -2,14 +2,19 @@ class SettingPanel {
 	constructor(appMain) {
 		this.appMain = appMain;
 		this.panel = document.getElementById('settingPanel');
+		this.form = this.panel.querySelector('form');
 		this.saveButton = document.getElementById('saveButton');
 		this.setupEvents();
 	}
 
 	setupEvents() {
+		let gridSize = $('[name="gridSize"]');
 		let encloseButton = document.getElementById('encloseButton');
 		let printButton = document.getElementById('printButton');
 
+		gridSize.change(()=> {
+			Field.Instance.dirty = true;
+		});
 		encloseButton.addEventListener('click', () => {this.addEnclosure()});
 		printButton.addEventListener('click', () => {this.print()});
 		if (0 < this.appMain.documentId.length) {
@@ -17,10 +22,14 @@ class SettingPanel {
 			this.saveButton.addEventListener('click', ()=> {this.save()});
 		}
 		if (Field.DEBUG) {
-			let grid = document.querySelector('[name="grid"]');
+			let showGrid = document.querySelector('[name="showGrid"]');
 
-			grid.checked = true;
+			showGrid.checked = true;
 		}
+	}
+
+	loadDiagram(diagram) {
+		FormUtils.load(this.form, diagram);
 	}
 
 	addEnclosure() {
@@ -44,6 +53,14 @@ class SettingPanel {
 			win.focus();
 			win.print();
 		});
+	}
+
+	createDiagramInfo(formData) {
+		let showGrid = this.panel.querySelector('[name="showGrid"]');
+		let canvas = FlexibleView.Instance.canvas;
+
+		formData.set('showGrid', showGrid.checked ? 1 : 0);
+		formData.set('image', canvas.toDataURL());
 	}
 
 	createPersonList(formData) {
@@ -115,18 +132,12 @@ console.log(ix + ':' + person.id);
 	}
 
 	save() {
-		let settingPanel = document.getElementById('settingPanel');
-		let description = settingPanel.querySelector('[name="description"]');
-		let canvas = FlexibleView.Instance.canvas;
 		let formData = new FormData(this.form);
 		let entity = new DiagramEntity();
 		let messagePopup = document.getElementById('messagePopup');
 		let content = messagePopup.querySelector('p');
 
-		formData.append('id', this.appMain.diagramId);
-		formData.append('documentId', this.appMain.documentId);
-		formData.append('description', description.value);
-		formData.append('image', canvas.toDataURL());
+		this.createDiagramInfo(formData);
 		this.createPersonList(formData);
 		this.createPartnerList(formData);
 		this.createRelationshipList(formData);
@@ -134,7 +145,7 @@ console.log(ix + ':' + person.id);
 		entity.save(formData).then(data => {
 			$.mobile.loading('hide');
 			if (data.ok) {
-				$(settingPanel).panel('close');
+				$(this.panel).panel('close');
 				content.textContent = '保存しました。';
 			} else {
 				content.textContent = 'Save failed.';

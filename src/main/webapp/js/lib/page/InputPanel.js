@@ -179,22 +179,7 @@ class InputPanel extends AbstractPane {
 	}
 
 	setupForm() {
-		$(this.form).find(':input').each((ix, element) => {
-			let name = element.getAttribute('name');
-			let type = element.getAttribute('type');
-			let val = this.person[name];
-
-			if (type == 'radio') {
-				$(element).val([val]).checkboxradio('refresh');
-			} else if (type == 'checkbox') {
-				element.checked = 0 < val;
-				$(element).flipswitch('refresh');
-			} else {
-//console.log(name + ':' + val);
-//				element.setAttribute('value', val);
-				element.value = val;
-			}
-		});
+		FormUtils.load(this.form, this.person);
 		this.setupPartner();
 		this.refreshControls();
 	}

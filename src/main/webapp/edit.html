@@ -24,28 +24,28 @@
 -->
   <div id="view" data-role="content">
     <canvas id="canvas"></canvas>
-    <input type="hidden" name="id" th:value="${diagram.id}"/>
-    <input type="hidden" name="documentId" th:value="${diagram.documentId}"/>
   </div>
   <div id="settingPanel" data-role="panel" data-position="left" data-swipe-close="false">
     <form>
+      <input type="hidden" name="id" th:value="${diagram.id}"/>
+      <input type="hidden" name="documentId" th:value="${diagram.documentId}"/>
       <input type="text" name="documentId" th:value="${diagram.documentId}" placeholder="ID" disabled="disabled"/>
       <textarea name="description" th:text="${diagram.description}" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
       <div class="ui-field-contain">
         <label th:text="#{label.grid}">Grid:</label>
-        <input type="checkbox" name="grid" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
+        <input type="checkbox" name="showGrid" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
       </div>
-      <input type="range" name="gridSpacing" min="30" max="120" step="10" value="80"/>
+      <input type="range" name="gridSize" min="30" max="120" step="10" value="80"/>
       <div class="ui-field-contain">
         <label th:text="#{label.name}">Name:</label>
         <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-          <label><span>Off</span><input name="showName" type="radio" value="0" checked="checked"/></label>
-          <label><span>^</span><input name="showName" type="radio" value="u"/></label>
-          <label><span>-</span><input name="showName" type="radio" value="m"/></label>
-          <label><span>_</span><input name="showName" type="radio" value="b"/></label>
+          <label><span>Off</span><input name="showName" type="radio" value="Off" checked="checked"/></label>
+          <label><span>^</span><input name="showName" type="radio" value="Top"/></label>
+          <label><span>-</span><input name="showName" type="radio" value="Middle"/></label>
+          <label><span>_</span><input name="showName" type="radio" value="Bottom"/></label>
         </fieldset>
       </div>
-      <label>Font size:<input type="range" name="fontSize" min="8" max="40" step="4" value="16"/></label>
+      <label>Font size:<input type="range" name="nameSize" min="8" max="40" step="4" value="16"/></label>
       <button id="encloseButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.enclose}">Enclosure</button>
       <button id="printButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-action" th:text="#{button.print}">Print</button>
       <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled" th:text="#{button.save}">Save</button>
