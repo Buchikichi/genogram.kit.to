@@ -3,6 +3,31 @@ class GenoSymbol {
 		this.person = person;
 	}
 
+	drawIllness(ctx) {
+		if (!this.person.illness) {
+			return;
+		}
+		let bx = -this.radius;
+		let by = -this.radius;
+
+		ctx.save();
+		ctx.fillStyle = GenoSymbol.ColorIllness;
+		ctx.fillRect(bx, by, this.radius, this.width);
+		ctx.restore();
+	}
+
+	drawAbuse(ctx) {
+		if (!this.person.abuse) {
+			return;
+		}
+		let bx = -this.radius;
+
+		ctx.save();
+		ctx.fillStyle = GenoSymbol.ColorAbuse;
+		ctx.fillRect(bx, 0, this.width, this.radius);
+		ctx.restore();
+	}
+
 	drawSymbol(ctx) {
 		let bx = -this.radius;
 		let by = -this.radius;
@@ -78,7 +103,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 			y = -this.radius * .8;
 			ctx.textBaseline = 'top';
 		} else if (showName == 'm') {
-			y = this.radius * .9;
+			y = this.radius * .8;
 			ctx.textBaseline = 'bottom';
 		} else if (showName == 'b') {
 			ctx.textBaseline = 'top';
@@ -90,6 +115,23 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		ctx.lineWidth = 3;
 		ctx.strokeStyle = 'rgba(220, 220, 220, .8)';
 		ctx.strokeText(text, 1, y + 1);
+		ctx.fillText(text, 0, y);
+		ctx.restore();
+	}
+
+	drawAttr(ctx) {
+		let showName = Field.Instance.showName;
+		let text = this.person.attr;
+		let y = 0;
+
+		ctx.save();
+		if (showName == 'm') {
+			y = -this.radius * .8;
+			ctx.textBaseline = 'top';
+		} else {
+			y = this.radius * .8;
+			ctx.textBaseline = 'bottom';
+		}
 		ctx.fillText(text, 0, y);
 		ctx.restore();
 	}
@@ -106,19 +148,24 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 	draw(ctx) {
 		this.resetProperties();
 		ctx.save();
+		this.drawIllness(ctx);
+		this.drawAbuse(ctx);
 		ctx.strokeStyle = this.person.strokeStyle;
-		ctx.textAlign = 'center';
 		this.drawSymbol(ctx);
 		if (this.person.dod) {
 			ctx.lineWidth = .5;
 			this.drawCross(ctx);
 		}
+		ctx.textAlign = 'center';
 		ctx.lineWidth = 1;
 		ctx.strokeStyle = 'black';
 		ctx.fillStyle = 'black';
 		this.drawAge(ctx);
 		this.drawYears(ctx);
 		this.drawName(ctx);
+		this.drawAttr(ctx);
 		ctx.restore();
 	}
 }
+GenoSymbol.ColorIllness = 'rgba(200, 200, 200, .6)';
+GenoSymbol.ColorAbuse = 'rgba(200, 200, 200, .6)';

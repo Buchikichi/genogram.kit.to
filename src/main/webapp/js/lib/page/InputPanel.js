@@ -58,8 +58,16 @@ class InputPanel extends AbstractPane {
 	}
 
 	setupAttrEvents() {
+		let illness = this.pane.querySelector('[name="illness"]');
+		let abuse = this.pane.querySelector('[name="abuse"]');
 		let attr = this.pane.querySelector('[name="attr"]');
 
+		$(illness).bind('change', ()=> {
+			this.person.illness = illness.checked ? 1 : 0;
+		});
+		$(abuse).bind('change', ()=> {
+			this.person.abuse = abuse.checked ? 1 : 0;
+		});
 		attr.addEventListener('keyup', ()=> {
 			this.person.attr = attr.value;
 		});
@@ -171,13 +179,16 @@ class InputPanel extends AbstractPane {
 	}
 
 	setupForm() {
-		$('#inputPanel form :input').each((ix, element) => {
+		$(this.form).find(':input').each((ix, element) => {
 			let name = element.getAttribute('name');
 			let type = element.getAttribute('type');
 			let val = this.person[name];
 
 			if (type == 'radio') {
 				$(element).val([val]).checkboxradio('refresh');
+			} else if (type == 'checkbox') {
+				element.checked = 0 < val;
+				$(element).flipswitch('refresh');
 			} else {
 //console.log(name + ':' + val);
 //				element.setAttribute('value', val);

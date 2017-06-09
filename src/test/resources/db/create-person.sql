@@ -13,6 +13,8 @@ CREATE TABLE person(
 	gender varchar(1) NOT NULL DEFAULT '0',
 	dob varchar(8),
 	dod varchar(8),
+	illness int NOT NULL DEFAULT 0,
+	abuse int NOT NULL DEFAULT 0,
 	attr varchar(100),
 	parents_id varchar(36),
 	born_order int NOT NULL DEFAULT 0,
@@ -36,6 +38,8 @@ COMMENT ON COLUMN person.dy IS '説明dy';
 COMMENT ON COLUMN person.gender IS '性別';
 COMMENT ON COLUMN person.dob IS '生年月日';
 COMMENT ON COLUMN person.dod IS '死亡日';
+COMMENT ON COLUMN person.illness IS '疾患';
+COMMENT ON COLUMN person.abuse IS '依存症';
 COMMENT ON COLUMN person.attr IS '属性';
 COMMENT ON COLUMN person.parents_id IS '両親';
 COMMENT ON COLUMN person.born_order IS '何番目の子か';

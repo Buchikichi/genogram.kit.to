@@ -1,6 +1,7 @@
 class AbstractPane {
 	constructor(paneId, isPanel) {
 		this.pane = document.getElementById(paneId);
+		this.form = this.pane.querySelector('form');
 		this.isPanel = isPanel;
 	}
 

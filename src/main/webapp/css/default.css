@@ -62,6 +62,10 @@ body {
 #pane button.ui-icon-delete:hover {
 	background-color: #dd7777;
 }
+/* Label */
+.ui-field-contain label {
+	width: auto;
+}
 /* Input */
 input[name=dob], input[name=dod] {
 	ime-mode: disabled;

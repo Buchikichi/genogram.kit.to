@@ -32,7 +32,7 @@
       <input type="text" name="documentId" th:value="${diagram.documentId}" placeholder="ID" disabled="disabled"/>
       <textarea name="description" th:text="${diagram.description}" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
       <div class="ui-field-contain">
-        <label th:text="#{label.grid}" style="width:auto">Grid:</label>
+        <label th:text="#{label.grid}">Grid:</label>
         <input type="checkbox" name="grid" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
       </div>
       <input type="range" name="gridSpacing" min="30" max="120" step="10" value="80"/>
@@ -45,7 +45,7 @@
           <label><span>_</span><input name="showName" type="radio" value="b"/></label>
         </fieldset>
       </div>
-      <label>Font size:<input type="range" name="fontSize" min="8" max="40" step="4" value="20"/></label>
+      <label>Font size:<input type="range" name="fontSize" min="8" max="40" step="4" value="16"/></label>
       <button id="encloseButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.enclose}">Enclosure</button>
       <button id="printButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-action" th:text="#{button.print}">Print</button>
       <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled" th:text="#{button.save}">Save</button>
@@ -81,12 +81,12 @@
           <div data-role="collapsible" data-inset="false">
             <h3 th:text="#{label.attributes.other}">Other attributes</h3>
             <div class="ui-field-contain">
-              <label style="width:auto">身体/精神疾患:</label>
-              <input type="checkbox" name="bbb" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
+              <label th:text="#{label.illness}">Physical or mental illness:</label>
+              <input type="checkbox" name="illness" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
             </div>
             <div class="ui-field-contain">
-              <label style="width:auto">薬物/ｱﾙｺｰﾙ依存:</label>
-              <input type="checkbox" name="aaa" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
+              <label th:text="#{label.abuse}">Alcohol or drug abuse:</label>
+              <input type="checkbox" name="abuse" data-role="flipswitch" data-on-text="On" data-off-text="Off"/>
             </div>
             <div class="ui-field-contain">
               <label for="input-attr" th:text="#{label.mark}">Mark:</label>

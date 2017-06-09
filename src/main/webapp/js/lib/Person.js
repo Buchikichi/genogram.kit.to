@@ -10,6 +10,8 @@ class Person extends Ties {
 		this._description = null;
 		this.dob = ''; // Date of birth
 		this.dod = ''; // Date of death
+		this.illness = 0;
+		this.abuse = 0;
 		this.attr = '';
 		this.principal = false; // 本人(主役?)かどうか
 	}
@@ -248,6 +250,7 @@ if (this.touched) {
 }
 Person.Properties = [
 	'id', 'seq', 'name', 'description', 'dx', 'dy',
-	'gender', 'dob', 'dod', 'attr', 'bornOrder', 'generation',
+	'gender', 'dob', 'dod', 'illness', 'abuse', 'attr',
+	'bornOrder', 'generation',
 	'prevId', 'rx', 'ry',
 ];

@@ -35,6 +35,8 @@ public class Person {
 	private String gender;
 	private String dob;
 	private String dod;
+	private int illness;
+	private int abuse;
 	private String attr;
 	private int bornOrder;
 	private int generation;
