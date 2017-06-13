@@ -76,6 +76,7 @@ target.nextActor.forEach(nx => {
 		});
 		if (!this.isPanel) {
 			this.pane.style.position = 'absolute';
+			this.pane.style.opacity = .97;
 			$(this.pane).draggable();
 		}
 	}

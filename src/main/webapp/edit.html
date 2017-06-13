@@ -58,7 +58,7 @@
         <input name="name" type="text" placeholder="Name" th:placeholder="#{placeholder.name}"/>
         <textarea name="description" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
         <div data-role="collapsibleset" data-mini="true">
-          <div data-role="collapsible" data-inset="false" data-collapsed="false">
+          <div data-role="collapsible" data-collapsed="false">
             <h3 th:text="#{label.attributes.basic}">Basic attributes</h3>
             <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
               <label><span th:text="#{label.male}">Male</span><input name="gender" type="radio" value="m"/></label>
@@ -78,7 +78,7 @@
               <input id="input-dod" name="dod" type="date"/>
             </div>
           </div>
-          <div data-role="collapsible" data-inset="false">
+          <div data-role="collapsible">
             <h3 th:text="#{label.attributes.other}">Other attributes</h3>
             <div class="ui-field-contain">
               <label th:text="#{label.illness}">Physical or mental illness:</label>
@@ -93,7 +93,7 @@
               <input id="input-attr" name="attr" type="text"/>
             </div>
           </div>
-          <div data-role="collapsible" data-inset="false">
+          <div data-role="collapsible">
             <h3 th:text="#{label.partner}">Partner</h3>
             <button id="partnerButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.partner}">Partner</button>
             <ul id="partnerView" data-role="listview" data-inset="true"></ul>
