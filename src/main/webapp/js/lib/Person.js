@@ -8,8 +8,8 @@ class Person extends Ties {
 			this.name = '';
 		}
 		this._description = null;
-		this.dob = ''; // Date of birth
-		this.dod = ''; // Date of death
+		this._dob = ''; // Date of birth
+		this._dod = ''; // Date of death
 		this.illness = 0;
 		this.abuse = 0;
 		this.attr = '';
@@ -62,6 +62,21 @@ class Person extends Ties {
 		this._description.dy = val;
 	}
 
+	get dob() {
+		return this._dob;
+	}
+	set dob(val) {
+		this._dob = val;
+		this.attributeChanged();
+	}
+	get dod() {
+		return this._dod;
+	}
+	set dod(val) {
+		this._dod = val;
+		this.attributeChanged();
+	}
+
 	get age() {
 		let cal = new GenoCalendar(this.dob);
 
@@ -83,7 +98,15 @@ class Person extends Ties {
 	}
 
 	attributeChanged() {
-		if (this.isMale) {
+		let age = this.age;
+
+		if (age != null && age < 0) {
+			if (this.dod) {
+				this.symbol = new MiscarriageSymbol(this);
+			} else {
+				this.symbol = new FetusSymbol(this);
+			}
+		} else if (this.isMale) {
 			this.symbol = new MaleSymbol(this);
 		} else {
 			this.symbol = new FemaleSymbol(this);

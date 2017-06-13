@@ -108,7 +108,7 @@ class Chain extends Actor {
 
 	/**
 	 * 占める領域を求める.
-	 * @return {left, right}
+	 * @return left, right
 	 */
 	listOccupancy(depth = 1) {
 		let left = 1;

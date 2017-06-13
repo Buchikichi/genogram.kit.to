@@ -93,10 +93,13 @@
               <input id="input-attr" name="attr" type="text"/>
             </div>
           </div>
+          <div data-role="collapsible" data-inset="false">
+            <h3 th:text="#{label.partner}">Partner</h3>
+            <button id="partnerButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.partner}">Partner</button>
+            <ul id="partnerView" data-role="listview" data-inset="true"></ul>
+          </div>
         </div>
         <button id="parentsButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u" th:text="#{button.parents}">Parents</button>
-        <button id="partnerButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.partner}">Partner</button>
-        <ul id="partnerView" data-role="listview" data-inset="true"></ul>
       </form>
       <button name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" disabled="disabled" th:text="#{button.delete}">Delete</button>
       <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all" th:text="#{button.close}">Close</button>

@@ -90,7 +90,10 @@ class InputPanel extends AbstractPane {
 		let val = parseInt(age.value);
 
 		this.person.age = null;
-		if (!val) {
+		if (isNaN(val)) {
+			dob.value = null;
+			this.person.dob = null;
+			this.refreshControls();
 			return;
 		}
 		let currentYear = new Date().getFullYear();
@@ -99,6 +102,7 @@ class InputPanel extends AbstractPane {
 		dob.value = year;
 		this.person.dob = year;
 		this.person.age = val;
+		this.refreshControls();
 	}
 
 	addParents() {
@@ -125,11 +129,13 @@ class InputPanel extends AbstractPane {
 		let relation = field.createPair(this.person, partner);
 
 		this.person.addPartner(relation);
+		this.setupPartner();
 		this.refreshControls();
 	}
 
 	refreshControls() {
 		let gender = this.person.gender;
+		let age = this.person.age;
 		let plen = this.person.relationList.length;
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
@@ -145,7 +151,7 @@ class InputPanel extends AbstractPane {
 		} else {
 			$(parentsButton).removeClass('ui-state-disabled');
 		}
-		if (gender != 'f' && gender != 'm') {
+		if (gender != 'f' && gender != 'm' || age != null && age < 0) {
 			$(partnerButton).addClass('ui-state-disabled');
 		} else {
 			$(partnerButton).removeClass('ui-state-disabled');

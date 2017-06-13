@@ -4,28 +4,11 @@ class GenoSymbol {
 	}
 
 	drawIllness(ctx) {
-		if (!this.person.illness) {
-			return;
-		}
-		let bx = -this.radius;
-		let by = -this.radius;
-
-		ctx.save();
-		ctx.fillStyle = GenoSymbol.ColorIllness;
-		ctx.fillRect(bx, by, this.radius, this.width);
-		ctx.restore();
+		// abstract
 	}
 
 	drawAbuse(ctx) {
-		if (!this.person.abuse) {
-			return;
-		}
-		let bx = -this.radius;
-
-		ctx.save();
-		ctx.fillStyle = GenoSymbol.ColorAbuse;
-		ctx.fillRect(bx, 0, this.width, this.radius);
-		ctx.restore();
+		// abstract
 	}
 
 	drawSymbol(ctx) {
@@ -45,19 +28,7 @@ class GenoSymbol {
 	}
 
 	drawCross(ctx) {
-		let top = -this.radius;
-		let left = -this.radius;
-		let right = this.radius;
-		let bottom = this.radius;
-
-		ctx.beginPath();
-		ctx.moveTo(left, top);
-		ctx.lineTo(right, bottom);
-		ctx.stroke();
-		ctx.beginPath();
-		ctx.moveTo(right, top);
-		ctx.lineTo(left, bottom);
-		ctx.stroke();
+		// abstract
 	}
 
 	drawYears(ctx) {
@@ -81,7 +52,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 	drawAge(ctx) {
 		let text = this.person.age;
 
-		if (!text) {
+		if (text == null || text < 0) {
 			return;
 		}
 //text = this.person.count + ':' + text;

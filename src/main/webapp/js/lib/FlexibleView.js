@@ -29,12 +29,12 @@ class FlexibleView {
 			this.resize();
 		});
 		window.addEventListener('keydown', ()=> {
-			if (!view.classList.contains('addicting')) {
-				view.classList.add('addicting');
+			if (!this.view.classList.contains('addicting')) {
+				this.view.classList.add('addicting');
 			}
 		});
 		window.addEventListener('mousemove', ()=> {
-			view.classList.remove('addicting');
+			this.view.classList.remove('addicting');
 		});
 	}
 

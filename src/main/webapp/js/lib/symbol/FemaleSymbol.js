@@ -29,7 +29,7 @@ class FemaleSymbol extends GenoSymbol {
 		ctx.save();
 		ctx.beginPath();
 		ctx.arc(0, 0, this.radius, 0, -Math.PI, false);
-		ctx.fillStyle = GenoSymbol.ColorIllness;
+		ctx.fillStyle = GenoSymbol.ColorAbuse;
 		ctx.fill();
 		ctx.restore();
 	}

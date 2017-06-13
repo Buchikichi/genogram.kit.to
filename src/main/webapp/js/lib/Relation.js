@@ -137,7 +137,7 @@ class Relation extends Actor {
 
 	/**
 	 * 占める領域を求める.
-	 * @return {left, right}
+	 * @return left, right
 	 */
 	get occupancy() {
 		let left = 0;

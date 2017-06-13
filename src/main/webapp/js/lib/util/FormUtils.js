@@ -1,6 +1,22 @@
 class FormUtils {
+	static listInputElements(form) {
+		let list = [];
+		let input = form.querySelectorAll('input');
+		let textarea = form.querySelectorAll('textarea');
+
+		Array.prototype.forEach.call(input, element => {
+			list.push(element);
+		});
+		Array.prototype.forEach.call(textarea, element => {
+			list.push(element);
+		});
+		return list;
+	}
+
 	static load(form, rec) {
-		$(form).find(':input').each((ix, element) => {
+		let list = FormUtils.listInputElements(form);
+
+		list.forEach(element => {
 			let name = element.getAttribute('name');
 			let type = element.getAttribute('type');
 			let val = rec[name];
@@ -15,5 +31,6 @@ class FormUtils {
 				element.value = val;
 			}
 		});
+		//$(form).trigger('create');
 	}
 }
