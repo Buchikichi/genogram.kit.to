@@ -1,6 +1,7 @@
 class RelationPanel extends AbstractPane {
 	constructor(isPanel) {
 		super('relationPanel', isPanel);
+		this.flipButton = this.pane.querySelector('[name="flipButton"]');
 		this.deleteButton = this.pane.querySelector('[name="deleteButton"]');
 		this.from = null;
 		this.to = null;
@@ -18,6 +19,7 @@ class RelationPanel extends AbstractPane {
 			this.deleteRelationship();
 			this.resetControls();
 		});
+		this.flipButton.addEventListener('click', ()=> this.flip());
 	}
 
 	createRelationship() {
@@ -36,21 +38,31 @@ class RelationPanel extends AbstractPane {
 		}
 	}
 
+	flip() {
+		this.relationship.flip();
+		this.from = this.relationship.person;
+		this.to = this.relationship.other;
+		this.resetControls();
+	}
+
 	resetControls() {
+		let from = this.pane.querySelector('[name="from"]');
+		let to = this.pane.querySelector('[name="to"]');
+
+		from.value = this.from.info;
+		to.value = this.to.info;
 		if (this.relationship) {
+			$(this.flipButton).removeClass('ui-state-disabled');
 			$(this.deleteButton).removeClass('ui-state-disabled');
 		} else {
+			$(this.flipButton).addClass('ui-state-disabled');
 			$(this.deleteButton).addClass('ui-state-disabled');
 		}
 	}
 
 	setupForm() {
-		let from = this.pane.querySelector('[name="from"]');
-		let to = this.pane.querySelector('[name="to"]');
 		let emotion = $('[name="emotion"]');
 
-		from.value = this.from.info;
-		to.value = this.to.info;
 		if (this.relationship) {
 			emotion.val([this.relationship.emotion]).checkboxradio('refresh');
 		} else {

@@ -38,6 +38,13 @@ class Relationship extends Actor {
 		this.right = this.width / 2;
 	}
 
+	flip() {
+		let person = this.person;
+
+		this.person = this.other;
+		this.other = person;
+	}
+
 	isHit(px, py) {
 		let spacing = Field.Instance.spacing;
 		let x = px / spacing;
