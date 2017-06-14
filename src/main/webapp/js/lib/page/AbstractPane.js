@@ -8,19 +8,13 @@ class AbstractPane {
 	setupEvents() {
 		if (this.isPanel) {
 			$(this.pane).panel({beforeclose: () => {
-				Field.Instance.clearSelection();
+//				Field.Instance.clearSelection();
 			}});
 		}
 	}
 
 	enableButton(button, enable = true) {
-		if (enable) {
-			$(button).removeClass('ui-state-disabled');
-			button.removeAttribute('disabled');
-		} else {
-			$(button).addClass('ui-state-disabled');
-			button.setAttribute('disabled', 'disabled');
-		}
+		FormUtils.enableButton(button, enable);
 	}
 
 	disableButton(button) {

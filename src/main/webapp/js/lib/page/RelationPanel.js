@@ -67,6 +67,8 @@ class RelationPanel extends AbstractPane {
 	}
 
 	open(from, to = null) {
+		let field = Field.Instance;
+
 		if (to) {
 			this.from = from;
 			this.to = to;
@@ -80,6 +82,7 @@ class RelationPanel extends AbstractPane {
 			this.to.hit = true;
 			this.relationship = from;
 			this.isNew = false;
+			field.addTarget(this.from, this.to);
 		}
 		this.setupForm();
 		this.showPane();

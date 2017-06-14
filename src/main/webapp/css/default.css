@@ -56,10 +56,10 @@ body {
 	display: none;
 }
 /* Button */
-#pane button.ui-icon-delete {
+#mainPage button.ui-icon-delete {
 	background-color: #FFaaaa;
 }
-#pane button.ui-icon-delete:hover {
+#mainPage button.ui-icon-delete:hover {
 	background-color: #dd7777;
 }
 /* Label */

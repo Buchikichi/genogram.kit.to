@@ -121,6 +121,9 @@ console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
 	}
 
 	open(relation) {
+		let field = Field.Instance;
+
+		field.addTarget(relation.father, relation.mother);
 		this.relation = relation;
 		this.setupForm();
 		this.setupChildren();

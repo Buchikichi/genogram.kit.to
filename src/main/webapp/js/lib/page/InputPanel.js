@@ -178,9 +178,12 @@ class InputPanel extends AbstractPane {
 	}
 
 	setupForm() {
+		let field = Field.Instance;
+
 		FormUtils.load(this.form, this.person);
 		this.setupPartner();
 		this.refreshControls();
+		field.addTarget(this.person);
 	}
 
 	open(person) {

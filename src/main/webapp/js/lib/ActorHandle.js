@@ -113,9 +113,26 @@ class ActorHandle extends Actor {
 		return hit;
 	}
 
+	increase() {
+		let node = new ActorHandle(this.x + .1, this.y + .1, this.z);
+
+		node.parent = this.parent;
+		this.add(node);
+		this.reserve(node);
+	}
+
+	eject() {
+		super.eject();
+		let prev = this.prev;
+		let next = this.next;
+
+		prev.next = next;
+		next.prev = prev;
+	}
+
 	move(dx, dy) {
 		super.move(dx, dy);
-		this.parent.selected = true;
+		Field.Instance.addTarget(this.parent);
 	}
 
 	draw(ctx) {

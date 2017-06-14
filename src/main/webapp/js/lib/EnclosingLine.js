@@ -1,13 +1,11 @@
 class EnclosingLine extends Actor {
 	constructor() {
-		super(1, 1, 110);
+		super(-2, -2, 110);
 		this.holdable = true;
 		this.root = this.addHandle(this.x, this.y);
-		this.addHandle(2, 1);
+		this.addHandle(-2, 2);
 		this.addHandle(2, 2);
-		this.addHandle(1, 2);
-		this.addHandle(.5, 1.5);
-		this.addHandle(.5, 1.2);
+		this.addHandle(2, -2);
 		this.spawnList = this.root.listAll;
 	}
 
@@ -19,6 +17,18 @@ class EnclosingLine extends Actor {
 			this.root.add(handle);
 		}
 		return handle;
+	}
+
+	delHandle(handle) {
+		this.root = handle.prev;
+		handle.eject();
+	}
+
+	eject() {
+		super.eject();
+		this.root.listAll.forEach(node => {
+			node.eject();
+		});
 	}
 
 	isHit(px, py) {

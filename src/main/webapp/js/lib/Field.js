@@ -130,9 +130,15 @@ class Field {
 		return result;
 	}
 
-	allowTarget(target) {
-		return target instanceof Person || target instanceof Relation
-			|| target instanceof Relationship || target instanceof EnclosingLine;
+	addTarget(...list) {
+		list.forEach(target => {
+			let allowed = target instanceof Person || target instanceof Relation
+			|| target instanceof Relationship || target instanceof EnclosingLine || target instanceof ActorHandle;
+
+			if (allowed && this.targetList.indexOf(target) == -1) {
+				this.targetList.push(target);
+			}
+		});
 	}
 
 	setupEvents() {
@@ -148,9 +154,7 @@ class Field {
 			if (!ctrlKey) {
 				this.targetList = [];
 			}
-			if (this.allowTarget(target)) {
-				this.targetList.push(target);
-			}
+			this.addTarget(target);
 			if (target && target.holdable) {
 				this.hold = target;
 			}

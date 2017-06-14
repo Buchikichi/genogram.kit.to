@@ -23,6 +23,7 @@ class AppMain {
 		this.partnerPanel = new PartnerPanel(this.isPanel);
 		this.relationPanel = new RelationPanel(this.isPanel);
 		this.paneList = [this.inputPanel, this.partnerPanel, this.relationPanel];
+		this.enclosurePopup = new EnclosurePopup();
 		this.setupEvents();
 		this.init();
 	}
@@ -60,18 +61,27 @@ target.nextActor.forEach(nx => {
 			}
 			if (2 <= this.field.targetList.length) {
 				let other = this.field.targetList[1];
-				let relationship = this.field.getRelationship(target, other);
 
-				if (relationship) {
-					this.openPane(this.relationPanel, relationship);
-					return;
+				if (target instanceof Person && other instanceof Person) {
+					let relationship = this.field.getRelationship(target, other);
+
+					if (relationship) {
+						this.openPane(this.relationPanel, relationship);
+						return;
+					}
+					this.openPane(this.relationPanel, target, other);
 				}
-				this.openPane(this.relationPanel, target, other);
 			}
 		});
 		window.addEventListener('contextmenu', event => {
 			if (this.field.targetList.length == 0) {
 				this.settingPanel.open();
+				return;
+			}
+			let target = this.field.targetList[0];
+
+			if (target instanceof ActorHandle) {
+				this.enclosurePopup.open(target);
 			}
 		});
 		if (!this.isPanel) {

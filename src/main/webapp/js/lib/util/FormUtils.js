@@ -33,4 +33,14 @@ class FormUtils {
 		});
 		//$(form).trigger('create');
 	}
+
+	static enableButton(button, enable = true) {
+		if (enable) {
+			$(button).removeClass('ui-state-disabled');
+			button.removeAttribute('disabled');
+		} else {
+			$(button).addClass('ui-state-disabled');
+			button.setAttribute('disabled', 'disabled');
+		}
+	}
 }
