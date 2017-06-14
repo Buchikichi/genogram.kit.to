@@ -136,6 +136,7 @@ class InputPanel extends AbstractPane {
 	refreshControls() {
 		let gender = this.person.gender;
 		let age = this.person.age;
+		let marriageable = (gender == 'f' || gender == 'm') && age == null || Person.MarriageableAge < age;
 		let plen = this.person.relationList.length;
 		let parentsButton = document.getElementById('parentsButton');
 		let partnerButton = document.getElementById('partnerButton');
@@ -146,16 +147,8 @@ class InputPanel extends AbstractPane {
 		} else {
 			$('[name="gender"]').checkboxradio('disable');
 		}
-		if (this.person.parents) {
-			$(parentsButton).addClass('ui-state-disabled');
-		} else {
-			$(parentsButton).removeClass('ui-state-disabled');
-		}
-		if (gender != 'f' && gender != 'm' || age != null && age < 0) {
-			$(partnerButton).addClass('ui-state-disabled');
-		} else {
-			$(partnerButton).removeClass('ui-state-disabled');
-		}
+		this.enableButton(parentsButton, !this.person.parents);
+		this.enableButton(partnerButton, marriageable);
 		if (this.person.principal || this.person.hasChild) {
 			$(deleteButton).addClass('ui-state-disabled');
 		} else {

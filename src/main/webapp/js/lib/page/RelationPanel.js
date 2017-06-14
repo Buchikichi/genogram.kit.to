@@ -51,13 +51,8 @@ class RelationPanel extends AbstractPane {
 
 		from.value = this.from.info;
 		to.value = this.to.info;
-		if (this.relationship) {
-			$(this.flipButton).removeClass('ui-state-disabled');
-			$(this.deleteButton).removeClass('ui-state-disabled');
-		} else {
-			$(this.flipButton).addClass('ui-state-disabled');
-			$(this.deleteButton).addClass('ui-state-disabled');
-		}
+		this.enableButton(this.flipButton, this.relationship);
+		this.enableButton(this.deleteButton, this.relationship);
 	}
 
 	setupForm() {

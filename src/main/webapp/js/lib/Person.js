@@ -271,6 +271,7 @@ if (this.touched) {
 		return person;
 	}
 }
+Person.MarriageableAge = 10;
 Person.Properties = [
 	'id', 'seq', 'name', 'description', 'dx', 'dy',
 	'gender', 'dob', 'dod', 'illness', 'abuse', 'attr',
