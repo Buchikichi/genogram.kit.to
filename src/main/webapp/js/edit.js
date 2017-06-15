@@ -126,7 +126,7 @@ target.nextActor.forEach(nx => {
 	}
 
 	addEnclosure() {
-		this.field.actorList.push(new EnclosingLine());
+		this.field.actorList.push(EnclosingLine.createDefault());
 	}
 
 	makePersonMap(personList) {
@@ -149,6 +149,7 @@ console.log('[loadDiagram]:BEGIN');
 			this.loadPersons(root, diagram, personMap);
 			this.loadPartner(diagram, personMap);
 			this.loadRelationship(diagram, personMap);
+			this.loadShapes(diagram);
 console.log('[loadDiagram]:END');
 		});
 	}
@@ -209,6 +210,33 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 			let relationship = Relationship.create(rel.emotion, person, other);
 
 			this.field.addActor(relationship);
+		});
+	}
+
+	loadShapes(diagram) {
+		let parentMap = {};
+
+		// 先に親だけ処理
+		diagram.shapesList.forEach(obj => {
+console.log(obj.parentId);
+			if (obj.parentId != null) {
+				return;
+			}
+			let parent = new EnclosingLine(obj.x, obj.y);
+
+			parentMap[obj.id] = parent;
+		});
+		// 後で子だけを処理
+		diagram.shapesList.forEach(obj => {
+			if (obj.parentId == null) {
+				return;
+			}
+			let parent = parentMap[obj.parentId];
+
+			parent.addHandle(obj.x, obj.y);
+		});
+		Object.keys(parentMap).forEach(key => {
+			this.field.addActor(parentMap[key]);
 		});
 	}
 

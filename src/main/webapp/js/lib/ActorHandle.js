@@ -1,11 +1,16 @@
 class ActorHandle extends Actor {
 	constructor(x, y, z) {
 		super(x, y, z);
+		this.type = 'EnclosureHandle';
 		this.holdable = true;
 		this.radius = .1;
 		this.logicalRadius = this.radius * 2;
 		this.prev = this;
 		this.next = this;
+	}
+
+	get isRoot() {
+		return this.parent.root == this;
 	}
 
 	/**

@@ -1,12 +1,9 @@
 class EnclosingLine extends Actor {
-	constructor() {
-		super(-2, -2, 110);
+	constructor(x = -2, y = -2) {
+		super(x, y, 110);
+		this.type = 'Enclosure';
 		this.holdable = true;
 		this.root = this.addHandle(this.x, this.y);
-		this.addHandle(-2, 2);
-		this.addHandle(2, 2);
-		this.addHandle(2, -2);
-		this.spawnList = this.root.listAll;
 	}
 
 	addHandle(x, y) {
@@ -16,6 +13,7 @@ class EnclosingLine extends Actor {
 		if (this.root) {
 			this.root.add(handle);
 		}
+		this.reserve(handle);
 		return handle;
 	}
 
@@ -49,5 +47,14 @@ class EnclosingLine extends Actor {
 		this.root.listAll.forEach(handle => {
 			handle.move(dx, dy);
 		});
+	}
+
+	static createDefault() {
+		let obj = new EnclosingLine();
+
+		obj.addHandle(-2, 2);
+		obj.addHandle(2, 2);
+		obj.addHandle(2, -2);
+		return obj;
 	}
 }

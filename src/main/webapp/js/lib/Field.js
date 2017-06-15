@@ -96,6 +96,17 @@ class Field {
 		return list;
 	}
 
+	get shapesList() {
+		let list = [];
+
+		this.actorList.forEach(actor => {
+			if (actor instanceof EnclosingLine || actor instanceof ActorHandle) {
+				list.push(actor);
+			}
+		});
+		return list;
+	}
+
 	get numOfGeneration() {
 		return this.maxGeneration - this.minGeneration + 1;
 	}

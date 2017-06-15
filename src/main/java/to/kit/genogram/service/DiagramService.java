@@ -18,10 +18,12 @@ import to.kit.genogram.entity.Diagram;
 import to.kit.genogram.entity.Partner;
 import to.kit.genogram.entity.Person;
 import to.kit.genogram.entity.Relationship;
+import to.kit.genogram.entity.Shapes;
 import to.kit.genogram.repository.DiagramRepository;
 import to.kit.genogram.repository.PartnerRepository;
 import to.kit.genogram.repository.PersonRepository;
 import to.kit.genogram.repository.RelationshipRepository;
+import to.kit.genogram.repository.ShapesRepository;
 
 /**
  * ダイアグラムサービス.
@@ -37,6 +39,8 @@ public class DiagramService {
 	private PartnerRepository partnerRepository;
 	@Autowired
 	private RelationshipRepository relationshipRepository;
+	@Autowired
+	private ShapesRepository shapesRepository;
 
 	/**
 	 * 一覧取得.
@@ -92,6 +96,13 @@ public class DiagramService {
 		for (Relationship relationship: diagram.getRelationshipList()) {
 			relationship.setDiagram(diagram);
 			relationship.setUpdated(new Date());
+		}
+	}
+
+	private void prepareShapes(Diagram diagram) {
+		for (Shapes shapes: diagram.getShapesList()) {
+			shapes.setDiagram(diagram);
+			shapes.setUpdated(new Date());
 		}
 	}
 
@@ -152,6 +163,20 @@ public class DiagramService {
 		}
 	}
 
+	private void deleteUnuserdShapes(Diagram diagram) {
+		Set<String> valid = new HashSet<>();
+		List<Shapes> allList = this.shapesRepository.findByDiagramId(diagram.getId());
+
+		for (Shapes element : diagram.getShapesList()) {
+			valid.add(element.getId());
+		}
+		for (Shapes element : allList) {
+			if (!valid.contains(element.getId())) {
+				this.shapesRepository.delete(element);
+			}
+		}
+	}
+
 	/**
 	 * 未使用レコードを削除.
 	 * @param diagram ダイアグラム
@@ -160,6 +185,7 @@ public class DiagramService {
 	public void clearUnused(Diagram diagram) {
 		deleteUnusedPair(diagram);
 		deleteUnuserdRelationship(diagram);
+		deleteUnuserdShapes(diagram);
 		// Personは最後
 		deleteUnusedPerson(diagram);
 	}
@@ -181,6 +207,7 @@ public class DiagramService {
 		diagram.setUpdated(new Date());
 		preparePerson(diagram);
 		prepareRelationship(diagram);
+		prepareShapes(diagram);
 		Diagram saved = this.diagramRepository.saveAndFlush(diagram);
 
 		if (saved == null) {

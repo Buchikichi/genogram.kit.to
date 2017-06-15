@@ -129,6 +129,30 @@ console.log(ix + ':' + person.id);
 		});
 	}
 
+	createShapesList(formData) {
+		let field = this.appMain.field;
+		let ix = 0;
+
+		field.shapesList.forEach(obj => {
+			if (obj instanceof EnclosingLine) {
+				return;
+			}
+			let prefix = 'shapesList[' + ix + '].';
+
+			if (obj.isRoot) {
+				formData.append(prefix + 'id', obj.parent.id);
+			} else {
+				formData.append(prefix + 'id', obj.id);
+				formData.append(prefix + 'parentId', obj.parent.id);
+			}
+			formData.append(prefix + 'type', obj.type);
+			formData.append(prefix + 'x', obj.x);
+			formData.append(prefix + 'y', obj.y);
+			formData.append(prefix + 'lineStyle', 'Solid');
+			ix++;
+		});
+	}
+
 	save() {
 		let formData = new FormData(this.form);
 		let entity = new DiagramEntity();
@@ -139,6 +163,7 @@ console.log(ix + ':' + person.id);
 		this.createPersonList(formData);
 		this.createPartnerList(formData);
 		this.createRelationshipList(formData);
+		this.createShapesList(formData);
 		$.mobile.loading('show', {text: 'Save...', textVisible: true});
 		entity.save(formData).then(data => {
 			$.mobile.loading('hide');

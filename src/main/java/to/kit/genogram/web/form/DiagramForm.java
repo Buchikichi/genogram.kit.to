@@ -7,6 +7,7 @@ import lombok.Data;
 import to.kit.genogram.entity.Partner;
 import to.kit.genogram.entity.Person;
 import to.kit.genogram.entity.Relationship;
+import to.kit.genogram.entity.Shapes;
 import to.kit.genogram.enumeration.ShowNameType;
 
 /**
@@ -28,4 +29,5 @@ public class DiagramForm {
 	private List<Person> personList;
 	private List<Partner> partnerList = new ArrayList<>();
 	private List<Relationship> relationshipList = new ArrayList<>();
+	private List<Shapes> shapesList = new ArrayList<>();
 }
