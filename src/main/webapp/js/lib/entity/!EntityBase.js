@@ -1,13 +1,15 @@
 class EntityBase {
-	constructor(base) {
-		this.base = base;
+	constructor(name) {
+		let base = document.querySelector('base').getAttribute('href');
+
+		this.base = base + name;
 	}
 
 	/**
 	 * 一覧取得.
 	 */
 	list(data = {}) {
-		return AjaxUtils.post('/' + this.base + '/list', data);
+		return AjaxUtils.post(this.base + '/list', data);
 	}
 
 	/**
@@ -17,10 +19,10 @@ class EntityBase {
 		let formData = new FormData();
 
 		formData.append('id', id);
-		return AjaxUtils.post('/' + this.base + '/select', formData);
+		return AjaxUtils.post(this.base + '/select', formData);
 	}
 
 	save(formData) {
-		return AjaxUtils.post('/' + this.base + '/save', formData);
+		return AjaxUtils.post(this.base + '/save', formData);
 	}
 }

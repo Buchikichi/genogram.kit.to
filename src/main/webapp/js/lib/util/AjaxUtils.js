@@ -2,7 +2,7 @@ class AjaxUtils {
 	static fetch(input, data) {
 		if (typeof fetch === 'function') {
 			// GlobalFetch.fetch()が存在する場合
-console.log('AjaxUtils.fetch:' + input);
+//console.log('AjaxUtils.fetch:' + input);
 			return fetch(input, {
 				method: 'post',
 				body: data,
@@ -11,7 +11,7 @@ console.log('AjaxUtils.fetch:' + input);
 				return res.json();
 			});
 		}
-console.log('AjaxUtils.promise:' + input);
+//console.log('AjaxUtils.promise:' + input);
 		return new Promise((resolve, reject)=> {
 			let client = new XMLHttpRequest();
 
