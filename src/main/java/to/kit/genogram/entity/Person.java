@@ -28,7 +28,9 @@ public class Person {
 	@Id
 	private String id;
 	private int seq;
+	@Column(length = 40)
 	private String name;
+	@Column(length = 200)
 	private String description;
 	private float dx;
 	private float dy;

@@ -31,6 +31,7 @@ public class Diagram {
 	private String id;
 	private String documentId;
 	private String personId;
+	@Column(length = 200)
 	private String description;
 	private String image;
 	private int showGrid;

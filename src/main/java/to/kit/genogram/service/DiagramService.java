@@ -24,6 +24,7 @@ import to.kit.genogram.repository.PartnerRepository;
 import to.kit.genogram.repository.PersonRepository;
 import to.kit.genogram.repository.RelationshipRepository;
 import to.kit.genogram.repository.ShapesRepository;
+import to.kit.genogram.util.Shortener;
 
 /**
  * ダイアグラムサービス.
@@ -210,6 +211,7 @@ public class DiagramService {
 		String id = diagram.getId();
 		List<Partner> pairList = new ArrayList<>(diagram.getPartnerList());
 
+		Shortener.shorten(diagram);
 		if (id == null || id.isEmpty()) {
 			diagram.setId(UUID.randomUUID().toString());
 		}

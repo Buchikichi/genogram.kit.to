@@ -9,11 +9,21 @@ class SettingPanel {
 
 	setupEvents() {
 		let gridSize = $('[name="gridSize"]');
+		let nameSize = $('[name="nameSize"]');
 		let encloseButton = document.getElementById('encloseButton');
 		let printButton = document.getElementById('printButton');
 
 		gridSize.change(()=> {
-			Field.Instance.dirty = true;
+			if (!gridSize.val()) {
+				gridSize.val(gridSize.attr('value'));
+				gridSize.slider('refresh');
+			}
+		});
+		nameSize.change(()=> {
+			if (!nameSize.val()) {
+				nameSize.val(nameSize.attr('value'));
+				nameSize.slider('refresh');
+			}
 		});
 		encloseButton.addEventListener('click', () => {this.addEnclosure()});
 		printButton.addEventListener('click', () => {this.print()});

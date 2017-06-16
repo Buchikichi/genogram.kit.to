@@ -63,7 +63,6 @@ class Description extends Actor {
 		let bottom = this.y + this.hH;
 
 		this.hit = left <= x && x <= right && top <= y && y <= bottom;
-this.hit = false; // 現在無効
 		return this.hit;
 	}
 
