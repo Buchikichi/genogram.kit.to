@@ -133,23 +133,20 @@ console.log(ix + ':' + person.id);
 		let field = this.appMain.field;
 		let ix = 0;
 
-		field.shapesList.forEach(obj => {
-			if (obj instanceof EnclosingLine) {
-				return;
-			}
-			let prefix = 'shapesList[' + ix + '].';
+		field.shapesList.forEach(shape => {
+			shape.createFormData().forEach(obj => {
+				let prefix = 'shapesList[' + ix + '].';
 
-			if (obj.isRoot) {
-				formData.append(prefix + 'id', obj.parent.id);
-			} else {
-				formData.append(prefix + 'id', obj.id);
-				formData.append(prefix + 'parentId', obj.parent.id);
-			}
-			formData.append(prefix + 'type', obj.type);
-			formData.append(prefix + 'x', obj.x);
-			formData.append(prefix + 'y', obj.y);
-			formData.append(prefix + 'lineStyle', 'Solid');
-			ix++;
+				formData.append(prefix + 'id', obj.regId);
+				if (obj.parentId) {
+					formData.append(prefix + 'parentId', obj.parentId);
+				}
+				formData.append(prefix + 'type', obj.type);
+				formData.append(prefix + 'x', obj.x);
+				formData.append(prefix + 'y', obj.y);
+				formData.append(prefix + 'lineStyle', 'Solid');
+				ix++;
+			});
 		});
 	}
 

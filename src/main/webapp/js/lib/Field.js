@@ -100,7 +100,7 @@ class Field {
 		let list = [];
 
 		this.actorList.forEach(actor => {
-			if (actor instanceof EnclosingLine || actor instanceof ActorHandle) {
+			if (actor instanceof EnclosingLine) {
 				list.push(actor);
 			}
 		});

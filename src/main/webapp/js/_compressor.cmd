@@ -2,7 +2,7 @@
 set CUR=%~dp0
 set COMP=c:\application\closure-compiler-v20170521.jar
 set COMP_OPT=--compilation_level SIMPLE --warning_level DEFAULT --language_out=ES5
-set LIBS= lib\util\*.js lib\entity\*.js lib\page\*.js lib\*.js lib\symbol\*.js lib\relationship\*.js
+set LIBS= lib\util\*.js lib\entity\*.js lib\page\*.js lib\*.js lib\symbol\*.js lib\relationship\*.js lib\shapes\*.js
 
 cd %CUR%
 type %LIBS% index.js > index-all.js 2> nul

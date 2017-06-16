@@ -13,6 +13,14 @@ class ActorHandle extends Actor {
 		return this.parent.root == this;
 	}
 
+	/** 保存用ID. */
+	get regId() {
+		return this.isRoot ? this.parent.id : this.id;
+	}
+	get parentId() {
+		return this.isRoot ? null : this.parent.id;
+	}
+
 	/**
 	 * 自分を含まないリスト.
 	 */
@@ -140,27 +148,6 @@ class ActorHandle extends Actor {
 		Field.Instance.addTarget(this.parent);
 	}
 
-	draw(ctx) {
-		this.drawCurve(ctx);
-		if (!this.parent.selected) {
-			return;
-		}
-		let spacing = Field.Instance.spacing;
-		let x = this.x * spacing;
-		let y = this.y * spacing;
-
-		ctx.save();
-		ctx.beginPath();
-		if (this.hit) {
-			ctx.fillStyle = 'aqua';
-		} else {
-			ctx.fillStyle = 'gray';
-		}
-		ctx.arc(x, y, this.radius * spacing, 0, Math.PI * 2, false);
-		ctx.fill();
-		ctx.restore();
-	}
-
 	drawGuide(ctx) {
 		let spacing = Field.Instance.spacing;
 		let x = this.x * spacing;
@@ -251,5 +238,32 @@ class ActorHandle extends Actor {
 		ctx.restore();
 //		this.drawGuide(ctx);
 //		this.drawSelfCurve(ctx);
+	}
+
+	drawArc(ctx) {
+		let spacing = Field.Instance.spacing;
+		let x = this.x * spacing;
+		let y = this.y * spacing;
+
+		ctx.save();
+		ctx.beginPath();
+		if (this.hit) {
+			ctx.fillStyle = 'aqua';
+		} else {
+			ctx.fillStyle = 'gray';
+		}
+		ctx.arc(x, y, this.radius * spacing, 0, Math.PI * 2, false);
+		ctx.fill();
+		ctx.restore();
+	}
+
+	draw(ctx) {
+		this.drawCurve(ctx);
+		if (!this.parent.selected) {
+			return;
+		}
+		this.drawArc(ctx);
+		// 曲線を上書き
+		this.next.drawArc(ctx);
 	}
 }

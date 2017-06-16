@@ -49,6 +49,10 @@ class EnclosingLine extends Actor {
 		});
 	}
 
+	createFormData() {
+		return this.root.listAll;
+	}
+
 	static createDefault() {
 		let obj = new EnclosingLine();
 

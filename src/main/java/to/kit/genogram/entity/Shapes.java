@@ -24,6 +24,7 @@ public class Shapes {
 	private String id;
 	private String parentId;
 	private ShapeType type;
+	private int seq;
 	private float x;
 	private float y;
 	private LineStyleType lineStyle;

@@ -60,10 +60,17 @@ public class DiagramService {
 	public Diagram select(String id) {
 		Diagram diagram = this.diagramRepository.findOne(id);
 		List<Person> personList = diagram.getPersonList();
+		List<Shapes> shapesList = diagram.getShapesList();
 
 		Collections.sort(personList, new Comparator<Person>() {
 			@Override
 			public int compare(Person o1, Person o2) {
+				return o1.getSeq() - o2.getSeq();
+			}
+		});
+		Collections.sort(shapesList, new Comparator<Shapes>() {
+			@Override
+			public int compare(Shapes o1, Shapes o2) {
 				return o1.getSeq() - o2.getSeq();
 			}
 		});
@@ -100,7 +107,10 @@ public class DiagramService {
 	}
 
 	private void prepareShapes(Diagram diagram) {
+		int seq = 0;
+
 		for (Shapes shapes: diagram.getShapesList()) {
+			shapes.setSeq(seq++);
 			shapes.setDiagram(diagram);
 			shapes.setUpdated(new Date());
 		}
