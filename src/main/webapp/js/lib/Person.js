@@ -186,8 +186,12 @@ if (this.touched) {
 		if (!Field.DEBUG) {
 			return;
 		}
+		let keys = Controller.Instance.keys;
+		if (!this.hit && !keys['Control']) {
+			return;
+		}
 		this.drawAncestorOccupancy(ctx);
-//		this.drawDescendantOccupancy(ctx);
+		this.drawDescendantOccupancy(ctx);
 	}
 
 	drawChain(ctx) {

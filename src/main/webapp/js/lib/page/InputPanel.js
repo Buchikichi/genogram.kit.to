@@ -74,12 +74,20 @@ class InputPanel extends AbstractPane {
 	}
 
 	setupButtonEvents() {
-		let parentsButton = document.getElementById('parentsButton');
-		let partnerButton = document.getElementById('partnerButton');
 		let deleteButton = this.pane.querySelector('[name="deleteButton"]');
 
-		parentsButton.addEventListener('click', ()=> this.addParents());
-		partnerButton.addEventListener('click', ()=> this.addPartner());
+		this.parentsButton = document.getElementById('parentsButton');
+		this.partnerButton = document.getElementById('partnerButton');
+		this.parentsButton.addEventListener('click', ()=> this.addParents());
+		this.partnerButton.addEventListener('click', ()=> this.addPartner());
+
+		this.upButton = document.getElementById('upButton');
+		this.downButton = document.getElementById('downButton');
+		this.upButton.addEventListener('click', ()=> this.moveUp());
+		this.downButton.addEventListener('click', ()=> this.moveDown());
+		this.leftButton = document.getElementById('leftButton');
+		this.rightButton = document.getElementById('rightButton');
+
 		deleteButton.addEventListener('click', ()=> this.person.remove());
 	}
 
@@ -133,13 +141,25 @@ class InputPanel extends AbstractPane {
 		this.refreshControls();
 	}
 
+	moveUp() {
+		this.person.moveUp();
+		this.refreshControls();
+		Field.Instance.dirty = true;
+	}
+
+	moveDown() {
+		this.person.moveDown();
+		this.refreshControls();
+		Field.Instance.dirty = true;
+	}
+
 	refreshControls() {
 		let gender = this.person.gender;
 		let age = this.person.age;
+		let parents = this.person.parents;
+		let canUp = parents && parents.leftSide.ay + 2 < this.person.ay; 
 		let marriageable = (gender == 'f' || gender == 'm') && age == null || Person.MarriageableAge < age;
 		let plen = this.person.relationList.length;
-		let parentsButton = document.getElementById('parentsButton');
-		let partnerButton = document.getElementById('partnerButton');
 		let deleteButton = this.pane.querySelector('[name="deleteButton"]');
 
 		if (plen == 0) {
@@ -147,8 +167,12 @@ class InputPanel extends AbstractPane {
 		} else {
 			$('[name="gender"]').checkboxradio('disable');
 		}
-		this.enableButton(parentsButton, !this.person.parents);
-		this.enableButton(partnerButton, marriageable);
+		this.enableButton(this.parentsButton, !this.person.parents);
+		this.enableButton(this.partnerButton, marriageable);
+		this.enableButton(this.upButton, canUp);
+		this.enableButton(this.downButton, parents);
+		this.enableButton(this.leftButton, false);
+		this.enableButton(this.rightButton, false);
 		if (this.person.principal || this.person.hasChild) {
 			$(deleteButton).addClass('ui-state-disabled');
 		} else {

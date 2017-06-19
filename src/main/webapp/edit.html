@@ -98,6 +98,17 @@
             <button id="partnerButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.partner}">Partner</button>
             <ul id="partnerView" data-role="listview" data-inset="true"></ul>
           </div>
+          <div data-role="collapsible">
+            <h3 th:text="#{label.movement}">Movement</h3>
+            <fieldset class="ui-grid-b">
+              <div class="ui-block-a"></div>
+              <div class="ui-block-b"><button id="upButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-u">上</button></div>
+              <div class="ui-block-c"></div>
+              <div class="ui-block-a"><button id="leftButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">左</button></div>
+              <div class="ui-block-b"><button id="downButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-d">下</button></div>
+              <div class="ui-block-c"><button id="rightButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-r">右</button></div>
+            </fieldset>
+          </div>
         </div>
         <button id="parentsButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u" th:text="#{button.parents}">Parents</button>
       </form>
@@ -107,17 +118,32 @@
       <form>
         <input type="text" name="father" disabled="disabled" placeholder="Male" th:placeholder="#{placeholder.male}"/>
         <input type="text" name="mother" disabled="disabled" placeholder="Female" th:placeholder="#{placeholder.female}"/>
-        <fieldset data-role="controlgroup" data-mini="true">
-          <label><span th:text="#{label.marriage}">Marriage</span><input name="relationType" type="radio" value="m"/></label>
-          <label><span th:text="#{label.separated}">Separated</span><input name="relationType" type="radio" value="s"/></label>
-          <label><span th:text="#{label.divorced}">Divorced</span><input name="relationType" type="radio" value="d"/></label>
-          <label><span th:text="#{label.concubinage}">Concubinage</span><input name="relationType" type="radio" value="c"/></label>
-        </fieldset>
-        <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-          <button id="mChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{label.maleChild}">Male child</button>
-          <button id="fChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{label.femaleChild}">Female child</button>
-        </fieldset>
-        <ul id="childrenView" data-role="listview" data-inset="true"></ul>
+        <div data-role="collapsibleset" data-mini="true">
+          <div data-role="collapsible" data-collapsed="false">
+            <h3 th:text="#{label.relationship}">Relationship</h3>
+            <fieldset data-role="controlgroup" data-mini="true">
+              <label><span th:text="#{label.marriage}">Marriage</span><input name="relationType" type="radio" value="m"/></label>
+              <label><span th:text="#{label.separated}">Separated</span><input name="relationType" type="radio" value="s"/></label>
+              <label><span th:text="#{label.divorced}">Divorced</span><input name="relationType" type="radio" value="d"/></label>
+              <label><span th:text="#{label.concubinage}">Concubinage</span><input name="relationType" type="radio" value="c"/></label>
+            </fieldset>
+          </div>
+          <div data-role="collapsible">
+            <h3 th:text="#{label.children}">Children</h3>
+            <fieldset class="ui-grid-a">
+              <label class="ui-block-a"><button id="mChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.maleChild}">Male</button></label>
+              <label class="ui-block-b"><button id="fChildButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.femaleChild}">Female</button></label>
+            </fieldset>
+            <ul id="childrenView" data-role="listview" data-inset="true"></ul>
+          </div>
+          <div data-role="collapsible">
+            <h3 th:text="#{label.movement}">Movement</h3>
+            <fieldset class="ui-grid-a">
+              <label class="ui-block-a"><button id="narrowlyButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-minus" th:text="#{button.narrowly}">Narrowly</button></label>
+              <label class="ui-block-b"><button id="widelyButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.widely}">Widely</button></label>
+            </fieldset>
+          </div>
+        </div>
       </form>
     </div>
     <div id="relationPanel" data-position="right" data-display="overlay" data-dismissible="false" data-animate="false">

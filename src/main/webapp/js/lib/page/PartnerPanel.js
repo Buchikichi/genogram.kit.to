@@ -8,7 +8,6 @@ class PartnerPanel extends AbstractPane {
 
 	setupEvents() {
 		super.setupEvents();
-		let narrowlyButton = document.getElementById('narrowlyButton');
 		let widelyButton = document.getElementById('widelyButton');
 		let mChildButton = document.getElementById('mChildButton');
 		let fChildButton = document.getElementById('fChildButton');
@@ -18,11 +17,16 @@ class PartnerPanel extends AbstractPane {
 
 			this.relation.type = val;
 		});
-		narrowlyButton.addEventListener('click', ()=> {
+		this.narrowlyButton = document.getElementById('narrowlyButton');
+		this.narrowlyButton.addEventListener('click', ()=> {
 			this.relation.narrowly();
+			this.refreshControls();
+			Field.Instance.dirty = true;
 		});
 		widelyButton.addEventListener('click', ()=> {
 			this.relation.widely();
+			this.refreshControls();
+			Field.Instance.dirty = true;
 		});
 		mChildButton.addEventListener('click', ()=> {
 			this.addChild('m');
@@ -98,6 +102,14 @@ console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
 			this.relation.children.push(child);
 		});
 		$(this.childrenView).listview('refresh');
+		Field.Instance.dirty = true;
+	}
+
+	refreshControls() {
+		let diff = this.relation.leftSide.ax - this.relation.rightSide.ax;
+		let canNarrow = 2 < Math.abs(diff);
+
+		this.enableButton(this.narrowlyButton, canNarrow);
 	}
 
 	setupChildren() {
@@ -135,6 +147,7 @@ console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
 		this.relation = relation;
 		this.setupForm();
 		this.setupChildren();
+		this.refreshControls();
 		this.showPane();
 	}
 }

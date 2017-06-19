@@ -217,6 +217,16 @@ console.log('Relation#addChild:' + child.info);
 		return this.children.indexOf(child) + 1;
 	}
 
+	getNextChild(child) {
+		let ix = this.children.indexOf(child);
+		let nx = ix + 1;
+
+		if (this.children.length <= nx) {
+			return null;
+		}
+		return this.children[nx];
+	}
+
 	narrowly() {
 		this.leftSide.separate(this.rightSide, -1);
 	}
@@ -284,9 +294,9 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 //		if (this.reassignOccupancy()) {
 //			return true;
 //		}
-//		if (this.reassignChildren()) {
-//			return true;
-//		}
+		if (this.reassignChildren()) {
+			return true;
+		}
 		if (this.children.length == 0) {
 			return false;
 		}

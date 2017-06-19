@@ -69,6 +69,24 @@ class Chain extends Actor {
 		this.y = this.ay;
 	}
 
+	moveUp() {
+		let next = this.nextSibling;
+
+		this.ry -= 2;
+		if (next && next.prevActor == this) {
+			next.ry += 2;
+		}
+	}
+
+	moveDown() {
+		let next = this.nextSibling;
+
+		this.ry += 2;
+		if (next && next.prevActor == this) {
+			next.ry -= 2;
+		}
+	}
+
 	ancestorOccupancy(occupancy = new Occupancy(), depth = 0) {
 		let oc = occupancy;
 		let origin = oc.origin;
@@ -345,6 +363,13 @@ class Ties extends Chain {
 			return 0;
 		}
 		return this.parents.getBornOrder(this);
+	}
+
+	get nextSibling() {
+		if (!this.parents) {
+			return null;
+		}
+		return this.parents.getNextChild(this);
 	}
 
 	get numOfPartner() {
