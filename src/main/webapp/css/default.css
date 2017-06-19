@@ -40,6 +40,9 @@ body {
 	box-shadow: 4px 4px 8px #999;
 	z-index: 1000;
 }
+#pane > div {
+	opacity: .95;
+}
 #settingPanel {
 	background-image: url("../img/bg.setting.png");
 }

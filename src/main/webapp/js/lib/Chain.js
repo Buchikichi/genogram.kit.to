@@ -87,6 +87,14 @@ class Chain extends Actor {
 		}
 	}
 
+	moveLeft() {
+		this.rx -= 2;
+	}
+
+	moveRight() {
+		this.rx += 2;
+	}
+
 	ancestorOccupancy(occupancy = new Occupancy(), depth = 0) {
 		let oc = occupancy;
 		let origin = oc.origin;

@@ -43,10 +43,10 @@ class AppMain {
 
 			if (!ctrlKey) {
 				if (target instanceof Person) {
-if (target.prevActor) console.log('G' + target.generation + '|prevActor:' + target.prevActor.info);
-target.nextActor.forEach(nx => {
-	console.log('(' + target.info + '->' + nx.info + ')');
-});
+//if (target.prevActor) console.log('G' + target.generation + '|prevActor:' + target.prevActor.info);
+//target.nextActor.forEach(nx => {
+//	console.log('(' + target.info + '->' + nx.info + ')');
+//});
 					this.openPane(this.inputPanel, target);
 					return;
 				}
@@ -218,13 +218,9 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 
 		// 先に親だけ処理
 		diagram.shapesList.forEach(obj => {
-console.log(obj.parentId);
-			if (obj.parentId != null) {
-				return;
+			if (obj.parentId == null) {
+				parentMap[obj.id] = new EnclosingLine(obj.x, obj.y);
 			}
-			let parent = new EnclosingLine(obj.x, obj.y);
-
-			parentMap[obj.id] = parent;
 		});
 		// 後で子だけを処理
 		diagram.shapesList.forEach(obj => {

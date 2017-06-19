@@ -15,10 +15,10 @@ class InputPanel extends AbstractPane {
 		let dod = this.pane.querySelector('[name="dod"]');
 		let age = this.pane.querySelector('[name="age"]');
 
-		name.addEventListener('change', ()=> {
+		name.addEventListener('keyup', ()=> {
 			this.person.name = name.value;
 		});
-		description.addEventListener('change', ()=> {
+		description.addEventListener('keyup', ()=> {
 			this.person.description = description.value;
 		});
 		genderList.click(e => {
@@ -82,11 +82,13 @@ class InputPanel extends AbstractPane {
 		this.partnerButton.addEventListener('click', ()=> this.addPartner());
 
 		this.upButton = document.getElementById('upButton');
-		this.downButton = document.getElementById('downButton');
 		this.upButton.addEventListener('click', ()=> this.moveUp());
+		this.downButton = document.getElementById('downButton');
 		this.downButton.addEventListener('click', ()=> this.moveDown());
 		this.leftButton = document.getElementById('leftButton');
+		this.leftButton.addEventListener('click', ()=> this.moveLeft());
 		this.rightButton = document.getElementById('rightButton');
+		this.rightButton.addEventListener('click', ()=> this.moveRight());
 
 		deleteButton.addEventListener('click', ()=> this.person.remove());
 	}
@@ -153,6 +155,18 @@ class InputPanel extends AbstractPane {
 		Field.Instance.dirty = true;
 	}
 
+	moveLeft() {
+		this.person.moveLeft();
+		this.refreshControls();
+		Field.Instance.dirty = true;
+	}
+
+	moveRight() {
+		this.person.moveRight();
+		this.refreshControls();
+		Field.Instance.dirty = true;
+	}
+
 	refreshControls() {
 		let gender = this.person.gender;
 		let age = this.person.age;
@@ -178,7 +192,6 @@ class InputPanel extends AbstractPane {
 		} else {
 			$(deleteButton).removeClass('ui-state-disabled');
 		}
-//		Field.Instance.dirty = true;
 	}
 
 	setupPartner() {
