@@ -268,7 +268,7 @@ console.log('*dirty* ' + this.actorList.length);
 		if (!this.dirty) {
 //console.log('*** !this.dirty ***');
 			relationList.forEach(relation => {
-				if (relation.reassign()) {
+				if (!this.dirty && relation.reassign()) {
 					this.dirty = true;
 				}
 			});

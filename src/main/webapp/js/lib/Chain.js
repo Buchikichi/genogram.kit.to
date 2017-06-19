@@ -392,12 +392,12 @@ class Ties extends Chain {
 		return false;
 	}
 
-	addParents(relation) {
+	addParents(relation, chain = true) {
 console.log('Ties#addParents ' + relation.info);
 		let parent = relation.leftSide;
 
 		relation.addChild(this);
-		parent.addPartner(relation);
+		parent.addPartner(relation, chain);
 //		if (this.hasBothParents) {
 //console.log('両親あり!!');
 //			let partner = this.partnerList[0];
@@ -457,7 +457,7 @@ console.log('Ties#addParents ' + relation.info);
 	/**
 	 * パートナー追加。
 	 */
-	addPartner(relation) {
+	addPartner(relation, chain = true) {
 		if (this.hasRelation(relation)) {
 			return this.relationList.length;
 		}
@@ -471,13 +471,13 @@ console.log('Ties#addPartner');
 			rel.orderMax = len;
 		});
 //console.log('isRev:' + isRev);
-		if (!isRev) {
+		if (!isRev && chain) {
 			if (1 < len) {
 				this.relationList[1].type = 'd';
 			}
 			super.addPartner(partner);
 		}
-		partner.addPartner(relation);
+		partner.addPartner(relation, chain);
 		return len;
 	}
 

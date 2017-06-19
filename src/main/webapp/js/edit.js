@@ -177,7 +177,7 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 
 				relation.id = parents.id;
 				relation.type = parents.type;
-				person.addParents(relation);
+				person.addParents(relation, false);
 			}
 			this.field.addActor(person);
 		});
@@ -196,7 +196,7 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 			}
 			relation.id = rec.id;
 			relation.type = rec.type;
-			father.addPartner(relation);
+			father.addPartner(relation, false);
 			this.field.addActor(relation);
 		});
 	}

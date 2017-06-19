@@ -49,3 +49,8 @@ COMMENT ON COLUMN person.rx IS '相対位置rx';
 COMMENT ON COLUMN person.ry IS '相対位置ry';
 COMMENT ON COLUMN person.created IS '作成日';
 COMMENT ON COLUMN person.updated IS '更新日';
+
+-- DB2 --
+-- ALTER TABLE person ALTER COLUMN name SET DATA TYPE vargraphic(40);
+-- ALTER TABLE person ALTER COLUMN description SET DATA TYPE vargraphic(200);
+-- ALTER TABLE person ALTER COLUMN attr SET DATA TYPE vargraphic(100);

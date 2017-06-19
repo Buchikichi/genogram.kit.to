@@ -29,3 +29,6 @@ COMMENT ON COLUMN diagram.show_name IS '名前表示';
 COMMENT ON COLUMN diagram.name_size IS '名前サイズ';
 COMMENT ON COLUMN diagram.created IS '作成日';
 COMMENT ON COLUMN diagram.updated IS '更新日';
+
+-- DB2 --
+-- ALTER TABLE diagram ALTER COLUMN description SET DATA TYPE vargraphic(200);

@@ -39,6 +39,7 @@ public class Person {
 	private String dod;
 	private int illness;
 	private int abuse;
+	@Column(length = 100)
 	private String attr;
 	private int bornOrder;
 	private int generation;

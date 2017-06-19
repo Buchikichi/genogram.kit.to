@@ -35,19 +35,23 @@ public class Shortener {
 	}
 
 	private static String left(String text, int len) {
-		StringBuilder buff = new StringBuilder();
-		int currentLen = 0;
-
-		for (char ch : text.toCharArray()) {
-			int bytes = Character.toString(ch).getBytes().length; // あまりいい感じがしない
-
-			if (len < currentLen + bytes) {
-				break;
-			}
-			currentLen += bytes;
-			buff.append(ch);
+//		StringBuilder buff = new StringBuilder();
+//		int currentLen = 0;
+//
+//		for (char ch : text.toCharArray()) {
+//			int bytes = Character.toString(ch).getBytes().length; // あまりいい感じがしない
+//
+//			if (len < currentLen + bytes) {
+//				break;
+//			}
+//			currentLen += bytes;
+//			buff.append(ch);
+//		}
+//		return buff.toString();
+		if (text.length() < len) {
+			return text;
 		}
-		return buff.toString();
+		return text.substring(0, len);
 	}
 
 	/**

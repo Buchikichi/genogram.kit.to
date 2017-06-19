@@ -191,7 +191,11 @@ if (this.touched) {
 	}
 
 	drawChain(ctx) {
-		if (!this.prevActor) {
+		if (!this.prevActor || !Field.DEBUG) {
+			return;
+		}
+		let keys = Controller.Instance.keys;
+		if (!this.hit && !keys['Control']) {
 			return;
 		}
 		let spacing = Field.Instance.spacing;
@@ -238,9 +242,7 @@ if (this.touched) {
 //console.log('[' + this.x + ',' + this.y + ']' + this.id);
 		this.drawOccupancy(ctx);
 		ctx.translate(x, y);
-		if (Field.DEBUG) {
-			this.drawChain(ctx);
-		}
+		this.drawChain(ctx);
 		this.drawSymbol(ctx);
 		ctx.restore();
 	}

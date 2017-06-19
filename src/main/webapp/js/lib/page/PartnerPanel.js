@@ -8,6 +8,8 @@ class PartnerPanel extends AbstractPane {
 
 	setupEvents() {
 		super.setupEvents();
+		let narrowlyButton = document.getElementById('narrowlyButton');
+		let widelyButton = document.getElementById('widelyButton');
 		let mChildButton = document.getElementById('mChildButton');
 		let fChildButton = document.getElementById('fChildButton');
 
@@ -15,6 +17,12 @@ class PartnerPanel extends AbstractPane {
 			let val = $('[name="relationType"]:checked').val();
 
 			this.relation.type = val;
+		});
+		narrowlyButton.addEventListener('click', ()=> {
+			this.relation.narrowly();
+		});
+		widelyButton.addEventListener('click', ()=> {
+			this.relation.widely();
 		});
 		mChildButton.addEventListener('click', ()=> {
 			this.addChild('m');

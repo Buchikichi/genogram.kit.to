@@ -217,6 +217,14 @@ console.log('Relation#addChild:' + child.info);
 		return this.children.indexOf(child) + 1;
 	}
 
+	narrowly() {
+		this.leftSide.separate(this.rightSide, -1);
+	}
+
+	widely() {
+		this.leftSide.separate(this.rightSide, 1);
+	}
+
 	reassignOccupancy() {
 		let hasBothParents = this.father.parents && this.mother.parents;
 
@@ -273,12 +281,12 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 	}
 
 	reassign() {
-		if (this.reassignOccupancy()) {
-			return true;
-		}
-		if (this.reassignChildren()) {
-			return true;
-		}
+//		if (this.reassignOccupancy()) {
+//			return true;
+//		}
+//		if (this.reassignChildren()) {
+//			return true;
+//		}
 		if (this.children.length == 0) {
 			return false;
 		}
