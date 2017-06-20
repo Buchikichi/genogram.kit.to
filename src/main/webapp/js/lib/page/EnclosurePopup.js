@@ -22,6 +22,9 @@ class EnclosurePopup {
 			this.target.parent.eject();
 			$(this.popup).popup('close');
 		});
+		$(this.popup).popup({afterclose: () => {
+			Field.Instance.clearSelection();
+		}});
 	}
 
 	setupForm() {

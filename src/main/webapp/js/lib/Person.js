@@ -243,7 +243,6 @@ if (this.touched) {
 		let y = this.y * spacing;
 
 		ctx.save();
-//console.log('[' + this.x + ',' + this.y + ']' + this.id);
 		this.drawOccupancy(ctx);
 		ctx.translate(x, y);
 		this.drawChain(ctx);

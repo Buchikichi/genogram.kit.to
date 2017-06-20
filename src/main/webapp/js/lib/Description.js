@@ -69,10 +69,10 @@ class Description extends Actor {
 	drawFrame(ctx) {
 		if (this.selected) {
 			this.strokeStyle = 'navy';
-			ctx.lineWidth = 5;
+			ctx.lineWidth = 3;
 		} else if (this.hit) {
 			this.strokeStyle = 'aqua';
-			ctx.lineWidth = 5;
+			ctx.lineWidth = 3;
 		} else {
 			return;
 		}

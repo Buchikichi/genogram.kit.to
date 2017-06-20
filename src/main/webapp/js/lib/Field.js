@@ -11,7 +11,6 @@ class Field {
 		this.targetList = [];
 		this.actorList = [];
 		this.dirty = false;
-		this.setupEvents();
 		this.minGeneration = 0;
 		this.maxGeneration = 0;
 		Field.Instance = this;
@@ -144,52 +143,12 @@ class Field {
 	addTarget(...list) {
 		list.forEach(target => {
 			let allowed = target instanceof Person || target instanceof Relation
-			|| target instanceof Relationship || target instanceof EnclosingLine || target instanceof ActorHandle;
+				|| target instanceof Relationship
+				|| target instanceof EnclosingLine || target instanceof ActorHandle;
 
 			if (allowed && this.targetList.indexOf(target) == -1) {
 				this.targetList.push(target);
 			}
-		});
-	}
-
-	setupEvents() {
-		let view = this.view.view;
-		let keys = Controller.Instance.keys;
-		let beginPt = null;
-
-		view.addEventListener('mousedown', e => {
-			beginPt = this.view.convert(e.clientX, e.clientY);
-			let target = this.scan(beginPt.x, beginPt.y);
-			let ctrlKey = keys['Control'] || keys['Shift'] || keys['k16'] || keys['k17'];
-
-			if (!ctrlKey) {
-				this.targetList = [];
-			}
-			this.addTarget(target);
-			if (target && target.holdable) {
-				this.hold = target;
-			}
-		});
-		view.addEventListener('mouseup', e => {
-			this.dirty = true;
-			this.hold = null;
-		});
-		view.addEventListener('mousemove', e => {
-			let pt = this.view.convert(e.clientX, e.clientY);
-
-//console.log(e);
-			if (this.hold) {
-				let spacing = this.spacing;
-				let dx = pt.x - beginPt.x;
-				let dy = pt.y - beginPt.y;
-				let px = pt.x - this.tx;
-				let py = pt.y - this.ty;
-
-				this.hold.move(dx / spacing, dy / spacing);
-				beginPt = pt;
-//				return;
-			}
-			this.scan(pt.x, pt.y);
 		});
 	}
 
@@ -229,9 +188,49 @@ class Field {
 		return result;
 	}
 
+	clearTarget() {
+		this.targetList = [];
+	}
 	clearSelection() {
 		this.scan(Number.MAX_VALUE, Number.MAX_VALUE);
-		this.targetList = [];
+	}
+
+	control() {
+		let ctrl = Controller.Instance;
+		let keys = ctrl.keys;
+		let ctrlKey = keys['Control'] || keys['Shift'] || keys['k16'] || keys['k17'];
+		let delta = ctrl.delta;
+
+		// mouse over
+		if (!this.hold) {
+			ctrl.move.forEach(pt => {
+				this.scan(pt.x, pt.y);
+			});
+		}
+		// click or touch
+		if (ctrl.point.length == 0 && !ctrl._contextmenu) {
+			this.hold = null;
+		} else if (!ctrlKey) {
+			this.targetList = [];
+		}
+		ctrl.point.forEach((pt, ix) => {
+			if (this.hold) {
+				let spacing = this.spacing;
+				let dx = delta[ix].x;
+				let dy = delta[ix].y;
+
+				this.hold.move(dx / spacing, dy / spacing);
+				return;
+			}
+			let target = this.scan(pt.x, pt.y);
+
+			if (target) {
+				this.addTarget(target);
+				if (!this.hold && target.holdable) {
+					this.hold = target;
+				}
+			}
+		});
 	}
 
 	arrange() {

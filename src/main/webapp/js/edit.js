@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
 	let activate = ()=> {
 		let requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
+		app.control();
 		app.draw();
 		requestAnimationFrame(activate);
 	};
@@ -71,17 +72,6 @@ class AppMain {
 					}
 					this.openPane(this.relationPanel, target, other);
 				}
-			}
-		});
-		window.addEventListener('contextmenu', event => {
-			if (this.field.targetList.length == 0) {
-				this.settingPanel.open();
-				return;
-			}
-			let target = this.field.targetList[0];
-
-			if (target instanceof ActorHandle) {
-				this.enclosurePopup.open(target);
 			}
 		});
 		if (!this.isPanel) {
@@ -236,8 +226,26 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 		});
 	}
 
-	draw() {
+	control() {
+		let ctrl = Controller.Instance;
+
+		this.field.control();
 		this.field.arrange();
+		if (ctrl.contextmenu) {
+			let target = this.field.targetList[0];
+			let hold = this.field.hold;
+
+			if (target || hold) {
+				if (hold instanceof ActorHandle) {
+					this.enclosurePopup.open(hold);
+				}
+			} else {
+				this.settingPanel.open();
+			}
+		}
+	}
+
+	draw() {
 		this.field.draw();
 	}
 }

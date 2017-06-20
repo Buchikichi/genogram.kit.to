@@ -3,16 +3,18 @@
  */
 class Controller {
 	constructor(isEdit = false) {
-		this.keys = {};
-		this.point = {};
-		this.touch = false;
 		this.init(isEdit);
 		Controller.Instance = this;
 	}
 
 	init(isEdit) {
+		this._contextmenu = false;
+		this.mouseMoving = false;
 		if (!isEdit) {
 			window.addEventListener('contextmenu', event => {
+				if (!this.mouseMoving) {
+					this._contextmenu = true;
+				}
 				event.preventDefault();
 			});
 		}
@@ -21,6 +23,7 @@ class Controller {
 	}
 
 	initKeys() {
+		this.keys = {};
 		window.addEventListener('keydown', event => {
 			if (event.key) {
 //console.log('key[' + event.key + ']');
@@ -41,18 +44,24 @@ class Controller {
 	initPointingDevice() {
 		let canvas = document.getElementById('canvas');
 		let end = ()=> {
-			this.touch = false;
-			this.point = null;
+			this.point = [];
+			this.prev = [];
+			this.move = [];
 //console.log('end');
 		};
 
+		end();
 		canvas.addEventListener('mousedown', event => {
-			this.touch = true;
-			this.point = FlexibleView.Instance.convert(event.clientX, event.clientY);
+			this.point = [FlexibleView.Instance.convert(event.clientX, event.clientY)];
+			this.prev = this.point;
+			this.move = this.point;
 		});
 		canvas.addEventListener('mousemove', event => {
-			if (this.touch) {
-				this.point = FlexibleView.Instance.convert(event.clientX, event.clientY);
+			let point = [FlexibleView.Instance.convert(event.clientX, event.clientY)];
+
+			this.move = point;
+			if (0 < this.prev.length) {
+				this.point = point;
 			}
 		});
 		canvas.addEventListener('mouseup', ()=> end());
@@ -60,20 +69,50 @@ class Controller {
 
 		// touch
 		canvas.addEventListener('touchstart', event => {
-			let touch = event.touches[0];
-
-			this.touch = true;
-			this.point = FlexibleView.Instance.convert(touch.pageX, touch.pageY);
+			Array.prototype.forEach.call(event.touches, touch => {
+				this.point.push(FlexibleView.Instance.convert(touch.pageX, touch.pageY));
+			});
+			this.prev = this.point;
+			this.move = this.point;
 //console.log('touchstart:' + this.point);
 			event.preventDefault();
 		});
 		canvas.addEventListener('touchmove', event => {
-			let touch = event.touches[0];
+			let point = [];
 
-			this.touch = true;
-			this.point = FlexibleView.Instance.convert(touch.pageX, touch.pageY);
+			Array.prototype.forEach.call(event.touches, touch => {
+				point.push(FlexibleView.Instance.convert(touch.pageX, touch.pageY));
+			});
 //console.log('touchmove:' + this.point);
+			this.move = point;
+			if (0 < this.prev.length) {
+				this.point = point;
+			}
 		});
 		canvas.addEventListener('touchend', ()=> end());
+	}
+
+	get delta() {
+		let delta = [];
+
+		this.mouseMoving = false;
+		this.point.forEach((pt, ix) => {
+			let dx = pt.x - this.prev[ix].x;
+			let dy = pt.y - this.prev[ix].y;
+
+			delta.push({x:dx, y:dy});
+			this.prev[ix] = pt;
+			if (dx != 0 || dy != 0) {
+				this.mouseMoving = true;
+			}
+		});
+		return delta;
+	}
+
+	get contextmenu() {
+		let contextmenu = this._contextmenu;
+
+		this._contextmenu = false;
+		return contextmenu;
 	}
 }
