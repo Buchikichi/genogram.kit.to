@@ -129,6 +129,11 @@ class Chain extends Actor {
 		partnerList.forEach(partner => {
 			partner.descendantOccupancy(oc);
 		});
+		this.relationList.forEach(relation => {
+			relation.children.forEach(child => {
+				child.descendantOccupancy(oc);
+			});
+		});
 		return oc;
 	}
 

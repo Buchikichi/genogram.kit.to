@@ -170,8 +170,8 @@ if (this.touched) {
 	drawDescendantOccupancy(ctx) {
 		let spacing = Field.Instance.spacing;
 		let oc = this.descendantOccupancy();
-		let left = oc.left + .2;
-		let right = oc.right - .2;
+		let left = oc.left - 1;
+		let right = oc.right + 1;
 		let y = (this.y + .1) * spacing;
 
 		ctx.lineWidth = 3;

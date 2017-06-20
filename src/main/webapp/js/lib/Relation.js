@@ -210,7 +210,7 @@ console.log('Relation#addChild:' + child.info);
 			}
 		}
 		this.reserve(child);
-		this.reassign();
+//		this.reassign();
 	}
 
 	getBornOrder(child) {
@@ -263,29 +263,26 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 		if (this.children.length == 0) {
 			return result;
 		}
+//console.log('==reassignChildren==');
 		let margin = 0;
 
 		this.children.forEach((child, ix) => {
 			let oc = child.descendantOccupancy();
+			let left = child.ax - oc.left + 1;
+			let right = oc.right - child.ax + 1;
 
-//console.log(child.info + ': width:' + oc.width + ',' + oc.left + '|' + oc.right);
-			if (child.isMale) {
-				if (0 < ix && child.rx != margin) {
-//					child.rx = margin;
-					child.separate(child.prevActor, -margin);
+//console.log('left:' + left + '/right:' + right);
+			if (0 < ix) {
+				margin += left;
+				let diff = child.rx - margin;
+				if (diff != 0) {
+//console.log(child.rx + ':' + margin);
+					child.rx = margin;
+					//child.separate(child.prevActor, diff);
 					result = true;
 				}
-				margin = 2 + oc.width;
-			} else {
-				let rx = oc.width + margin;
-
-				if (0 < ix && child.rx != rx) {
-//					child.rx = rx;
-					child.separate(child.prevActor, -rx);
-					result = true;
-				}
-				margin = 2;
 			}
+			margin = right;
 		});
 		return result;
 	}
@@ -303,20 +300,20 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 		let result = false;
 		let first = this.firstChild;
 		let last = this.lastChild;
-		let right = last.prevActor.x + last.rx;
+		let right = last.prevActor.ax + last.rx;
 		let left = right;
 		let prev = last;
 
 		while (prev != first) {
 			prev = prev.prevActor;
-			left = prev.prevActor.x + prev.rx;
+			left = prev.prevActor.ax + prev.rx;
 //console.log('left:' + left);
 		}
 		let half = (right - left) / 2;
 
 //console.log('left:' + left + '/half:' + half + '/right:' + right);
 		if (first == this.leftSide.prevActor || first == this.rightSide.prevActor) {
-			let diff = half - this.rect.center + this.leftSide.x;
+			let diff = half - this.rect.center + this.leftSide.ax;
 
 			if (first.rest && this.leftSide.rx != diff) {
 				this.leftSide.rx = diff;
@@ -324,7 +321,7 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 //console.log('reassign:親移動');
 			}
 		} else {
-			let diff = this.rect.center - first.prevActor.x - half;
+			let diff = this.rect.center - first.prevActor.ax - half;
 
 			if (first.prevActor.rest && first.rx != diff) {
 				first.rx = diff;
