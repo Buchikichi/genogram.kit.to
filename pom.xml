@@ -43,6 +43,7 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
     </dependency>
+<!--
     <dependency>
       <groupId>com.ibm</groupId>
       <artifactId>db2.jcc</artifactId>
@@ -50,6 +51,7 @@
       <scope>system</scope>
       <systemPath>${basedir}/lib/db2jcc.jar</systemPath>
     </dependency>
+-->
   </dependencies>
   <build>
     <plugins>
