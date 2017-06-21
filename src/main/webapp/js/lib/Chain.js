@@ -69,32 +69,6 @@ class Chain extends Actor {
 		this.y = this.ay;
 	}
 
-	moveUp() {
-		let next = this.nextSibling;
-
-		this.ry -= 2;
-		if (next && next.prevActor == this) {
-			next.ry += 2;
-		}
-	}
-
-	moveDown() {
-		let next = this.nextSibling;
-
-		this.ry += 2;
-		if (next && next.prevActor == this) {
-			next.ry -= 2;
-		}
-	}
-
-	moveLeft() {
-		this.rx -= 2;
-	}
-
-	moveRight() {
-		this.rx += 2;
-	}
-
 	ancestorOccupancy(occupancy = new Occupancy(), depth = 0) {
 		let oc = occupancy;
 		let origin = oc.origin;
@@ -420,6 +394,14 @@ class Ties extends Chain {
 		return result;
 	}
 
+	/** prevが親か. */
+	get isPrevParent() {
+		if (this.parents == null) {
+			return false;
+		}
+		return this.prevActor == this.parents.leftSide;
+	}
+
 	/**
 	 * 兄弟関係にあるか.
 	 */
@@ -526,6 +508,41 @@ console.log('Ties#addPartner');
 		this.eject();
 	}
 
+	/** 親から見て上方向に移動. */
+	moveUp() {
+		if (this.isPrevParent || this.isSibling(this.prevActor)) {
+			let next = this.nextSibling;
+	
+			this.ry -= Ties.MOVING_V_STEP;
+			if (next && next.prevActor == this) {
+				next.ry += Ties.MOVING_V_STEP;
+			}
+			return;
+		}
+		this.parents.leftSide.ry += Ties.MOVING_V_STEP;
+	}
+	/** 親から見て下方向に移動. */
+	moveDown() {
+		if (this.isPrevParent || this.isSibling(this.prevActor)) {
+			let next = this.nextSibling;
+
+			this.ry += Ties.MOVING_V_STEP;
+			if (next && next.prevActor == this) {
+				next.ry -= Ties.MOVING_V_STEP;
+			}
+			return;
+		}
+		this.parents.leftSide.ry -= Ties.MOVING_V_STEP;
+	}
+
+	moveLeft() {
+		this.rx -= 2;
+	}
+
+	moveRight() {
+		this.rx += 2;
+	}
+
 	move() {
 		if (!this.prevActor) {
 			return false;
@@ -561,4 +578,5 @@ console.log('Ties#addPartner');
 		return true;
 	}
 }
+Ties.MOVING_V_STEP = 2;
 Ties.MOVING_STEP = .9;

@@ -100,14 +100,8 @@
           </div>
           <div data-role="collapsible">
             <h3 th:text="#{label.movement}">Movement</h3>
-            <fieldset class="ui-grid-b">
-              <div class="ui-block-a"></div>
-              <div class="ui-block-b"><button id="upButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-u">上</button></div>
-              <div class="ui-block-c"></div>
-              <div class="ui-block-a"><button id="leftButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">左</button></div>
-              <div class="ui-block-b"><button id="downButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-d">下</button></div>
-              <div class="ui-block-c"><button id="rightButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-r">右</button></div>
-            </fieldset>
+            <button id="upButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-u">上</button>
+            <button id="downButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-d">下</button>
           </div>
         </div>
         <button id="parentsButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u" th:text="#{button.parents}">Parents</button>

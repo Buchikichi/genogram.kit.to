@@ -85,10 +85,10 @@ class InputPanel extends AbstractPane {
 		this.upButton.addEventListener('click', ()=> this.moveUp());
 		this.downButton = document.getElementById('downButton');
 		this.downButton.addEventListener('click', ()=> this.moveDown());
-		this.leftButton = document.getElementById('leftButton');
-		this.leftButton.addEventListener('click', ()=> this.moveLeft());
-		this.rightButton = document.getElementById('rightButton');
-		this.rightButton.addEventListener('click', ()=> this.moveRight());
+//		this.leftButton = document.getElementById('leftButton');
+//		this.leftButton.addEventListener('click', ()=> this.moveLeft());
+//		this.rightButton = document.getElementById('rightButton');
+//		this.rightButton.addEventListener('click', ()=> this.moveRight());
 
 		deleteButton.addEventListener('click', ()=> this.person.remove());
 	}
@@ -185,8 +185,8 @@ class InputPanel extends AbstractPane {
 		this.enableButton(this.partnerButton, marriageable);
 		this.enableButton(this.upButton, canUp);
 		this.enableButton(this.downButton, parents);
-		this.enableButton(this.leftButton, false);
-		this.enableButton(this.rightButton, false);
+//		this.enableButton(this.leftButton, false);
+//		this.enableButton(this.rightButton, false);
 		if (this.person.principal || this.person.hasChild) {
 			$(deleteButton).addClass('ui-state-disabled');
 		} else {
