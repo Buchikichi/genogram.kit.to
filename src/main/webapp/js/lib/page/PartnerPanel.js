@@ -54,6 +54,8 @@ class PartnerPanel extends AbstractPane {
 		let child = new Person(gender);
 
 		child.addParents(this.relation);
+		this.relation.reassignChildren();
+		this.relation.reassignChildrenPos();
 		this.setupChildren();
 	}
 
@@ -102,6 +104,8 @@ console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
 			this.relation.children.push(child);
 		});
 		$(this.childrenView).listview('refresh');
+		this.relation.reassignChildren();
+		this.relation.reassignChildrenPos();
 		Field.Instance.dirty = true;
 	}
 

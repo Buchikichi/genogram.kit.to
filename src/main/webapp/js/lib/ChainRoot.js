@@ -3,6 +3,7 @@ class ChainRoot extends Chain {
 		super();
 		this.id = 'root';
 		this.radius = 5;
+		this.z = -1;
 	}
 
 	get info() {

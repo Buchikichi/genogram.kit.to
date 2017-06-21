@@ -183,12 +183,16 @@ class Relation extends Actor {
 		return this.father;
 	}
 
-	addChild(child) {
+	addChild(child, chain = true) {
 console.log('Relation#addChild:' + child.info);
 		let len = this.children.length;
 
 		child.parents = this;
 		this.children.push(child);
+		this.reserve(child);
+		if (!chain) {
+			return;
+		}
 		if (0 < len) {
 			let older = this.children[len - 1];
 
@@ -202,15 +206,13 @@ console.log('Relation#addChild:' + child.info);
 		} else {
 			if (child.prevActor) {
 //console.log('child.assign father');
-				child.assignActor(this.father, 0, -2);
+				child.assignActor(this.father, -1, -2);
 				this.mother.generation = this.father.generation;
 			} else {
 //console.log('father.assign child');
 				this.father.assignActor(child, 0, 2);
 			}
 		}
-		this.reserve(child);
-//		this.reassign();
 	}
 
 	getBornOrder(child) {
@@ -287,13 +289,7 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 		return result;
 	}
 
-	reassign() {
-//		if (this.reassignOccupancy()) {
-//			return true;
-//		}
-		if (this.reassignChildren()) {
-			return true;
-		}
+	reassignChildrenPos() {
 		if (this.children.length == 0) {
 			return false;
 		}
@@ -330,6 +326,16 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 			}
 		}
 		return result;
+	}
+
+	reassign() {
+//		if (this.reassignOccupancy()) {
+//			return true;
+//		}
+		if (this.reassignChildren()) {
+			return true;
+		}
+		return this.reassignChildrenPos();
 	}
 
 	removeChild(target) {

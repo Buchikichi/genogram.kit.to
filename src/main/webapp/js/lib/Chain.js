@@ -416,7 +416,7 @@ class Ties extends Chain {
 console.log('Ties#addParents ' + relation.info);
 		let parent = relation.leftSide;
 
-		relation.addChild(this);
+		relation.addChild(this, chain);
 		parent.addPartner(relation, chain);
 //		if (this.hasBothParents) {
 //console.log('両親あり!!');

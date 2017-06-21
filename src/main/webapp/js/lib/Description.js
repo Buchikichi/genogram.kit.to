@@ -67,24 +67,18 @@ class Description extends Actor {
 	}
 
 	drawFrame(ctx) {
-		if (this.selected) {
-			this.strokeStyle = 'navy';
-			ctx.lineWidth = 3;
-		} else if (this.hit) {
-			this.strokeStyle = 'aqua';
-			ctx.lineWidth = 3;
-		} else {
+		if (!this.hit) {
 			return;
 		}
-		ctx.strokeStyle = this.strokeStyle;
 		let spacing = Field.Instance.spacing;
 		let top = -this.hH  * spacing;
 		let left = -this.hW * spacing;
 		let width = this.width * spacing;
 		let height = this.height * spacing;
 
+		ctx.lineWidth = 3;
 		ctx.strokeRect(left, top, width, height);
-		ctx.fillStyle = 'rgba(0, 255, 255, .1)';
+		ctx.fillStyle = 'rgba(127, 255, 255, .1)';
 		ctx.fillRect(left, top, width, height);
 //ctx.fillStyle = 'red';
 //ctx.beginPath();
@@ -106,6 +100,8 @@ class Description extends Actor {
 		ctx.beginPath();
 		ctx.moveTo(bx * spacing, by * spacing);
 		ctx.lineTo(ex * spacing, ey * spacing);
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = Field.Instance.hitStyle;
 		ctx.stroke();
 	}
 
@@ -130,8 +126,8 @@ class Description extends Actor {
 
 		ctx.save();
 		ctx.translate(x, y);
-		this.drawFrame(ctx);
 		this.drawLine(ctx);
+		this.drawFrame(ctx);
 		this.drawText(ctx);
 		ctx.restore();
 	}

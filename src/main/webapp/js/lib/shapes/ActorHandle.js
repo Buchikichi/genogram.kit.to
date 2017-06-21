@@ -224,7 +224,7 @@ class ActorHandle extends Actor {
 		ctx.save();
 		if (this.parent.selected) {
 			ctx.lineWidth = 2;
-			ctx.strokeStyle = 'navy';
+			ctx.strokeStyle = '#4178be';
 		} else if (this.parent.hit) {
 			ctx.lineWidth = 3;
 			ctx.strokeStyle = Field.Instance.hitStyle;

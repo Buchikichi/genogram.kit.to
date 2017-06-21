@@ -135,10 +135,7 @@ class Person extends Ties {
 
 	drawSymbol(ctx) {
 		if (this.selected) {
-			this.strokeStyle = 'navy';
-			ctx.lineWidth = 5;
-		} else if (this.hit) {
-			this.strokeStyle = 'aqua';
+			this.strokeStyle = '#4178be';
 			ctx.lineWidth = 5;
 		} else {
 			this.strokeStyle = 'black';
@@ -148,6 +145,11 @@ if (this.touched) {
 	this.strokeStyle = 'red';
 }
 		this.symbol.draw(ctx);
+		if (this.hit) {
+			this.strokeStyle = Field.Instance.hitStyle;
+			ctx.lineWidth = 7;
+			this.symbol.draw(ctx);
+		}
 	}
 
 	drawAncestorOccupancy(ctx) {
