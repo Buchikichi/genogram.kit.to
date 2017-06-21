@@ -11,7 +11,6 @@ class SettingPanel {
 		let gridSize = $('[name="gridSize"]');
 		let nameSize = $('[name="nameSize"]');
 		let encloseButton = document.getElementById('encloseButton');
-		let printButton = document.getElementById('printButton');
 
 		gridSize.change(()=> {
 			if (!gridSize.val()) {
@@ -26,7 +25,6 @@ class SettingPanel {
 			}
 		});
 		encloseButton.addEventListener('click', () => {this.addEnclosure()});
-		printButton.addEventListener('click', () => {this.print()});
 		if (0 < this.appMain.documentId.length) {
 			this.saveButton.classList.remove('ui-state-disabled');
 			this.saveButton.addEventListener('click', ()=> {this.save()});
@@ -36,6 +34,39 @@ class SettingPanel {
 
 			showGrid.checked = true;
 		}
+		this.setupPrinting();
+	}
+
+	setupPrinting() {
+		let description = document.querySelector('[name="description"]');
+		let printButton = document.getElementById('printButton');
+		let iframe = document.getElementById('printFrame');
+		let win = iframe.contentWindow;
+
+		iframe.style.visibility = 'hidden';
+		iframe.style.position = 'fixed';
+		iframe.style.right = '0';
+		iframe.style.bottom = '0';
+		win.addEventListener('DOMContentLoaded', ()=> {
+			let title = win.document.querySelector('title');
+			let img = win.document.querySelector('img');
+
+			title.textContent = description.value;
+			img.addEventListener('load', () => {
+				iframe.focus();
+				win.focus();
+console.log('execCommand.');
+				if (!win.document.execCommand('print', false, null)) {
+console.log('win.print()');
+					win.print();
+				}
+			});
+			printButton.addEventListener('click', () => {
+				let canvas = FlexibleView.Instance.canvas;
+
+				img.src = canvas.toDataURL();
+			});
+		});
 	}
 
 	loadDiagram(diagram) {
@@ -44,25 +75,6 @@ class SettingPanel {
 
 	addEnclosure() {
 		this.appMain.addEnclosure();
-	}
-
-	print() {
-		let iframe = document.getElementById('printFrame');
-		let description = document.querySelector('[name="description"]');
-		let win = iframe.contentWindow;
-		let title = win.document.querySelector('title');
-		let img = win.document.querySelector('img');
-		let canvas = FlexibleView.Instance.canvas;
-
-		iframe.style.position = 'fixed';
-		iframe.style.right = '0';
-		iframe.style.bottom = '0';
-		title.textContent = description.value;
-		img.src = canvas.toDataURL();
-		img.addEventListener('load', () => {
-			win.focus();
-			win.print();
-		});
 	}
 
 	createDiagramInfo(formData) {
