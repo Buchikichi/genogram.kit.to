@@ -206,7 +206,7 @@ if (this.touched) {
 		}
 		let spacing = Field.Instance.spacing;
 		let prev = this.prevActor;
-		let isSibling = this.isSibling(prev);
+		let isPartner = this.isPartner(prev);
 		let bx = prev.x - this.x;
 		let by = prev.y - this.y;
 		let ex = 0;
@@ -228,9 +228,9 @@ if (this.touched) {
 		ctx.beginPath();
 		ctx.arc(bx, by, 4, 0, Math.PI * 2, false);
 		ctx.moveTo(bx, by);
-		if (isSibling) {
+		if (isPartner) {
 			let cx = bx + (ex - bx) / 2;
-			let cy = by - spacing * .5;
+			let cy = by + spacing * .5 * (this.isMale ? 1 : -1);
 
 			ctx.quadraticCurveTo(cx, cy, ex, ey);
 		} else {

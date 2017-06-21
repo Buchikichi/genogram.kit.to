@@ -412,6 +412,17 @@ class Ties extends Chain {
 		return false;
 	}
 
+	isPartner(other) {
+		let result = false;
+
+		this.relationList.forEach(relation => {
+			if (relation.isPair(this, other)) {
+				result = true;
+			}
+		});
+		return result;
+	}
+
 	addParents(relation, chain = true) {
 console.log('Ties#addParents ' + relation.info);
 		let parent = relation.leftSide;
