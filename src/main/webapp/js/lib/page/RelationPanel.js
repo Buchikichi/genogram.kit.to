@@ -68,12 +68,16 @@ class RelationPanel extends AbstractPane {
 
 	open(from, to = null) {
 		let field = Field.Instance;
+		let position = null;
 
 		if (to) {
+			let cx = from.ax + (to.ax - from.ax) / 2;
+
 			this.from = from;
 			this.to = to;
 			this.relationship = null;
 			this.isNew = true;
+			position = field.center < cx ? 'left' : 'right'
 		} else {
 			// Relationship
 			this.from = from.person;
@@ -83,9 +87,10 @@ class RelationPanel extends AbstractPane {
 			this.relationship = from;
 			this.isNew = false;
 			field.addTarget(this.from, this.to);
+			position = field.center < this.relationship.cx ? 'left' : 'right'
 		}
 		this.setupForm();
-		this.showPane();
+		this.showPane(position);
 		window.getSelection().collapse(document.body, 0);
 	}
 }

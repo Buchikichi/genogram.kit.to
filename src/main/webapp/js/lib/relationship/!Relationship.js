@@ -45,10 +45,7 @@ class Relationship extends Actor {
 		this.other = person;
 	}
 
-	isHit(px, py) {
-		let spacing = Field.Instance.spacing;
-		let x = px / spacing;
-		let y = py / spacing;
+	isHit(x, y) {
 		let tx = this.cx - x;
 		let ty = this.cy - y;
 		let rad = -this.radian;

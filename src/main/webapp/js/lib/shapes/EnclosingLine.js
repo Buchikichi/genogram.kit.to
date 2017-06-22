@@ -29,11 +29,7 @@ class EnclosingLine extends Actor {
 		});
 	}
 
-	isHit(px, py) {
-		let spacing = Field.Instance.spacing;
-		let x = px / spacing;
-		let y = py / spacing;
-
+	isHit(x, y) {
 		this.root.listAll.forEach(node => {
 			if (node.isLineHit(x, y)) {
 				this.hit = true;

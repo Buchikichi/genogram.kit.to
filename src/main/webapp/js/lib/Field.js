@@ -8,6 +8,7 @@ class Field {
 		this.view = new FlexibleView(width, height);
 		this.tx = 0;
 		this.ty = 0;
+		this.center = 0;
 		this.targetList = [];
 		this.actorList = [];
 		this.dirty = false;
@@ -169,8 +170,8 @@ class Field {
 
 	scan(x, y) {
 		let result = null;
-		let px = x - this.tx;
-		let py = y - this.ty;
+		let px = (x - this.tx) / this.spacing;
+		let py = (y - this.ty) / this.spacing;
 
 		// zの降順にスキャン
 		this.actorList.sort((a, b) => {
@@ -281,6 +282,7 @@ console.log('*dirty* ' + this.actorList.length);
 
 		this.tx = hw - left;
 		this.ty = hh - top;
+		this.center = minX + (maxX - minX) / 2;
 	}
 
 	choiceActor() {

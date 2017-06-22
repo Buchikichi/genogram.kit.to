@@ -345,10 +345,7 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 		target.eject();
 	}
 
-	isHit(px, py) {
-		let spacing = Field.Instance.spacing;
-		let x = px / spacing;
-		let y = py / spacing;
+	isHit(x, y) {
 		let rect = this.rect;
 
 		this.hit = false;

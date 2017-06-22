@@ -21,9 +21,15 @@ class AbstractPane {
 		this.enableButton(button, false);
 	}
 
-	showPane() {
+	showPane(position = 'right') {
 		if (this.isPanel) {
-			$(this.pane).panel('open');
+			let idSelector = '#' + this.pane.id;
+			let pane = $(idSelector);
+
+//console.log('showPane[' + idSelector + ']:' + position);
+			pane.panel('destroy');
+			pane.panel({'position': position});
+			pane.panel('open');
 		} else {
 			$(this.pane).show();
 		}

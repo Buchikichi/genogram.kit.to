@@ -124,11 +124,7 @@ class Person extends Ties {
 		return this.touched;
 	}
 
-	isHit(px, py) {
-		let spacing = Field.Instance.spacing;
-		let x = px / spacing;
-		let y = py / spacing;
-
+	isHit(x, y) {
 		this.hit = this.symbol.isHit(x, y);
 		return this.hit;
 	}

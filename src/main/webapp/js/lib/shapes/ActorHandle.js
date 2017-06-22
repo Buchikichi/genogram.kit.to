@@ -87,14 +87,10 @@ class ActorHandle extends Actor {
 		next.prev = node;
 	}
 
-	isHit(px, py) {
+	isHit(x, y) {
 		if (!this.parent.selected) {
 			return false;
 		}
-		let spacing = Field.Instance.spacing;
-		let x = px / spacing;
-		let y = py / spacing;
-
 		this.hit = this.includes(x, y, this.logicalRadius);
 		return this.hit;
 	}

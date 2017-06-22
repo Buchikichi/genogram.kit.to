@@ -224,8 +224,11 @@ class InputPanel extends AbstractPane {
 	}
 
 	open(person) {
+		let center = Field.Instance.center;
+		let position = center < person.ax ? 'left' : 'right';
+
 		this.person = person;
 		this.setupForm();
-		this.showPane();
+		this.showPane(position);
 	}
 }

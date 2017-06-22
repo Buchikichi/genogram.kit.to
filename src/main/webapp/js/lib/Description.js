@@ -53,10 +53,7 @@ class Description extends Actor {
 		this.hH = this.height / 2;
 	}
 
-	isHit(px, py) {
-		let spacing = Field.Instance.spacing;
-		let x = px / spacing;
-		let y = py / spacing;
+	isHit(x, y) {
 		let top = this.y - this.hH;
 		let left = this.x - this.hW;
 		let right = this.x + this.hW;
