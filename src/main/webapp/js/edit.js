@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', ()=> {
-	let app = new AppMain();
+	let app = new EditorMain();
 	let activate = ()=> {
 		let requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
 	activate();
 });
 
-class AppMain {
+class EditorMain {
 	constructor() {
 		this.diagramId = document.querySelector('[name="id"]').value;
 		this.documentId = document.querySelector('[name="documentId"]').value;
@@ -32,10 +32,9 @@ class AppMain {
 	setupEvents() {
 		let view = document.getElementById('view');
 
-		$(this.pane).hide();
 		view.addEventListener('mouseup', () => {
 			if (this.field.targetList.length == 0) {
-				$(this.pane).hide();
+				this.closePane();
 				return;
 			}
 			let target = this.field.targetList[0];
@@ -78,6 +77,7 @@ class AppMain {
 			this.pane.style.position = 'absolute';
 			this.pane.style.opacity = .97;
 			$(this.pane).draggable();
+			$(this.pane).hide();
 		}
 	}
 
@@ -90,6 +90,17 @@ class AppMain {
 			}
 		});
 		$(this.pane).show();
+	}
+
+	closePane() {
+		if (this.isPanel) {
+			this.paneList.forEach(pane => {
+				pane.hidePane();
+			});
+		} else {
+			$(this.pane).hide();
+		}
+		this.settingPanel.close();
 	}
 
 	init() {
@@ -107,7 +118,7 @@ class AppMain {
 	initSandbox(root) {
 		let newPerson = new Person();
 
-		if (Field.DEBUG) {
+		if (EditorMain.DEBUG) {
 			newPerson.name = 'principal(本人)';
 		}
 		newPerson.principal = true;
@@ -249,3 +260,5 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 		this.field.draw();
 	}
 }
+EditorMain.DEBUG = false;
+EditorMain.PANEL_DODGE = false;

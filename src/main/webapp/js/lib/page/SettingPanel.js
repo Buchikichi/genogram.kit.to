@@ -29,7 +29,7 @@ class SettingPanel {
 			this.saveButton.classList.remove('ui-state-disabled');
 			this.saveButton.addEventListener('click', ()=> {this.save()});
 		}
-		if (Field.DEBUG) {
+		if (EditorMain.DEBUG) {
 			let showGrid = document.querySelector('[name="showGrid"]');
 
 			showGrid.checked = true;
@@ -198,5 +198,9 @@ console.log(ix + ':' + person.id);
 
 	open() {
 		$(this.panel).panel('open');
+	}
+
+	close() {
+		$(this.panel).panel('close');
 	}
 }

@@ -15,6 +15,9 @@ class Field {
 		this.minGeneration = 0;
 		this.maxGeneration = 0;
 		Field.Instance = this;
+		if (EditorMain.DEBUG) {
+			Field.MAX_GENERATION = 99;
+		}
 	}
 
 	get showGrid() {
@@ -369,5 +372,4 @@ console.log('*dirty* ' + this.actorList.length);
 		ctx.restore();
 	}
 }
-Field.DEBUG = false;
-Field.MAX_GENERATION = Field.DEBUG ? 99 : 5;
+Field.MAX_GENERATION = 5;

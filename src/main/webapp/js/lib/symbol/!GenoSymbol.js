@@ -80,7 +80,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 			ctx.textBaseline = 'top';
 			y = this.radius * 1.1;
 		}
-		if (Field.DEBUG) {
+		if (EditorMain.DEBUG) {
 			text = '#' + this.person.generation + ':' + text;
 		}
 		ctx.lineWidth = 3;

@@ -2,7 +2,7 @@ class Person extends Ties {
 	constructor(gender = 'u') {
 		super(gender);
 		this.seq = Tally.increment();
-		if (Field.DEBUG) {
+		if (EditorMain.DEBUG) {
 			this.name = AlphabeticalTally.increment();
 		} else {
 			this.name = '';
@@ -181,7 +181,7 @@ if (this.touched) {
 	}
 
 	drawOccupancy(ctx) {
-		if (!Field.DEBUG) {
+		if (!EditorMain.DEBUG) {
 			return;
 		}
 		let keys = Controller.Instance.keys;
@@ -193,7 +193,7 @@ if (this.touched) {
 	}
 
 	drawChain(ctx) {
-		if (!this.prevActor || !Field.DEBUG) {
+		if (!this.prevActor || !EditorMain.DEBUG) {
 			return;
 		}
 		let keys = Controller.Instance.keys;

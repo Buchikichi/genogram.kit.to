@@ -27,8 +27,10 @@ class AbstractPane {
 			let pane = $(idSelector);
 
 //console.log('showPane[' + idSelector + ']:' + position);
-			pane.panel('destroy');
-			pane.panel({'position': position});
+			if (EditorMain.PANEL_DODGE) {
+				pane.panel('destroy');
+				pane.panel({'position': position});
+			}
 			pane.panel('open');
 		} else {
 			$(this.pane).show();
@@ -36,7 +38,9 @@ class AbstractPane {
 	}
 
 	hidePane() {
-		if (!this.isPanel) {
+		if (this.isPanel) {
+			$(this.pane).panel('close');
+		} else {
 			$(this.pane).hide();
 		}
 	}

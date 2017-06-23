@@ -11,7 +11,7 @@ class ChainRoot extends Chain {
 	}
 
 	draw(ctx) {
-		if (!Field.DEBUG) {
+		if (!EditorMain.DEBUG) {
 			return;
 		}
 		ctx.save();
