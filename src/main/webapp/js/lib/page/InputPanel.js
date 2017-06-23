@@ -121,7 +121,7 @@ class InputPanel extends AbstractPane {
 //console.log(field.numOfGeneration + '/min:' + field.minGeneration + '/max:' + field.maxGeneration);
 //console.log('person.generation:' + this.person.generation);
 		if (this.person.generation == field.minGeneration && field.numOfGeneration == Field.MAX_GENERATION) {
-			alert('世代数は、' + Field.MAX_GENERATION + 'までの設定になっています。');
+			MessagePopup.open('msg.generations');
 			return;
 		}
 		let father = new Person('m');

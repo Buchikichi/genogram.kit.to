@@ -6,14 +6,7 @@ class Field {
 		this.width = width;
 		this.height = height;
 		this.view = new FlexibleView(width, height);
-		this.tx = 0;
-		this.ty = 0;
-		this.center = 0;
-		this.targetList = [];
-		this.actorList = [];
-		this.dirty = false;
-		this.minGeneration = 0;
-		this.maxGeneration = 0;
+		this.init();
 		Field.Instance = this;
 		if (EditorMain.DEBUG) {
 			Field.MAX_GENERATION = 99;
@@ -112,6 +105,29 @@ class Field {
 
 	get numOfGeneration() {
 		return this.maxGeneration - this.minGeneration + 1;
+	}
+
+	init() {
+		this.tx = 0;
+		this.ty = 0;
+		this.center = 0;
+		this.targetList = [];
+		this.actorList = [];
+		this.dirty = false;
+		this.minGeneration = 0;
+		this.maxGeneration = 0;
+		this.root = new ChainRoot();
+		this.addActor(this.root);
+	}
+
+	clearAll() {
+		let newPerson = new Person();
+
+		this.init();
+		newPerson.principal = true;
+		this.root.assignActor(newPerson);
+		this.addActor(newPerson);
+		return newPerson;
 	}
 
 	createPair(person, other) {

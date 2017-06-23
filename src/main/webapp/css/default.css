@@ -59,11 +59,29 @@ body {
 	display: none;
 }
 /* Button */
+#mainPage button.ui-btn {
+	border-width: 2px;
+}
+#mainPage button.ui-btn-b {
+	background-color: #3388CC;
+}
+#mainPage button.ui-btn-b:HOVER {
+	background-color: #4499dd;
+}
+#mainPage button.ui-icon-alert {
+	background-color: #FFFFaa;
+}
+#mainPage button.ui-icon-alert:HOVER {
+	background-color: #dddd77;
+}
 #mainPage button.ui-icon-delete {
 	background-color: #FFaaaa;
 }
-#mainPage button.ui-icon-delete:hover {
+#mainPage button.ui-icon-delete:HOVER {
 	background-color: #dd7777;
+}
+#confirmPopup {
+	min-width: 16em;
 }
 /* Label */
 .ui-field-contain label {

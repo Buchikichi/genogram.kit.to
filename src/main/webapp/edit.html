@@ -49,7 +49,7 @@
       <button id="encloseButton" type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.enclose}">Enclosure</button>
       <button id="printButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-action" th:text="#{button.print}">Print</button>
       <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled" th:text="#{button.save}">Save</button>
-      <button type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all" th:text="#{button.close}">Close</button>
+      <button id="clearButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-alert">Clear</button>
     </form>
   </div>
   <div id="pane" data-draggable="false">
@@ -167,9 +167,20 @@
     <button class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-minus" th:text="#{button.handle.del}">Remove handle</button>
     <button class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" th:text="#{button.delete}">Delete</button>
   </div>
+  <div id="confirmPopup" data-role="popup" data-overlay-theme="b" class="ui-content">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
+    <pre id="msg.clear" th:text="#{msg.clear}">Completely clear the diagram.</pre>
+    <fieldset class="ui-grid-b">
+      <div class="ui-block-a"></div>
+      <div class="ui-block-b"><a data-rel="back" class="ui-btn ui-mini ui-corner-all yes" th:text="#{button.yes}">Yes</a></div>
+      <div class="ui-block-c"><a data-rel="back" class="ui-btn ui-mini ui-corner-all ui-btn-b no" th:text="#{button.no}">No</a></div>
+    </fieldset>
+  </div>
   <div id="messagePopup" data-role="popup" data-overlay-theme="b" class="ui-content" style="max-width:280px">
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
-    <p></p>
+    <pre id="msg.generations" th:text="#{msg.generations(5)}">Generation is limited(3).</pre>
+    <pre id="msg.saved" th:text="#{msg.saved}">Saved.</pre>
+    <pre id="msg.save.failed" th:text="#{msg.save.failed}">Save failed.</pre>
   </div>
   <iframe id="printFrame" src="print.html"></iframe>
 </div>

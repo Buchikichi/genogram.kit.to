@@ -11,6 +11,8 @@ class SettingPanel {
 		let gridSize = $('[name="gridSize"]');
 		let nameSize = $('[name="nameSize"]');
 		let encloseButton = document.getElementById('encloseButton');
+		let clearButton = document.getElementById('clearButton');
+		let yesButton = document.querySelector('a.yes');
 
 		gridSize.change(()=> {
 			if (!gridSize.val()) {
@@ -29,6 +31,15 @@ class SettingPanel {
 			this.saveButton.classList.remove('ui-state-disabled');
 			this.saveButton.addEventListener('click', ()=> {this.save()});
 		}
+		clearButton.addEventListener('click', () => {
+			let confirm = document.getElementById('confirmPopup');
+
+			$(confirm).popup('open');
+		});
+		yesButton.addEventListener('click', () => {
+			this.appMain.initSandbox();
+			this.close();
+		});
 		if (EditorMain.DEBUG) {
 			let showGrid = document.querySelector('[name="showGrid"]');
 
@@ -175,8 +186,6 @@ console.log(ix + ':' + person.id);
 	save() {
 		let formData = new FormData(this.form);
 		let entity = new DiagramEntity();
-		let messagePopup = document.getElementById('messagePopup');
-		let content = messagePopup.querySelector('p');
 
 		this.createDiagramInfo(formData);
 		this.createPersonList(formData);
@@ -188,11 +197,10 @@ console.log(ix + ':' + person.id);
 			$.mobile.loading('hide');
 			if (data.ok) {
 				$(this.panel).panel('close');
-				content.textContent = '保存しました。';
+				MessagePopup.open('msg.saved');
 			} else {
-				content.textContent = 'Save failed.';
+				MessagePopup.open('msg.save.failed');
 			}
-			$(messagePopup).popup('open', {});
 		});
 	}
 

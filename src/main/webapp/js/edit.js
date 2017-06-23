@@ -104,26 +104,20 @@ class EditorMain {
 	}
 
 	init() {
-		let root = new ChainRoot();
-
-//this.field.actorList.push(new EnclosingLine());
-		this.field.addActor(root);
 		if (this.diagramId.length == 0 || this.documentId.length == 0) {
-			this.initSandbox(root);
+			this.initSandbox();
 			return;
 		}
-		this.loadDiagram(root);
+		this.loadDiagram();
 	}
 
-	initSandbox(root) {
-		let newPerson = new Person();
+	initSandbox() {
+		Tally.reset();
+		let newPerson = this.field.clearAll();
 
 		if (EditorMain.DEBUG) {
 			newPerson.name = 'principal(本人)';
 		}
-		newPerson.principal = true;
-		root.assignActor(newPerson);
-		this.field.addActor(newPerson);
 	}
 
 	addEnclosure() {
@@ -139,7 +133,7 @@ class EditorMain {
 		return map;
 	}
 
-	loadDiagram(root) {
+	loadDiagram() {
 		let entity = new DiagramEntity();
 
 console.log('[loadDiagram]:BEGIN');
@@ -147,7 +141,7 @@ console.log('[loadDiagram]:BEGIN');
 			let personMap = this.makePersonMap(diagram.personList);
 
 			this.settingPanel.loadDiagram(diagram);
-			this.loadPersons(root, diagram, personMap);
+			this.loadPersons(diagram, personMap);
 			this.loadPartner(diagram, personMap);
 			this.loadRelationship(diagram, personMap);
 			this.loadShapes(diagram);
@@ -155,7 +149,7 @@ console.log('[loadDiagram]:END');
 		});
 	}
 
-	loadPersons(root, diagram, personMap) {
+	loadPersons(diagram, personMap) {
 		let seq = 0;
 
 		personMap[diagram.personId].principal = true;
@@ -165,7 +159,7 @@ console.log('[loadDiagram]:END');
 console.log('*** #' + rec.seq + '.' + person.info + ' ***');
 			seq = rec.seq;
 			if (rec.prevId == null) {
-				root.assignActor(person);
+				this.field.root.assignActor(person);
 			} else {
 				person.prevActor = personMap[rec.prevId];
 			}

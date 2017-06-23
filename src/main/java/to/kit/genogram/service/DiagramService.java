@@ -134,6 +134,7 @@ public class DiagramService {
 		}
 		for (Person person : allList) {
 			if (!valid.contains(person.getId())) {
+				person.setParents(null);
 				this.personRepository.delete(person);
 			}
 		}
@@ -158,6 +159,7 @@ public class DiagramService {
 				this.partnerRepository.delete(pair);
 			}
 		}
+		this.partnerRepository.flush();
 	}
 
 	private void deleteUnuserdRelationship(Diagram diagram) {
@@ -172,6 +174,7 @@ public class DiagramService {
 				this.relationshipRepository.delete(relationship);
 			}
 		}
+		this.relationshipRepository.flush();
 	}
 
 	private void deleteUnuserdShapes(Diagram diagram) {
@@ -186,6 +189,7 @@ public class DiagramService {
 				this.shapesRepository.delete(element);
 			}
 		}
+		this.shapesRepository.flush();
 	}
 
 	/**
