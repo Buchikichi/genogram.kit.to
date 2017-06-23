@@ -268,10 +268,9 @@ console.log('*dirty* ' + this.actorList.length);
 		if (!this.dirty) {
 //console.log('*** !this.dirty ***');
 			relationList.forEach(relation => {
-// TODO 以下、コメントを外し、元に戻す
-//				if (!this.dirty && relation.reassign()) {
-//					this.dirty = true;
-//				}
+				if (!this.dirty && relation.reassign()) {
+					this.dirty = true;
+				}
 			});
 		}
 		let spacing = this.spacing;

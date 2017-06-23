@@ -46,6 +46,7 @@ class Chain extends Actor {
 		this.rx = other.rx;
 		this.ry = other.ry;
 		this.prevActor = other.prevActor;
+/*
 		this.nextActor = other.nextActor;
 		if (this instanceof Person) {
 			this.nextActor.forEach(next => {
@@ -56,6 +57,7 @@ class Chain extends Actor {
 				}
 			});
 		}
+*/
 	}
 
 	/**
@@ -235,14 +237,27 @@ console.log(this.info + ':G' + this.generation + ' -> ' + other.info + ':G' + ot
 		this.prevActor = other;
 	}
 
-	reassignActor(other, rx, ry = 0) {
+	reassignActor(other, rx, ry = null) {
 		if (this.prevActor == other) {
 			this.rx = -rx;
-			this.ry = -ry;
+			if (ry != null) {
+				this.ry = -ry;
+			}
 		}
 		if (other.prevActor == this) {
 			other.rx = rx;
-			other.ry = ry;
+			if (ry != null) {
+				other.ry = ry;
+			}
+		}
+	}
+
+	reassignAbsolute(x = null, y = null) {
+		if (x != null) {
+			this.rx = x - this.prevActor.ax;
+		}
+		if (y != null) {
+			this.ry = y - this.prevActor.ay;
 		}
 	}
 
@@ -350,6 +365,13 @@ class Ties extends Chain {
 			return 0;
 		}
 		return this.parents.getBornOrder(this);
+	}
+
+	get prevSibling() {
+		if (!this.parents) {
+			return null;
+		}
+		return this.parents.getPrevChild(this);
 	}
 
 	get nextSibling() {

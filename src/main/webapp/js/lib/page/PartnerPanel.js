@@ -20,11 +20,13 @@ class PartnerPanel extends AbstractPane {
 		this.narrowlyButton = document.getElementById('narrowlyButton');
 		this.narrowlyButton.addEventListener('click', ()=> {
 			this.relation.narrowly();
+			this.relation.reassignChildren();
 			this.refreshControls();
 			Field.Instance.dirty = true;
 		});
 		widelyButton.addEventListener('click', ()=> {
 			this.relation.widely();
+			this.relation.reassignChildren();
 			this.refreshControls();
 			Field.Instance.dirty = true;
 		});
@@ -53,9 +55,8 @@ class PartnerPanel extends AbstractPane {
 		}
 		let child = new Person(gender);
 
-		child.addParents(this.relation);
+		this.relation.addChild(child);
 		this.relation.reassignChildren();
-		this.relation.reassignChildrenPos();
 		this.setupChildren();
 	}
 
@@ -94,18 +95,15 @@ class PartnerPanel extends AbstractPane {
 		let prev = this.relation.children[0].prevActor;
 		let prevList = [prev].concat(children);
 
-console.log('prev:');
-console.log(prev);
 		this.relation.children = [];
 		children.forEach((child, ix) => {
-			child.copyChainProperties(chainList[ix]);
-			child.prevActor = prevList[ix];
-console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
+//			child.copyChainProperties(chainList[ix]);
+//			child.prevActor = prevList[ix];
+//console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
 			this.relation.children.push(child);
 		});
 		$(this.childrenView).listview('refresh');
 		this.relation.reassignChildren();
-		this.relation.reassignChildrenPos();
 		Field.Instance.dirty = true;
 	}
 

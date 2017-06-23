@@ -193,30 +193,36 @@ console.log('Relation#addChild:' + child.info);
 		if (!chain) {
 			return;
 		}
-		if (0 < len) {
-			let older = this.children[len - 1];
-
-			if (older.isMale) {
-				let shift = older.numOfPartner + 1;
-
-				older.assignActor(child, shift * 2);
-			} else {
-				older.assignActor(child, 2);
-			}
-		} else {
-			if (child.prevActor) {
+		if (child.prevActor) {
 //console.log('child.assign father');
-				child.assignActor(this.father, -1, -2);
-				this.mother.generation = this.father.generation;
-			} else {
+			child.assignActor(this.father, -1, -2);
+			this.mother.generation = this.father.generation;
+		} else {
+			let rx = 0;
+			let prevSibling = child.prevSibling;
+
 //console.log('father.assign child');
-				this.father.assignActor(child, 0, 2);
+			if (prevSibling) {
+				let diff = prevSibling.ax - this.father.ax;
+				let oc = prevSibling.descendantOccupancy();
+
+				rx = diff + oc.right - prevSibling.ax + 2;
 			}
+			this.father.assignActor(child, rx, 2);
 		}
 	}
 
 	getBornOrder(child) {
 		return this.children.indexOf(child) + 1;
+	}
+
+	getPrevChild(child) {
+		let ix = this.children.indexOf(child);
+
+		if (ix < 1) {
+			return null;
+		}
+		return this.children[ix - 1];
 	}
 
 	getNextChild(child) {
@@ -266,65 +272,44 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 			return result;
 		}
 //console.log('==reassignChildren==');
-		let margin = 0;
+		let rect = this.rect;
+		let reverse = null;
+		let width = 0;
+		let list = [0];
+		let right = 0;
 
+		// 相対位置と幅を求める
 		this.children.forEach((child, ix) => {
 			let oc = child.descendantOccupancy();
 			let left = child.ax - oc.left + 1;
-			let right = oc.right - child.ax + 1;
 
-//console.log('left:' + left + '/right:' + right);
+			if (child == this.leftSide.prevActor || child == this.rightSide.prevActor) {
+				reverse = child;
+			}
 			if (0 < ix) {
-				margin += left;
-				let diff = child.rx - margin;
-				if (diff != 0) {
-//console.log(child.rx + ':' + margin);
-					child.rx = margin;
-					//child.separate(child.prevActor, diff);
-					result = true;
-				}
+				width += right + left;
+				list.push(width);
 			}
-			margin = right;
+			right = oc.right - child.ax + 1;
+//console.log(child.info + '|left:' + left + '/right:' + right);
 		});
-		return result;
-	}
+		// 位置決め
+		if (reverse == null) {
+			let bx = rect.center - width / 2;
 
-	reassignChildrenPos() {
-		if (this.children.length == 0) {
-			return false;
+			this.children.forEach((child, ix) => {
+				child.reassignAbsolute(bx + list[ix]);
+			});
+			return;
 		}
-		let result = false;
-		let first = this.firstChild;
-		let last = this.lastChild;
-		let right = last.prevActor.ax + last.rx;
-		let left = right;
-		let prev = last;
+		let cx = this.children.indexOf(reverse);
+		let bx = reverse.ax - list[cx];
+		let px = bx + width / 2 - (rect.center - rect.left);
 
-		while (prev != first) {
-			prev = prev.prevActor;
-			left = prev.prevActor.ax + prev.rx;
-//console.log('left:' + left);
-		}
-		let half = (right - left) / 2;
-
-//console.log('left:' + left + '/half:' + half + '/right:' + right);
-		if (first == this.leftSide.prevActor || first == this.rightSide.prevActor) {
-			let diff = half - this.rect.center + this.leftSide.ax;
-
-			if (first.rest && this.leftSide.rx != diff) {
-				this.leftSide.rx = diff;
-				result = true;
-//console.log('reassign:親移動');
-			}
-		} else {
-			let diff = this.rect.center - first.prevActor.ax - half;
-
-			if (first.prevActor.rest && first.rx != diff) {
-				first.rx = diff;
-				result = true;
-//console.log('reassign:子移動');
-			}
-		}
+		this.leftSide.reassignAbsolute(px);
+		this.children.forEach((child, ix) => {
+			child.reassignAbsolute(bx + list[ix]);
+		});
 		return result;
 	}
 
@@ -332,10 +317,7 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 //		if (this.reassignOccupancy()) {
 //			return true;
 //		}
-		if (this.reassignChildren()) {
-			return true;
-		}
-		return this.reassignChildrenPos();
+		return this.reassignChildren();
 	}
 
 	removeChild(target) {
