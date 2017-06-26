@@ -56,8 +56,8 @@ class PartnerPanel extends AbstractPane {
 		let child = new Person(gender);
 
 		this.relation.addChild(child);
+		this.relation.reorder();
 		this.relation.reassignChildren();
-		child.bornOrder = this.relation.children.length;
 		this.setupChildren();
 	}
 

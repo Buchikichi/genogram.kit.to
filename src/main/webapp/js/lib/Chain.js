@@ -71,6 +71,7 @@ class Chain extends Actor {
 		this.y = this.ay;
 	}
 
+	/** 自分を含まない祖先. */
 	ancestorOccupancy(occupancy = new Occupancy(), depth = 0) {
 		let oc = occupancy;
 		let origin = oc.origin;
@@ -103,12 +104,34 @@ class Chain extends Actor {
 		oc.merge(new Occupancy(this));
 		this.listPartner(partnerList);
 		partnerList.forEach(partner => {
+			if (partner == this) {
+				return;
+			}
 			partner.descendantOccupancy(oc);
 		});
 		this.relationList.forEach(relation => {
 			relation.children.forEach(child => {
 				child.descendantOccupancy(oc);
 			});
+		});
+		return oc;
+	}
+
+	getOccupancy() {
+		let oc = this.descendantOccupancy();
+		let exclude = !this.isMale && this.bornOrder == 1;
+
+		if (exclude) {
+			return oc;
+		}
+		let partnerList = [];
+
+		this.listPartner(partnerList);
+		partnerList.forEach(partner => {
+			if (partner == this) {
+				return;
+			}
+			partner.ancestorOccupancy(oc);
 		});
 		return oc;
 	}

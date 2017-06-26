@@ -268,8 +268,15 @@ console.log('*dirty* ' + this.actorList.length);
 		let minY = 0;
 		let maxX = 0;
 		let maxY = 0;
-		let list = [];
 
+//		if (!this.dirty) {
+//console.log('*** !this.dirty ***');
+			this.pairList.forEach(relation => {
+				if (!this.dirty && relation.reassign()) {
+					this.dirty = true;
+				}
+			});
+//		}
 		this.personList.forEach(person => {
 			let moved = person.move();
 			let x = person.x;
@@ -283,14 +290,6 @@ console.log('*dirty* ' + this.actorList.length);
 				this.dirty = true;
 			}
 		});
-		if (!this.dirty) {
-//console.log('*** !this.dirty ***');
-			this.pairList.forEach(relation => {
-				if (!this.dirty && relation.reassign()) {
-					this.dirty = true;
-				}
-			});
-		}
 		let spacing = this.spacing;
 		let left = minX * spacing;
 		let top = minY * spacing;

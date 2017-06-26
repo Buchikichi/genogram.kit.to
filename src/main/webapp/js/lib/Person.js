@@ -153,9 +153,9 @@ if (this.touched) {
 			return;
 		}
 		let spacing = Field.Instance.spacing;
-		let oc = this.ancestorOccupancy(new Occupancy(this));
-		let left = oc.left + .1;
-		let right = oc.right - .1;
+		let oc = this.ancestorOccupancy();
+		let left = oc.left - 1;
+		let right = oc.right + 1;
 		let y = (this.y - .1) * spacing;
 
 		ctx.strokeStyle = 'purple';
@@ -167,7 +167,7 @@ if (this.touched) {
 
 	drawDescendantOccupancy(ctx) {
 		let spacing = Field.Instance.spacing;
-		let oc = this.descendantOccupancy();
+		let oc = this.getOccupancy();
 		let left = oc.left - 1;
 		let right = oc.right + 1;
 		let y = (this.y + .1) * spacing;
@@ -178,6 +178,21 @@ if (this.touched) {
 		ctx.moveTo(left * spacing, y);
 		ctx.lineTo(right * spacing, y);
 		ctx.stroke();
+		//
+//		let partnerList = [];
+//		this.listPartner(partnerList);
+//		partnerList.forEach(partner => {
+//			if (partner == this) {
+//				return;
+//			}
+//			let ax = partner.ax * spacing;
+//			let ay = partner.ay * spacing;
+//
+//			ctx.strokeStyle = 'yellow';
+//			ctx.beginPath();
+//			ctx.arc(ax, ay, 16, 0, Math.PI * 2, false);
+//			ctx.stroke();
+//		});
 	}
 
 	drawOccupancy(ctx) {

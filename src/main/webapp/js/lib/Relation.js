@@ -198,7 +198,7 @@ console.log('Relation#addChild:' + child.info);
 			child.assignActor(this.father, -1, -2);
 			this.mother.generation = this.father.generation;
 		} else {
-			let rx = 0;
+			let rx = 1;
 			let prevSibling = child.prevSibling;
 
 //console.log('father.assign child');
@@ -229,6 +229,13 @@ console.log('Relation#addChild:' + child.info);
 			return null;
 		}
 		return this.children[nx];
+	}
+
+	/** bornOrderを振りなおす. */
+	reorder() {
+		this.children.forEach((child, ix) => {
+			child.bornOrder = ix + 1;
+		});
 	}
 
 	narrowly() {
@@ -276,7 +283,7 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 
 		// 相対位置と幅を求める
 		this.children.forEach((child, ix) => {
-			let oc = child.descendantOccupancy();
+			let oc = child.getOccupancy();
 			let left = child.ax - oc.left + 1;
 
 			if (child == this.leftSide.prevActor || child == this.rightSide.prevActor) {
