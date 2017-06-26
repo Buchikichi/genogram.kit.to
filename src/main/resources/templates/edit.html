@@ -163,9 +163,15 @@
   </div>
   <div id="enclosurePopup" data-role="popup" data-overlay-theme="b" class="ui-content">
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
-    <button class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.handle.add}">Add handle</button>
-    <button class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-minus" th:text="#{button.handle.del}">Remove handle</button>
-    <button class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" th:text="#{button.delete}">Delete</button>
+    <form>
+      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+        <label><span th:text="#{label.solid}">Solid</span><input name="lineStyle" type="radio" value="Solid"/></label>
+        <label><span th:text="#{label.dotted}">Dotted</span><input name="lineStyle" type="radio" value="Dotted"/></label>
+      </fieldset>
+      <button type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.handle.add}">Add handle</button>
+      <button type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-minus" th:text="#{button.handle.del}">Remove handle</button>
+      <button type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" th:text="#{button.delete}">Delete</button>
+    </form>
   </div>
   <div id="confirmPopup" data-role="popup" data-overlay-theme="b" class="ui-content">
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>

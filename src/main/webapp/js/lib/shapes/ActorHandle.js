@@ -7,6 +7,20 @@ class ActorHandle extends Actor {
 		this.logicalRadius = this.radius * 2;
 		this.prev = this;
 		this.next = this;
+		this.initImage();
+	}
+
+	initImage() {
+		let ctx = FlexibleView.Instance.ctx;
+
+		if (typeof ctx.setLineDash === 'function') {
+			return;
+		}
+		this.dottedImage = new Image();
+		this.dottedImage.src = 'img/relation.dotted.png';
+		this.dottedImage.onload = ()=> {
+			this.dottedStyle = ctx.createPattern(this.dottedImage, 'repeat');
+		};
 	}
 
 	get isRoot() {
@@ -19,6 +33,9 @@ class ActorHandle extends Actor {
 	}
 	get parentId() {
 		return this.isRoot ? null : this.parent.id;
+	}
+	get lineStyle() {
+		return this.parent.lineStyle;
 	}
 
 	/**
@@ -201,10 +218,7 @@ class ActorHandle extends Actor {
 		ctx.restore();
 	}
 
-	/**
-	 * 曲線を描画.
-	 */
-	drawCurve(ctx) {
+	drawSimpleCurve(ctx) {
 		let spacing = Field.Instance.spacing;
 		let x = this.x * spacing;
 		let y = this.y * spacing;
@@ -217,20 +231,35 @@ class ActorHandle extends Actor {
 		let sx = sCp.x * spacing;
 		let sy = sCp.y * spacing;
 
-		ctx.save();
-		if (this.parent.selected) {
-			ctx.lineWidth = 2;
-			ctx.strokeStyle = '#4178be';
-		} else if (this.parent.hit) {
-			ctx.lineWidth = 3;
-			ctx.strokeStyle = Field.Instance.hitStyle;
-		} else {
-			ctx.lineWidth = 1;
-		}
 		ctx.beginPath();
 		ctx.moveTo(x, y);
 		ctx.bezierCurveTo(fx, fy, sx, sy, ex, ey);
 		ctx.stroke();
+	}
+
+	/**
+	 * 曲線を描画.
+	 */
+	drawCurve(ctx) {
+		ctx.save();
+		if (this.lineStyle == 'Dotted') {
+			if (typeof ctx.setLineDash === 'function') {
+				ctx.setLineDash([4]);
+			} else {
+				ctx.strokeStyle = this.dottedStyle;
+			}
+		}
+		ctx.lineWidth = 1;
+		this.drawSimpleCurve(ctx);
+		if (this.parent.selected) {
+			ctx.lineWidth = 3;
+			ctx.strokeStyle = '#4178be';
+			this.drawSimpleCurve(ctx);
+		} else if (this.parent.hit) {
+			ctx.lineWidth = 3;
+			ctx.strokeStyle = Field.Instance.hitStyle;
+			this.drawSimpleCurve(ctx);
+		}
 		ctx.restore();
 //		this.drawGuide(ctx);
 //		this.drawSelfCurve(ctx);
@@ -259,7 +288,7 @@ class ActorHandle extends Actor {
 			return;
 		}
 		this.drawArc(ctx);
-		// 曲線を上書き
+		// 曲線に対しハンドルを上書き
 		this.next.drawArc(ctx);
 	}
 }

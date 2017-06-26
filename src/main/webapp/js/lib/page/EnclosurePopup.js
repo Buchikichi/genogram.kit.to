@@ -1,6 +1,7 @@
 class EnclosurePopup {
 	constructor() {
 		this.popup = document.getElementById('enclosurePopup');
+		this.form = this.popup.querySelector('form');
 		this.plusButton = this.popup.querySelector('.ui-icon-plus');
 		this.minusButton = this.popup.querySelector('.ui-icon-minus');
 		this.setupEvents();
@@ -8,7 +9,13 @@ class EnclosurePopup {
 
 	setupEvents() {
 		let deleteButton = this.popup.querySelector('.ui-icon-delete:not(.ui-btn-icon-notext)');
+		let lineStyle = $('[name=lineStyle]');
 
+		lineStyle.click(e=> {
+			let radio = e.target;
+
+			this.target.parent.lineStyle = radio.value;
+		});
 		this.plusButton.addEventListener('click', ()=> {
 			this.target.increase();
 		});
@@ -30,6 +37,7 @@ class EnclosurePopup {
 	setupForm() {
 		let length = this.target.listAll.length;
 
+		FormUtils.load(this.form, this.target);
 		FormUtils.enableButton(this.minusButton, 3 < length);
 	}
 

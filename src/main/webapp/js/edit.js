@@ -222,7 +222,10 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 		// 先に親だけ処理
 		diagram.shapesList.forEach(obj => {
 			if (obj.parentId == null) {
-				parentMap[obj.id] = new EnclosingLine(obj.x, obj.y);
+				let shape = new EnclosingLine(obj.x, obj.y);
+
+				shape.lineStyle = obj.lineStyle;
+				parentMap[obj.id] = shape;
 			}
 		});
 		// 後で子だけを処理
@@ -252,7 +255,7 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 				if (hold instanceof ActorHandle) {
 					this.enclosurePopup.open(hold);
 				}
-			} else {
+			} else if (this.field.targetList.length == 0) {
 				this.settingPanel.open();
 			}
 		}

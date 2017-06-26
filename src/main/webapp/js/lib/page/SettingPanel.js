@@ -177,7 +177,7 @@ console.log(ix + ':' + person.id);
 				formData.append(prefix + 'type', obj.type);
 				formData.append(prefix + 'x', obj.x);
 				formData.append(prefix + 'y', obj.y);
-				formData.append(prefix + 'lineStyle', 'Solid');
+				formData.append(prefix + 'lineStyle', obj.parent.lineStyle);
 				ix++;
 			});
 		});

@@ -228,10 +228,12 @@ class Field {
 			});
 		}
 		// click or touch
-		if (ctrl.point.length == 0 && !ctrl._contextmenu) {
-			this.hold = null;
-		} else if (!ctrlKey) {
-			this.targetList = [];
+		if (!ctrl._contextmenu) {
+			if (ctrl.point.length == 0) {
+				this.hold = null;
+			} else if (!ctrlKey) {
+				this.targetList = [];
+			}
 		}
 		ctrl.point.forEach((pt, ix) => {
 			if (this.hold) {
