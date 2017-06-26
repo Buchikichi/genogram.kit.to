@@ -57,6 +57,7 @@ class PartnerPanel extends AbstractPane {
 
 		this.relation.addChild(child);
 		this.relation.reassignChildren();
+		child.bornOrder = this.relation.children.length;
 		this.setupChildren();
 	}
 
@@ -101,6 +102,7 @@ class PartnerPanel extends AbstractPane {
 //			child.prevActor = prevList[ix];
 //console.log('ix:' + ix + '|' + child.info + ' <-prev:' + child.prevActor.info);
 			this.relation.children.push(child);
+			child.bornOrder = this.relation.children.length;
 		});
 		$(this.childrenView).listview('refresh');
 		this.relation.reassignChildren();

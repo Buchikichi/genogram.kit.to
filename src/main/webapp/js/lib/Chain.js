@@ -185,7 +185,7 @@ console.log('[Chain#assignActor] ' + this.info + ':G' + this.generation + ' -> '
 	}
 
 	addActor(other, rx, ry = 0) {
-console.log('[Chain#addActor]' + other.info);
+console.log('[Chain#addActor:' + this.info + ']' + other.info);
 		let next = this.getNextPartner();
 
 		other.prevActor = this;
@@ -325,6 +325,7 @@ class Ties extends Chain {
 		super();
 		this.gender = gender;
 		this.parents = null; // 誰の子か
+		this.bornOrder = 0; // 何番目の子か(1-based)
 		this.relationList = [];
 	}
 
@@ -357,14 +358,6 @@ class Ties extends Chain {
 			return null;
 		}
 		return this.parents.father;
-	}
-
-	/** 何番目の子か. */
-	get bornOrder() {
-		if (!this.parents) {
-			return 0;
-		}
-		return this.parents.getBornOrder(this);
 	}
 
 	get prevSibling() {
@@ -514,7 +507,7 @@ console.log('Ties#addParents ' + relation.info);
 		if (this.hasRelation(relation)) {
 			return this.relationList.length;
 		}
-console.log('Ties#addPartner');
+console.log('Ties#addPartner:' + this.info + ':' + relation.info);
 		let len = this.relationList.unshift(relation);
 		let partner = relation.getPartner(this);
 		let isRev = partner.hasRelation(relation);

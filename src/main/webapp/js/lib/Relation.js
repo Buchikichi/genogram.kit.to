@@ -212,10 +212,6 @@ console.log('Relation#addChild:' + child.info);
 		}
 	}
 
-	getBornOrder(child) {
-		return this.children.indexOf(child) + 1;
-	}
-
 	getPrevChild(child) {
 		let ix = this.children.indexOf(child);
 
@@ -268,7 +264,7 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 	reassignChildren() {
 		let result = false;
 
-		if (this.children.length == 0) {
+		if (this.children.length <= 1) {
 			return result;
 		}
 //console.log('==reassignChildren==');

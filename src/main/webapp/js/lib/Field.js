@@ -254,6 +254,11 @@ class Field {
 	}
 
 	arrange() {
+//		this.pairList.forEach(relation => {
+//			if (relation.reassign()) {
+//				this.dirty = true;
+//			}
+//		});
 		if (!this.dirty) {
 			return;
 		}
@@ -264,13 +269,7 @@ console.log('*dirty* ' + this.actorList.length);
 		let maxX = 0;
 		let maxY = 0;
 		let list = [];
-		let relationList = [];
 
-		this.actorList.forEach(actor => {
-			if (actor instanceof Relation) {
-				relationList.push(actor);
-			}
-		});
 		this.personList.forEach(person => {
 			let moved = person.move();
 			let x = person.x;
@@ -286,7 +285,7 @@ console.log('*dirty* ' + this.actorList.length);
 		});
 		if (!this.dirty) {
 //console.log('*** !this.dirty ***');
-			relationList.forEach(relation => {
+			this.pairList.forEach(relation => {
 				if (!this.dirty && relation.reassign()) {
 					this.dirty = true;
 				}

@@ -151,6 +151,7 @@ console.log('[loadDiagram]:END');
 
 	loadPersons(diagram, personMap) {
 		let seq = 0;
+		let parentList = [];
 
 		personMap[diagram.personId].principal = true;
 		diagram.personList.forEach(rec => {
@@ -173,10 +174,17 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 				relation.id = parents.id;
 				relation.type = parents.type;
 				person.addParents(relation, false);
+				parentList.push(relation);
 			}
 			this.field.addActor(person);
 		});
 		Tally.reset(seq);
+		// 兄弟の順序を正しく並び替える
+		parentList.forEach(relation => {
+			relation.children.sort((a, b) => {
+				return a.bornOrder - b.bornOrder;
+			});
+		});
 	}
 
 	loadPartner(diagram, personMap) {

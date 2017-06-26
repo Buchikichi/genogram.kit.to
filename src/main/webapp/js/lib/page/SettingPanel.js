@@ -192,7 +192,7 @@ console.log(ix + ':' + person.id);
 		this.createPartnerList(formData);
 		this.createRelationshipList(formData);
 		this.createShapesList(formData);
-		$.mobile.loading('show', {text: 'Save...', textVisible: true});
+		$.mobile.loading('show');
 		entity.save(formData).then(data => {
 			$.mobile.loading('hide');
 			if (data.ok) {
