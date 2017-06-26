@@ -45,7 +45,7 @@
           <label><span>_</span><input name="showName" type="radio" value="Bottom"/></label>
         </fieldset>
       </div>
-      <label>Font size:<input type="range" name="nameSize" min="8" max="40" step="4" value="16"/></label>
+      <label><span th:text="#{label.nameSize}">Font size:</span><input type="range" name="nameSize" min="8" max="40" step="4" value="16"/></label>
       <button id="encloseButton" type="button" data-rel="close" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-plus" th:text="#{button.enclose}">Enclosure</button>
       <button id="printButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-action" th:text="#{button.print}">Print</button>
       <button id="saveButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-check ui-state-disabled" th:text="#{button.save}">Save</button>
@@ -105,8 +105,8 @@
           </div>
         </div>
         <button id="parentsButton" type="button" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-u" th:text="#{button.parents}">Parents</button>
+        <button type="button" name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" th:text="#{button.delete}">Delete</button>
       </form>
-      <button name="deleteButton" class="ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="close" disabled="disabled" th:text="#{button.delete}">Delete</button>
     </div>
     <div id="partnerPanel" data-position="right" data-display="overlay" data-dismissible="false" data-animate="false">
       <form>

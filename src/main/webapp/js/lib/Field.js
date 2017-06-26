@@ -20,7 +20,7 @@ class Field {
 	}
 
 	get showName() {
-		let result = '0';
+		let result = 'Top';
 		let radio = document.querySelectorAll('[name="showName"]');
 
 		Array.prototype.forEach.call(radio, element => {
