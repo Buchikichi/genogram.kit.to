@@ -26,16 +26,20 @@ class SettingPanel {
 				nameSize.slider('refresh');
 			}
 		});
-		encloseButton.addEventListener('click', () => {this.addEnclosure()});
+		if (encloseButton != null) {
+			encloseButton.addEventListener('click', () => {this.addEnclosure()});
+		}
 		if (0 < this.appMain.documentId.length) {
 			this.saveButton.classList.remove('ui-state-disabled');
 			this.saveButton.addEventListener('click', ()=> {this.save()});
 		}
-		clearButton.addEventListener('click', () => {
-			let confirm = document.getElementById('confirmPopup');
+		if (clearButton != null) {
+			clearButton.addEventListener('click', () => {
+				let confirm = document.getElementById('confirmPopup');
 
-			$(confirm).popup('open');
-		});
+				$(confirm).popup('open');
+			});
+		}
 		yesButton.addEventListener('click', () => {
 			this.appMain.initSandbox();
 			this.close();
@@ -72,11 +76,13 @@ console.log('win.print()');
 					win.print();
 				}
 			});
-			printButton.addEventListener('click', () => {
-				let canvas = FlexibleView.Instance.canvas;
+			if (printButton != null) {
+				printButton.addEventListener('click', () => {
+					let canvas = FlexibleView.Instance.canvas;
 
-				img.src = canvas.toDataURL();
-			});
+					img.src = canvas.toDataURL();
+				});
+			}
 		});
 	}
 

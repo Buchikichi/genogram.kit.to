@@ -35,6 +35,9 @@ class FormUtils {
 	}
 
 	static enableButton(button, enable = true) {
+		if (button == null) {
+			return;
+		}
 		if (enable) {
 			$(button).removeClass('ui-state-disabled');
 			button.removeAttribute('disabled');

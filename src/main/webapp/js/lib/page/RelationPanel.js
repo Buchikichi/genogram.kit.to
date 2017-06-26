@@ -19,7 +19,9 @@ class RelationPanel extends AbstractPane {
 			this.deleteRelationship();
 			this.resetControls();
 		});
-		this.flipButton.addEventListener('click', ()=> this.flip());
+		if (this.flipButton) {
+			this.flipButton.addEventListener('click', ()=> this.flip());
+		}
 	}
 
 	createRelationship() {

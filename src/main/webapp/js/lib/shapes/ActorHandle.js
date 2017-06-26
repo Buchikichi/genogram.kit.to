@@ -3,7 +3,7 @@ class ActorHandle extends Actor {
 		super(x, y, z);
 		this.type = 'EnclosureHandle';
 		this.holdable = true;
-		this.radius = .1;
+		this.radius = .15;
 		this.logicalRadius = this.radius * 2;
 		this.prev = this;
 		this.next = this;
@@ -261,8 +261,10 @@ class ActorHandle extends Actor {
 			this.drawSimpleCurve(ctx);
 		}
 		ctx.restore();
-//		this.drawGuide(ctx);
-//		this.drawSelfCurve(ctx);
+		if (EditorMain.DEBUG) {
+//			this.drawGuide(ctx);
+			this.drawSelfCurve(ctx);
+		}
 	}
 
 	drawArc(ctx) {

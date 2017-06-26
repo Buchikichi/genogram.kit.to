@@ -271,7 +271,7 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 	reassignChildren() {
 		let result = false;
 
-		if (this.children.length <= 1) {
+		if (this.children.length == 0) {
 			return result;
 		}
 //console.log('==reassignChildren==');
@@ -304,6 +304,9 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 				child.reassignAbsolute(bx + list[ix]);
 			});
 			return;
+		}
+		if (this.children.length <= 1) {
+			return result;
 		}
 		let cx = this.children.indexOf(reverse);
 		let bx = reverse.ax - list[cx];
