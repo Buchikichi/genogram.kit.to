@@ -163,7 +163,7 @@ class Person extends Ties {
 
 			partner.delPartner(this.relationList[0]);
 			if (!this.parents && !partner.parents && !partner.principal) {
-				partner.eject();
+				partner.remove();
 			}
 		}
 	}

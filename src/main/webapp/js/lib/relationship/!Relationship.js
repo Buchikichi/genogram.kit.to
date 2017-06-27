@@ -23,6 +23,10 @@ class Relationship extends Actor {
 	}
 
 	calculatePosition() {
+		if (this.person.isGone || this.other.isGone) {
+			this.eject();
+			return;
+		}
 		this.bx = this.person.x;
 		this.by = this.person.y;
 		this.ex = this.other.x;
