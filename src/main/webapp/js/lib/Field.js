@@ -16,6 +16,9 @@ class Field {
 	get showGrid() {
 		let check = document.querySelector('[name="showGrid"]');
 
+		if (check == null) {
+			return true;
+		}
 		return check.checked;
 	}
 
@@ -107,11 +110,26 @@ class Field {
 		return this.maxGeneration - this.minGeneration + 1;
 	}
 
+	get targetChanged() {
+		let len = this.targetList.length;
+		let prevLen = this.prevTargetList.length;
+		let changed = len != prevLen;
+
+		if (!changed && 0 < len && 0 < prevLen) {
+			if (this.targetList[0] != this.prevTargetList[0]) {
+				changed = true;
+			}
+		}
+		this.prevTargetList = this.targetList.slice(); // slice()により配列コピー
+		return changed;
+	}
+
 	init() {
 		this.tx = 0;
 		this.ty = 0;
 		this.center = 0;
 		this.targetList = [];
+		this.prevTargetList = [];
 		this.actorList = [];
 		this.dirty = false;
 		this.minGeneration = 0;
@@ -168,6 +186,9 @@ class Field {
 
 			if (allowed && this.targetList.indexOf(target) == -1) {
 				this.targetList.push(target);
+				if (2 < this.targetList.length) {
+					this.targetList.shift();
+				}
 			}
 		});
 	}
@@ -381,8 +402,14 @@ console.log('*dirty* ' + this.actorList.length);
 		ctx.textBaseline = 'middle';
 		ctx.translate(this.tx, this.ty);
 		this.actorList.forEach(actor => {
-			actor.fontSize = fontSize;
 			actor.selected = this.targetList.indexOf(actor) != -1;
+			if (actor.selected && actor instanceof Relationship) {
+				actor.person.selected = true;
+				actor.other.selected = true;
+			}
+		});
+		this.actorList.forEach(actor => {
+			actor.fontSize = fontSize;
 			actor.draw(ctx);
 		});
 		ctx.restore();

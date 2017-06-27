@@ -25,11 +25,14 @@ class RelationPanel extends AbstractPane {
 	}
 
 	createRelationship() {
+		let field = Field.Instance;
 		let emotion = $('[name="emotion"]:checked');
 		let relationship = Relationship.create(emotion.val(), this.from, this.to);
 
 		relationship.hit = true;
-		Field.Instance.addActor(relationship);
+		relationship.selected = true;
+		field.addActor(relationship);
+		field.addTarget(relationship);
 		return relationship;
 	}
 
@@ -88,7 +91,6 @@ class RelationPanel extends AbstractPane {
 			this.to.hit = true;
 			this.relationship = from;
 			this.isNew = false;
-			field.addTarget(this.from, this.to);
 			position = field.center < this.relationship.cx ? 'left' : 'right'
 		}
 		this.setupForm();

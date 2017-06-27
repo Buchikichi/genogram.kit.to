@@ -410,6 +410,17 @@ class Ties extends Chain {
 		return list;
 	}
 
+	get relationSelected() {
+		let selected = false;
+
+		this.relationList.forEach(relation => {
+			if (relation.selected) {
+				selected = true;
+			}
+		});
+		return selected;
+	}
+
 	get hasBothParents() {
 		let list = this.partnerList;
 

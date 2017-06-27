@@ -25,60 +25,7 @@ class EditorMain {
 		this.relationPanel = new RelationPanel(this.isPanel);
 		this.paneList = [this.inputPanel, this.partnerPanel, this.relationPanel];
 		this.enclosurePopup = new EnclosurePopup();
-		this.setupEvents();
 		this.init();
-	}
-
-	setupEvents() {
-		let view = document.getElementById('view');
-
-		view.addEventListener('mouseup', () => {
-			if (this.field.targetList.length == 0) {
-				this.closePane();
-				return;
-			}
-			let target = this.field.targetList[0];
-			let keys = this.controller.keys;
-			let ctrlKey = keys['Control'] || keys['Shift'] || keys['k16'] || keys['k17'];
-
-			if (!ctrlKey) {
-				if (target instanceof Person) {
-//if (target.prevActor) console.log('G' + target.generation + '|prevActor:' + target.prevActor.info);
-//target.nextActor.forEach(nx => {
-//	console.log('(' + target.info + '->' + nx.info + ')');
-//});
-					this.openPane(this.inputPanel, target);
-					return;
-				}
-				if (target instanceof Relation) {
-					this.openPane(this.partnerPanel, target);
-					return;
-				}
-				if (target instanceof Relationship) {
-					this.openPane(this.relationPanel, target);
-					return;
-				}
-			}
-			if (2 <= this.field.targetList.length) {
-				let other = this.field.targetList[1];
-
-				if (target instanceof Person && other instanceof Person) {
-					let relationship = this.field.getRelationship(target, other);
-
-					if (relationship) {
-						this.openPane(this.relationPanel, relationship);
-						return;
-					}
-					this.openPane(this.relationPanel, target, other);
-				}
-			}
-		});
-		if (!this.isPanel) {
-			this.pane.style.position = 'absolute';
-			this.pane.style.opacity = .97;
-			$(this.pane).draggable();
-			$(this.pane).hide();
-		}
 	}
 
 	openPane(targetPane, target, other = null) {
@@ -104,6 +51,12 @@ class EditorMain {
 	}
 
 	init() {
+		if (!this.isPanel) {
+			this.pane.style.position = 'absolute';
+			this.pane.style.opacity = .97;
+			$(this.pane).draggable();
+			$(this.pane).hide();
+		}
 		if (this.diagramId.length == 0 || this.documentId.length == 0) {
 			this.initSandbox();
 			return;
@@ -242,22 +195,78 @@ console.log('  *  father:' + father.info + '/mother:' + mother.info);
 		});
 	}
 
-	control() {
-		let ctrl = Controller.Instance;
+	onSingleSelection() {
+		let keys = this.controller.keys;
+		let ctrlKey = keys['Control'] || keys['Shift'] || keys['k16'] || keys['k17'];
 
+		if (ctrlKey) {
+			return;
+		}
+		let target = this.field.targetList[0];
+		let dummy = null;
+
+		if (target instanceof Person) {
+			this.openPane(this.inputPanel, target);
+			return;
+		}
+		if (target instanceof Relation) {
+			this.openPane(this.partnerPanel, target);
+			dummy = this.field.targetChanged;
+			dummy = this.field.targetChanged;
+			return;
+		}
+		if (target instanceof Relationship) {
+			this.openPane(this.relationPanel, target);
+			return;
+		}
+	}
+
+	onMultiSelection() {
+		let target = this.field.targetList[0];
+		let other = this.field.targetList[1];
+
+		if (!(target instanceof Person) || !(other instanceof Person)) {
+			return;
+		}
+		let relationship = this.field.getRelationship(target, other);
+
+		if (relationship) {
+			this.openPane(this.relationPanel, relationship);
+			return;
+		}
+		this.openPane(this.relationPanel, target, other);
+	}
+
+	control() {
 		this.field.control();
 		this.field.arrange();
+		//
+		let ctrl = Controller.Instance;
+		let targetList = this.field.targetList;
+		let len = targetList.length;
+
 		if (ctrl.contextmenu) {
-			let target = this.field.targetList[0];
+			let target = targetList[0];
 			let hold = this.field.hold;
 
 			if (target || hold) {
 				if (hold instanceof ActorHandle) {
 					this.enclosurePopup.open(hold);
 				}
-			} else if (this.field.targetList.length == 0) {
+			} else if (len == 0) {
 				this.settingPanel.open();
 			}
+		}
+		if (!this.field.targetChanged) {
+			return;
+		}
+		// 選択状態に変化あり
+		if (len == 1) {
+			this.onSingleSelection();
+		} else if (2 <= len) {
+			this.onMultiSelection();
+		} else if (len == 0) {
+			this.closePane();
 		}
 	}
 

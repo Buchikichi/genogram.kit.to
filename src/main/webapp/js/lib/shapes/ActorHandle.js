@@ -249,7 +249,7 @@ class ActorHandle extends Actor {
 				ctx.strokeStyle = this.dottedStyle;
 			}
 		}
-		ctx.lineWidth = 1;
+		ctx.lineWidth = .8;
 		this.drawSimpleCurve(ctx);
 		if (this.parent.selected) {
 			ctx.lineWidth = 3;

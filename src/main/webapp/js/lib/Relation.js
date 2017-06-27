@@ -447,7 +447,7 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 			ctx.strokeStyle = Field.Instance.lineStyle;
 		}
 		this.drawNormal(ctx);
-		if (this.hit) {
+		if (this.hit || this.selected) {
 			ctx.lineWidth = 6;
 			ctx.strokeStyle = Field.Instance.hitStyle;
 			this.drawNormal(ctx);

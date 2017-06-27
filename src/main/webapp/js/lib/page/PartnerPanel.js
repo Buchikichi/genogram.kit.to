@@ -149,7 +149,6 @@ class PartnerPanel extends AbstractPane {
 		let center = field.center;
 		let position = center < relation.x ? 'left' : 'right';
 
-		field.addTarget(relation.father, relation.mother);
 		this.relation = relation;
 		this.setupForm();
 		this.setupChildren();

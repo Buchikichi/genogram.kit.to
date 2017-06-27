@@ -130,7 +130,7 @@ class Person extends Ties {
 	}
 
 	drawSymbol(ctx) {
-		if (this.selected) {
+		if (this.selected || this.relationSelected) {
 			this.strokeStyle = '#4178be';
 			ctx.lineWidth = 5;
 		} else {
