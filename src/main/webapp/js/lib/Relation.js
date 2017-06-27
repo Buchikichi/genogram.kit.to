@@ -301,21 +301,27 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 			let bx = rect.center - width / 2;
 
 			this.children.forEach((child, ix) => {
-				child.reassignAbsolute(bx + list[ix]);
+				if (child.reassignAbsolute(bx + list[ix])) {
+					result = true;
+				}
 			});
-			return;
+			return result;
 		}
 //		if (this.children.length <= 1) {
 //			return result;
 //		}
-console.log('==reassignChildren==');
+//console.log('==reassignChildren==');
 		let cx = this.children.indexOf(reverse);
 		let bx = reverse.ax - list[cx];
 		let px = bx + width / 2 - (rect.center - rect.left);
 
-		this.leftSide.reassignAbsolute(px);
+		if (this.leftSide.reassignAbsolute(px)) {
+			result = true;
+		}
 		this.children.forEach((child, ix) => {
-			child.reassignAbsolute(bx + list[ix]);
+			if (child.reassignAbsolute(bx + list[ix])) {
+				result = true;
+			}
 		});
 		return result;
 	}

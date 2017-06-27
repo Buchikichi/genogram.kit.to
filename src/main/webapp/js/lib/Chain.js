@@ -276,12 +276,21 @@ console.log(this.info + ':G' + this.generation + ' -> ' + other.info + ':G' + ot
 	}
 
 	reassignAbsolute(x = null, y = null) {
+		let moved = false;
+
 		if (x != null) {
+			if (this.ax != x) {
+				moved = true;
+			}
 			this.rx = x - this.prevActor.ax;
 		}
 		if (y != null) {
+			if (this.ay != y) {
+				moved = true;
+			}
 			this.ry = y - this.prevActor.ay;
 		}
+		return moved;
 	}
 
 	getPrevPartner() {

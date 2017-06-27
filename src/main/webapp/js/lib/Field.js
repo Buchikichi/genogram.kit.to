@@ -293,12 +293,11 @@ console.log('*dirty* ' + this.actorList.length);
 		let maxY = 0;
 
 //		if (!this.dirty) {
-//console.log('*** !this.dirty ***');
-			this.pairList.forEach(relation => {
-				if (!this.dirty && relation.reassign()) {
-					this.dirty = true;
-				}
-			});
+//			this.pairList.forEach(relation => {
+//				if (!this.dirty && relation.reassign()) {
+//					this.dirty = true;
+//				}
+//			});
 //		}
 		this.personList.forEach(person => {
 			let moved = person.move();
@@ -310,6 +309,14 @@ console.log('*dirty* ' + this.actorList.length);
 			maxX = Math.max(maxX, x);
 			maxY = Math.max(maxY, y);
 			if (moved) {
+				this.dirty = true;
+			}
+		});
+		this.pairList.forEach(relation => {
+			if (this.dirty) {
+				return;
+			}
+			if (relation.reassign()) {
 				this.dirty = true;
 			}
 		});
