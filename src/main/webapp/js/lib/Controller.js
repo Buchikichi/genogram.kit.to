@@ -43,10 +43,12 @@ class Controller {
 
 	initPointingDevice() {
 		let canvas = document.getElementById('canvas');
+		let longPress = false;
 		let end = ()=> {
 			this.point = [];
 			this.prev = [];
 			this.move = [];
+			longPress = false;
 //console.log('end');
 		};
 
@@ -55,6 +57,12 @@ class Controller {
 			this.point = [FlexibleView.Instance.convert(event.clientX, event.clientY)];
 			this.prev = this.point;
 			this.move = this.point;
+//			longPress = true;
+//			setTimeout(()=> {
+//				if (longPress) {
+//					this._contextmenu = true;
+//				}
+//			}, 2000);
 		});
 		canvas.addEventListener('mousemove', event => {
 			let point = [FlexibleView.Instance.convert(event.clientX, event.clientY)];
@@ -63,6 +71,7 @@ class Controller {
 			if (0 < this.prev.length) {
 				this.point = point;
 			}
+			longPress = false;
 		});
 		canvas.addEventListener('mouseup', ()=> end());
 		canvas.addEventListener('mouseleave', ()=> end());
@@ -74,6 +83,12 @@ class Controller {
 			});
 			this.prev = this.point;
 			this.move = this.point;
+			longPress = true;
+			setTimeout(()=> {
+				if (longPress) {
+					this._contextmenu = true;
+				}
+			}, 2000);
 //console.log('touchstart:' + this.point);
 			event.preventDefault();
 		});
@@ -88,6 +103,7 @@ class Controller {
 			if (0 < this.prev.length) {
 				this.point = point;
 			}
+			longPress = false;
 		});
 		canvas.addEventListener('touchend', ()=> end());
 	}
