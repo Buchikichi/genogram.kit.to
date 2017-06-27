@@ -97,6 +97,29 @@ class Person extends Ties {
 		return Field.Instance.spacing / 2;
 	}
 
+	get removable() {
+		if (this.principal) {
+			return false;
+		}
+		let numOfPartner = this.numOfPartner;
+
+		if (numOfPartner == 0) {
+			return true;
+		}
+		if (numOfPartner == 1) {
+			if (!this.parents && !this.hasChild) {
+				return true;
+			}
+			let partner = this.partnerList[0];
+			let numOfChildren = this.relationList[0].children.length;
+
+			if (!this.parents && !partner.parents && numOfChildren == 1) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	attributeChanged() {
 		let age = this.age;
 
@@ -127,6 +150,22 @@ class Person extends Ties {
 	isHit(x, y) {
 		this.hit = this.symbol.isHit(x, y);
 		return this.hit;
+	}
+
+	remove() {
+		super.eject();
+		this.description = null;
+		if (this.parents) {
+			this.parents.removeChild(this);
+		}
+		if (this.numOfPartner == 1) {
+			let partner = this.partnerList[0];
+
+			partner.delPartner(this.relationList[0]);
+			if (!this.parents && !partner.parents && !partner.principal) {
+				partner.eject();
+			}
+		}
 	}
 
 	drawSymbol(ctx) {

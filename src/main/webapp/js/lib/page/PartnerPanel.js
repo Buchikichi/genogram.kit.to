@@ -1,6 +1,6 @@
 class PartnerPanel extends AbstractPane {
-	constructor(isPanel) {
-		super('partnerPanel', isPanel);
+	constructor(editor) {
+		super('partnerPanel', editor);
 		this.childrenView = document.getElementById('childrenView');
 		this.relation = null;
 		this.setupEvents();

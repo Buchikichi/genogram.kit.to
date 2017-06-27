@@ -561,11 +561,11 @@ console.log('Ties#addPartner:' + this.info + ':' + relation.info);
 		return len;
 	}
 
-	remove() {
-		if (this.parents) {
-			this.parents.removeChild(this);
-		}
-		this.eject();
+	delPartner(relation) {
+		let ix = this.relationList.indexOf(relation);
+
+		this.relationList.splice(ix, 1);
+		relation.eject();
 	}
 
 	/** 親から見て上方向に移動. */

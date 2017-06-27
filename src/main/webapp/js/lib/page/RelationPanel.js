@@ -1,6 +1,6 @@
 class RelationPanel extends AbstractPane {
-	constructor(isPanel) {
-		super('relationPanel', isPanel);
+	constructor(editor) {
+		super('relationPanel', editor);
 		this.flipButton = this.pane.querySelector('[name="flipButton"]');
 		this.deleteButton = this.pane.querySelector('[name="deleteButton"]');
 		this.from = null;
@@ -18,6 +18,7 @@ class RelationPanel extends AbstractPane {
 		this.deleteButton.addEventListener('click', ()=> {
 			this.deleteRelationship();
 			this.resetControls();
+			this.editor.closePane();
 		});
 		if (this.flipButton) {
 			this.flipButton.addEventListener('click', ()=> this.flip());

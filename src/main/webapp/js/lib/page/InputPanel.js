@@ -1,6 +1,6 @@
 class InputPanel extends AbstractPane {
-	constructor(isPanel) {
-		super('inputPanel', isPanel);
+	constructor(editor) {
+		super('inputPanel', editor);
 		this.partnerView = document.getElementById('partnerView');
 		this.person = null;
 		this.setupEvents();
@@ -74,8 +74,6 @@ class InputPanel extends AbstractPane {
 	}
 
 	setupButtonEvents() {
-		let deleteButton = this.pane.querySelector('[name="deleteButton"]');
-
 		this.parentsButton = document.getElementById('parentsButton');
 		this.partnerButton = document.getElementById('partnerButton');
 		this.parentsButton.addEventListener('click', ()=> this.addParents());
@@ -90,7 +88,11 @@ class InputPanel extends AbstractPane {
 //		this.rightButton = document.getElementById('rightButton');
 //		this.rightButton.addEventListener('click', ()=> this.moveRight());
 
-		deleteButton.addEventListener('click', ()=> this.person.remove());
+		this.deleteButton = this.pane.querySelector('[name="deleteButton"]');
+		this.deleteButton.addEventListener('click', ()=> {
+			this.person.remove();
+			this.editor.closePane();
+		});
 	}
 
 	ageChanged() {
@@ -187,11 +189,7 @@ class InputPanel extends AbstractPane {
 		this.enableButton(this.downButton, parents);
 //		this.enableButton(this.leftButton, false);
 //		this.enableButton(this.rightButton, false);
-		if (this.person.principal || this.person.hasChild) {
-			$(deleteButton).addClass('ui-state-disabled');
-		} else {
-			$(deleteButton).removeClass('ui-state-disabled');
-		}
+		this.enableButton(this.deleteButton, this.person.removable);
 	}
 
 	setupPartner() {

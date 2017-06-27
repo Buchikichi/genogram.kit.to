@@ -20,9 +20,9 @@ class EditorMain {
 		this.pane = document.getElementById('pane');
 		this.isPanel = this.pane.getAttribute('data-draggable') != 'true';
 		this.settingPanel = new SettingPanel(this);
-		this.inputPanel = new InputPanel(this.isPanel);
-		this.partnerPanel = new PartnerPanel(this.isPanel);
-		this.relationPanel = new RelationPanel(this.isPanel);
+		this.inputPanel = new InputPanel(this);
+		this.partnerPanel = new PartnerPanel(this);
+		this.relationPanel = new RelationPanel(this);
 		this.paneList = [this.inputPanel, this.partnerPanel, this.relationPanel];
 		this.enclosurePopup = new EnclosurePopup();
 		this.init();

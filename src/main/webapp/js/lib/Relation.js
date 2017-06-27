@@ -305,9 +305,10 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 			});
 			return;
 		}
-		if (this.children.length <= 1) {
-			return result;
-		}
+//		if (this.children.length <= 1) {
+//			return result;
+//		}
+console.log('==reassignChildren==');
 		let cx = this.children.indexOf(reverse);
 		let bx = reverse.ax - list[cx];
 		let px = bx + width / 2 - (rect.center - rect.left);
@@ -341,6 +342,13 @@ console.log('desired:' + desired + '/' + leftOc.right + '|' + rightOc.left);
 			this.hit = true;
 		}
 		return this.hit;
+	}
+
+	eject() {
+		super.eject();
+		this.children.forEach(child => {
+			child.parents = null;
+		});
 	}
 
 	drawOccupancy(ctx) {
