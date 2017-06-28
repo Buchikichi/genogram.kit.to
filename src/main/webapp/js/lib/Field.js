@@ -397,13 +397,42 @@ console.log('*dirty* ' + this.actorList.length);
 		ctx.restore();
 	}
 
+	drawBG(ctx) {
+		let documentId = document.querySelector('[name="documentId"]');
+
+		if (documentId.value == '') {
+			let size = 48;
+			let sample = 'プロトタイ';
+
+			ctx.save();
+			ctx.font = size + "px 'Times New Roman'";
+			ctx.textAlign = 'center';
+			ctx.textBaseline = 'middle';
+			let metrics = ctx.measureText(sample);
+			let width = metrics.width;
+			let half = width / 2;
+			ctx.translate(this.tx, this.ty);
+			ctx.rotate(-Math.PI / 4);
+			ctx.strokeStyle = 'rgba(222, 222, 222, .2)';
+			for (let y = -this.height; y < this.height; y += size * 2) {
+				let shift = (y / size / 2) % 2 == 0 ? 0 : half;
+
+				for (let x = -this.width; x < this.width; x += width) {
+					ctx.strokeText(sample, x + shift, y);
+				}
+			}
+			ctx.restore();
+		}//*/
+		this.drawGrid(ctx);
+	}
+
 	draw() {
 		let ctx = this.view.ctx;
 		let fontSize = this.fontSize;
 
 		this.choiceActor();
 		this.view.clear();
-		this.drawGrid(ctx);
+		this.drawBG(ctx);
 		ctx.save();
 		ctx.font = fontSize + "px 'Times New Roman'";
 		ctx.textBaseline = 'middle';
