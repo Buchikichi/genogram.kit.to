@@ -1,0 +1,15 @@
+# -Dspring.profiles.active=my
+spring.thymeleaf.cache: false
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/genogram
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driverClassName: com.mysql.jdbc.Driver
+    maxTotal: 10
+  http:
+    multipart:
+      maxFileSize: 4MB
+      maxRequestSize: 4MB
+#logging.level.root: DEBUG
+logging.level.org.hibernate: DEBUG
