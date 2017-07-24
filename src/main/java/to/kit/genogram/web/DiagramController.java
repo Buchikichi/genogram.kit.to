@@ -23,6 +23,7 @@ import to.kit.genogram.entity.Diagram;
 import to.kit.genogram.entity.Partner;
 import to.kit.genogram.service.DiagramService;
 import to.kit.genogram.web.form.DiagramForm;
+import to.kit.genogram.web.form.EditingForm;
 import to.kit.genogram.web.form.ResultForm;
 
 /**
@@ -70,6 +71,27 @@ public class DiagramController {
 			diagram = new Diagram();
 			diagram.setDocumentId(documentId);
 		}
+		model.addAttribute("default", new EditingForm());
+		model.addAttribute("diagram", diagram);
+		return "edit";
+	}
+
+	/**
+	 * 編集画面表示.
+	 * @param model モデル
+	 * @param form フォーム
+	 * @return 画面名
+	 */
+	@RequestMapping("/edit")
+	public String edit(Model model, EditingForm form) {
+		String documentId = form.getId();
+		Diagram diagram = this.diagramService.detail(documentId);
+
+		if (diagram == null) {
+			diagram = new Diagram();
+			diagram.setDocumentId(documentId);
+		}
+		model.addAttribute("default", form);
 		model.addAttribute("diagram", diagram);
 		return "edit";
 	}

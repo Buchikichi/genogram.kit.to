@@ -28,7 +28,9 @@
   <div id="settingPanel" data-role="panel" data-position="left" data-swipe-close="false">
     <form>
       <input type="hidden" name="id" th:value="${diagram.id}"/>
-      <input type="hidden" name="documentId" th:value="${diagram.documentId}"/>
+      <input type="hidden" name="default.name" th:value="${default.name}"/>
+      <input type="hidden" name="default.gender" th:value="${default.gender}"/>
+      <input type="hidden" name="default.dob" th:value="${default.dob}"/>
       <input type="text" name="documentId" th:value="${diagram.documentId}" placeholder="ID" disabled="disabled"/>
       <textarea name="description" th:text="${diagram.description}" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
       <div class="ui-field-contain">

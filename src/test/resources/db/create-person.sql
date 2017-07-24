@@ -13,6 +13,7 @@ CREATE TABLE person(
 	gender varchar(1) NOT NULL DEFAULT '0',
 	dob varchar(8),
 	dod varchar(8),
+	death int NOT NULL DEFAULT 0,
 	illness int NOT NULL DEFAULT 0,
 	abuse int NOT NULL DEFAULT 0,
 	attr varchar(100),

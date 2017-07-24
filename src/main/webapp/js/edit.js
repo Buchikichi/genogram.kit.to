@@ -67,10 +67,18 @@ class EditorMain {
 	initSandbox() {
 		Tally.reset();
 		let newPerson = this.field.clearAll();
+		let name = document.querySelector('[name="default.name"]');
+		let gender = document.querySelector('[name="default.gender"]');
+		let dob = document.querySelector('[name="default.dob"]');
 
 		if (EditorMain.DEBUG) {
 			newPerson.name = 'principal(本人)';
 		}
+		if (name.value) {
+			newPerson.name = name.value;
+		}
+		newPerson.gender = gender.value;
+		newPerson.dob = dob.value;
 	}
 
 	addEnclosure() {

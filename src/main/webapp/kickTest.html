@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>起動テスト</title>
+<style type="text/css">
+</style>
+</head>
+
+<body>
+<form action="./diagram/edit" method="POST" target="_blank">
+<fieldset>
+<legend>POST</legend>
+<input type="text" name="id" value="kick" placeholder="患者ID"/>
+<br/>
+<input type="text" name="name" value="花子" placeholder="患者名"/>
+<br/>
+<label><input type="radio" name="gender" value="m"/>男</label>
+<label><input type="radio" name="gender" value="f" checked="checked"/>女</label>
+<br/>
+<input type="text" name="dob" value="1985-04-17" placeholder="生年月日"/>
+<br/>
+<button>POST</button>
+</fieldset>
+</form>
+<form action="./diagram/edit" method="GET" target="_blank">
+<fieldset>
+<legend>GET</legend>
+<input type="text" name="id" value="kick" placeholder="患者ID"/>
+<br/>
+<input type="text" name="name" value="太郎" placeholder="患者名"/>
+<br/>
+<label><input type="radio" name="gender" value="m" checked="checked"/>男</label>
+<label><input type="radio" name="gender" value="f"/>女</label>
+<br/>
+<input type="text" name="dob" value="1980-06-28" placeholder="生年月日"/>
+<br/>
+<button>GET</button>
+</fieldset>
+</form>
+</body>
+</html>

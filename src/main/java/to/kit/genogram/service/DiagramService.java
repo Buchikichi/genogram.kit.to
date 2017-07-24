@@ -12,6 +12,9 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import to.kit.genogram.entity.Diagram;
@@ -49,7 +52,9 @@ public class DiagramService {
 	 */
 	@Transactional
 	public List<Diagram> list() {
-		return this.diagramRepository.findAll();
+		Sort sort = new Sort(new Order(Direction.DESC, "updated"));
+
+		return this.diagramRepository.findAll(sort);
 	}
 
 	/**
