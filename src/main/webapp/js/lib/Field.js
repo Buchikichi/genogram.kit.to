@@ -400,11 +400,13 @@ console.log('*dirty* ' + this.actorList.length);
 	drawBG(ctx) {
 		let documentId = document.querySelector('[name="documentId"]');
 
+		ctx.save();
+		ctx.fillStyle = 'white';
+		ctx.fillRect(0, 0, this.width, this.height);
 		if (documentId.value == '') {
 			let size = 48;
 			let sample = 'プロトタイ';
 
-			ctx.save();
 			ctx.font = size + "px 'Times New Roman'";
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'middle';
@@ -421,8 +423,8 @@ console.log('*dirty* ' + this.actorList.length);
 					ctx.strokeText(sample, x + shift, y);
 				}
 			}
-			ctx.restore();
 		}//*/
+		ctx.restore();
 		this.drawGrid(ctx);
 	}
 

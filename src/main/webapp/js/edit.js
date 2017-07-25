@@ -77,8 +77,12 @@ class EditorMain {
 		if (name.value) {
 			newPerson.name = name.value;
 		}
-		newPerson.gender = gender.value;
-		newPerson.dob = dob.value;
+		if (gender.value) {
+			newPerson.gender = gender.value;
+		}
+		if (dob.value) {
+			newPerson.dob = dob.value;
+		}
 	}
 
 	addEnclosure() {

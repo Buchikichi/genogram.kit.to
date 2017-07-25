@@ -1,7 +1,15 @@
 package to.kit.genogram.web;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +133,33 @@ public class DiagramController {
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
 
+	private void saveImage(DiagramForm form, Diagram diagram) {
+		String filename = form.getFilename();
+
+		if (filename == null || filename.isEmpty()) {
+			return;
+		}
+		File file = new File(filename);
+		String formatName = filename.endsWith(".png") ? "PNG": "JPEG";
+		String image = diagram.getImage();
+		String[] elements = image.split("[:;,]");
+		String base64 = elements[3];
+		byte[] bytes = Base64Utils.decodeFromString(base64);
+
+		try (InputStream in = new ByteArrayInputStream(bytes)) {
+			BufferedImage src = ImageIO.read(in);
+			BufferedImage dist = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_INT_RGB);
+			Graphics g = dist.getGraphics();
+
+			g.drawImage(src, 0, 0, null);
+			g.dispose();
+			file.getParentFile().mkdirs();
+			ImageIO.write(dist, formatName, file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * 保存.
 	 * @param form フォーム
@@ -144,6 +179,7 @@ public class DiagramController {
 		}
 		diagram.setPartnerList(pairList); // clearしたリストを戻す
 		this.diagramService.clearUnused(diagram);
+		saveImage(form, saved);
 		result.setInfo(saved);
 		result.setOk(true);
 		return result;

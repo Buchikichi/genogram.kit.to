@@ -12,6 +12,8 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
@@ -52,9 +54,13 @@ public class DiagramService {
 	 */
 	@Transactional
 	public List<Diagram> list() {
+		int page = 0;
+		int size = 10;
 		Sort sort = new Sort(new Order(Direction.DESC, "updated"));
+		PageRequest pageRequest = new PageRequest(page, size, sort);
+		Page<Diagram> pageResult = this.diagramRepository.findAll(pageRequest);
 
-		return this.diagramRepository.findAll(sort);
+		return pageResult.getContent();
 	}
 
 	/**

@@ -1,13 +1,9 @@
 class FormUtils {
 	static listInputElements(form) {
 		let list = [];
-		let input = form.querySelectorAll('input');
-		let textarea = form.querySelectorAll('textarea');
+		let input = form.querySelectorAll('input, select, textarea');
 
 		Array.prototype.forEach.call(input, element => {
-			list.push(element);
-		});
-		Array.prototype.forEach.call(textarea, element => {
 			list.push(element);
 		});
 		return list;
@@ -21,6 +17,9 @@ class FormUtils {
 			let type = element.getAttribute('type');
 			let val = rec[name];
 
+			if (!(name in rec)) {
+				return;
+			}
 			if (type == 'radio') {
 				$(element).val([val]).checkboxradio('refresh');
 			} else if (type == 'checkbox') {
