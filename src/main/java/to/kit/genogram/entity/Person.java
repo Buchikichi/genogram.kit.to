@@ -37,6 +37,7 @@ public class Person {
 	private String gender;
 	private String dob;
 	private String dod;
+	private int death;
 	private int illness;
 	private int abuse;
 	@Column(length = 100)

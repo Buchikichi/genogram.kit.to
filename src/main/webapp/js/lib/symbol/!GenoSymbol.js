@@ -123,7 +123,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		this.drawAbuse(ctx);
 		ctx.strokeStyle = this.person.strokeStyle;
 		this.drawSymbol(ctx);
-		if (this.person.dod) {
+		if (this.person.death) {
 			ctx.lineWidth = .5;
 			this.drawCross(ctx);
 		}

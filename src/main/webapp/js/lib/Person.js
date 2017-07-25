@@ -10,6 +10,7 @@ class Person extends Ties {
 		this._description = null;
 		this._dob = ''; // Date of birth
 		this._dod = ''; // Date of death
+		this.death = false;
 		this.illness = 0;
 		this.abuse = 0;
 		this.attr = '';
@@ -134,6 +135,7 @@ class Person extends Ties {
 		} else {
 			this.symbol = new FemaleSymbol(this);
 		}
+		this.death = this.dod && 0 < this.dod.length;
 	}
 
 	touch(target) {
@@ -331,7 +333,7 @@ if (this.touched) {
 Person.MarriageableAge = 10;
 Person.Properties = [
 	'id', 'seq', 'name', 'description', 'dx', 'dy',
-	'gender', 'dob', 'dod', 'illness', 'abuse', 'attr',
+	'gender', 'dob', 'dod', 'death', 'illness', 'abuse', 'attr',
 	'bornOrder', 'generation',
 	'prevId', 'rx', 'ry',
 ];

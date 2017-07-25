@@ -13,6 +13,7 @@ class InputPanel extends AbstractPane {
 		let genderList = $('[name="gender"]');
 		let dob = this.pane.querySelector('[name="dob"]');
 		let dod = this.pane.querySelector('[name="dod"]');
+		let death = this.pane.querySelector('[name="death"]');
 		let age = this.pane.querySelector('[name="age"]');
 
 		name.addEventListener('keyup', ()=> {
@@ -51,6 +52,13 @@ class InputPanel extends AbstractPane {
 			let cal = new GenoCalendar(dod.value);
 
 			dod.value = cal.toString();
+		});
+		$(death).bind('change', ()=> {
+			this.person.death = death.checked ? 1 : 0;
+			if (!death.checked) {
+				dod.value = '';
+				this.person.dod = '';
+			}
 		});
 		age.addEventListener('keyup', ()=> this.ageChanged());
 		this.setupAttrEvents();

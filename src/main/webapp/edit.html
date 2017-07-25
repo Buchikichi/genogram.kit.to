@@ -31,7 +31,7 @@
       <input type="hidden" name="default.name" th:value="${default.name}"/>
       <input type="hidden" name="default.gender" th:value="${default.gender}"/>
       <input type="hidden" name="default.dob" th:value="${default.dob}"/>
-      <input type="text" name="documentId" th:value="${diagram.documentId}" placeholder="ID" disabled="disabled"/>
+      <input type="text" name="documentId" th:value="${diagram.documentId}" placeholder="ID" readonly="readonly"/>
       <textarea name="description" th:text="${diagram.description}" placeholder="Description" th:placeholder="#{placeholder.description}"></textarea>
       <div class="ui-field-contain">
         <label th:text="#{label.grid}">Grid:</label>
@@ -77,7 +77,10 @@
             </div>
             <div class="ui-field-contain">
               <label for="input-dod" th:text="#{label.dod}">Date of death:</label>
-              <input id="input-dod" name="dod" type="date"/>
+              <fieldset data-role="controlgroup" data-type="horizontal">
+                <input type="checkbox" name="death" data-role="flipswitch"/>
+                <input id="input-dod" name="dod" type="date"/>
+              </fieldset>
             </div>
           </div>
           <div data-role="collapsible">
