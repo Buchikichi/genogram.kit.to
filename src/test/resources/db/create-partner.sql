@@ -12,6 +12,7 @@ CREATE TABLE partner(
 	updated date NOT NULL WITH DEFAULT,
 	PRIMARY KEY (id)
 )
+IN GENOGRAM
 ;
 
 COMMENT ON COLUMN partner.id IS 'ID';

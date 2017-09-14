@@ -16,6 +16,7 @@ CREATE TABLE diagram(
 	updated date NOT NULL WITH DEFAULT,
 	PRIMARY KEY (id)
 )
+IN GENOGRAM
 ;
 
 COMMENT ON COLUMN diagram.id IS 'ID';

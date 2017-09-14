@@ -27,6 +27,7 @@ CREATE TABLE person(
 	updated date NOT NULL WITH DEFAULT,
 	PRIMARY KEY (id)
 )
+IN GENOGRAM
 ;
 
 COMMENT ON COLUMN person.id IS 'ID';

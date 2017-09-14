@@ -14,7 +14,10 @@ CREATE TABLE shapes(
 	created date NOT NULL WITH DEFAULT,
 	updated date NOT NULL WITH DEFAULT,
 	PRIMARY KEY (id)
-);
+)
+IN GENOGRAM
+;
+
 COMMENT ON COLUMN shapes.id IS 'ID';
 COMMENT ON COLUMN shapes.diagram_id IS 'ダイアグラムID';
 COMMENT ON COLUMN shapes.parent_id IS '親ID';
