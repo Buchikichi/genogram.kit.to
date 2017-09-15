@@ -11,7 +11,9 @@ class Controller {
 		this._contextmenu = false;
 		this.mouseMoving = false;
 		if (!isEdit) {
-			window.addEventListener('contextmenu', event => {
+			let canvas = document.getElementById('canvas');
+
+			canvas.addEventListener('contextmenu', event => {
 				if (!this.mouseMoving) {
 					this._contextmenu = true;
 				}
