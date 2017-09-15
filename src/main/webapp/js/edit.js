@@ -103,13 +103,17 @@ class EditorMain {
 
 console.log('[loadDiagram]:BEGIN');
 		entity.select(this.diagramId).then(diagram => {
-			let personMap = this.makePersonMap(diagram.personList);
+			if (0 < diagram.personList.length) {
+				let personMap = this.makePersonMap(diagram.personList);
 
-			this.settingPanel.loadDiagram(diagram);
-			this.loadPersons(diagram, personMap);
-			this.loadPartner(diagram, personMap);
-			this.loadRelationship(diagram, personMap);
-			this.loadShapes(diagram);
+				this.settingPanel.loadDiagram(diagram);
+				this.loadPersons(diagram, personMap);
+				this.loadPartner(diagram, personMap);
+				this.loadRelationship(diagram, personMap);
+				this.loadShapes(diagram);
+			} else {
+				this.initSandbox();
+			}
 console.log('[loadDiagram]:END');
 		});
 	}
