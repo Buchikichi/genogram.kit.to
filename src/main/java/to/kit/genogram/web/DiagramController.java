@@ -141,6 +141,7 @@ public class DiagramController {
 		}
 		File file = new File(filename);
 		String formatName = filename.endsWith(".png") ? "PNG": "JPEG";
+		double scale = form.getScale();
 		String image = diagram.getImage();
 		String[] elements = image.split("[:;,]");
 		String base64 = elements[3];
@@ -148,10 +149,12 @@ public class DiagramController {
 
 		try (InputStream in = new ByteArrayInputStream(bytes)) {
 			BufferedImage src = ImageIO.read(in);
-			BufferedImage dist = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_INT_RGB);
+			int width = (int) (src.getWidth() * scale);
+			int height = (int) (src.getHeight() * scale);
+			BufferedImage dist = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 			Graphics g = dist.getGraphics();
 
-			g.drawImage(src, 0, 0, null);
+			g.drawImage(src, 0, 0, width, height, null);
 			g.dispose();
 			file.getParentFile().mkdirs();
 			ImageIO.write(dist, formatName, file);

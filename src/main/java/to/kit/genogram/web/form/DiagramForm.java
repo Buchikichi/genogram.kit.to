@@ -26,6 +26,7 @@ public class DiagramForm {
 	private ShowNameType showName;
 	private int nameSize;
 	private String filename;
+	private double scale;
 
 	private List<Person> personList;
 	private List<Partner> partnerList = new ArrayList<>();
