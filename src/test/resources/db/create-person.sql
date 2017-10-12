@@ -28,6 +28,7 @@ CREATE TABLE person(
 	PRIMARY KEY (id)
 )
 IN GENOGRAM
+CCSID Unicode
 ;
 
 COMMENT ON COLUMN person.id IS 'ID';
