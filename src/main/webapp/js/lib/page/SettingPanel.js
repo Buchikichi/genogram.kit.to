@@ -8,6 +8,7 @@ class SettingPanel {
 	}
 
 	setupEvents() {
+		let field = this.appMain.field;
 		let gridSize = $('[name="gridSize"]');
 		let nameSize = $('[name="nameSize"]');
 		let encloseButton = document.getElementById('encloseButton');
@@ -19,6 +20,7 @@ class SettingPanel {
 				gridSize.val(gridSize.attr('value'));
 				gridSize.slider('refresh');
 			}
+			field.dirty = true;
 		});
 		nameSize.change(()=> {
 			if (!nameSize.val()) {
