@@ -206,6 +206,9 @@ console.log(ix + ':' + person.id);
 			FormUtils.enableButton(this.saveButton);
 			$.mobile.loading('hide');
 			if (data.ok) {
+				let hidden = this.form.querySelector('[name=id]');
+
+				hidden.value = data.info.id;
 				$(this.panel).panel('close');
 				MessagePopup.open('msg.saved');
 			} else {

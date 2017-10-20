@@ -17,7 +17,6 @@ CREATE TABLE diagram(
 	PRIMARY KEY (id)
 )
 IN GENOGRAM
-CCSID Unicode
 ;
 
 COMMENT ON COLUMN diagram.id IS 'ID';
