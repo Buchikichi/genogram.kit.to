@@ -1,6 +1,7 @@
 package to.kit.genogram.web;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -151,13 +152,14 @@ public class DiagramController {
 			BufferedImage src = ImageIO.read(in);
 			int width = (int) (src.getWidth() * scale);
 			int height = (int) (src.getHeight() * scale);
-			BufferedImage dist = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-			Graphics g = dist.getGraphics();
+			Image scaledSrc = src.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+			BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			Graphics2D g = (Graphics2D) dest.getGraphics();
 
-			g.drawImage(src, 0, 0, width, height, null);
+			g.drawImage(scaledSrc, 0, 0, null);
 			g.dispose();
 			file.getParentFile().mkdirs();
-			ImageIO.write(dist, formatName, file);
+			ImageIO.write(dest, formatName, file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
