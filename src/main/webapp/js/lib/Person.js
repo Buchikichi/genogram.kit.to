@@ -135,7 +135,7 @@ class Person extends Ties {
 		} else {
 			this.symbol = new FemaleSymbol(this);
 		}
-		this.death = this.dod && 0 < this.dod.length;
+		this.death = this.dod && 0 < this.dod.length ? 1 : 0;
 	}
 
 	touch(target) {
