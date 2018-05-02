@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>to.kit.genogram</groupId>
   <artifactId>genogram</artifactId>
-  <version>0.17.10</version>
+  <version>0.18.5</version>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>

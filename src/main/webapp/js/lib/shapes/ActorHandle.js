@@ -34,6 +34,9 @@ class ActorHandle extends Actor {
 	get parentId() {
 		return this.isRoot ? null : this.parent.id;
 	}
+	get lineColor() {
+		return this.parent.lineColor;
+	}
 	get lineStyle() {
 		return this.parent.lineStyle;
 	}
@@ -242,6 +245,7 @@ class ActorHandle extends Actor {
 	 */
 	drawCurve(ctx) {
 		ctx.save();
+		ctx.strokeStyle = this.lineColor;
 		if (this.lineStyle == 'Dotted') {
 			if (typeof ctx.setLineDash === 'function') {
 				ctx.setLineDash([4]);
@@ -249,7 +253,7 @@ class ActorHandle extends Actor {
 				ctx.strokeStyle = this.dottedStyle;
 			}
 		}
-		ctx.lineWidth = .8;
+		ctx.lineWidth = .9;
 		this.drawSimpleCurve(ctx);
 		if (this.parent.selected) {
 			ctx.lineWidth = 3;

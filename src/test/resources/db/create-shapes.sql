@@ -10,6 +10,7 @@ CREATE TABLE shapes(
 	seq int NOT NULL DEFAULT 0,
 	x float NOT NULL DEFAULT 0,
 	y float NOT NULL DEFAULT 0,
+	line_color varchar(7) NULL DEFAULT 'black',
 	line_style int  NOT NULL DEFAULT 0,
 	created date NOT NULL WITH DEFAULT,
 	updated date NOT NULL WITH DEFAULT,

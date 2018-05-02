@@ -55,7 +55,7 @@ class Field {
 	}
 
 	get lineStyle() {
-		return 'gray';
+		return '#555';
 	}
 
 	get hitStyle() {

@@ -83,9 +83,9 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		if (EditorMain.DEBUG) {
 			text = '#' + this.person.generation + ':' + text;
 		}
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'rgba(220, 220, 220, .8)';
-		ctx.strokeText(text, 1, y + 1);
+		ctx.lineWidth = 5;
+		ctx.strokeStyle = 'rgba(250, 250, 250, .6)';
+		ctx.strokeText(text, 1, y);
 		ctx.fillText(text, 0, y);
 		ctx.restore();
 	}
