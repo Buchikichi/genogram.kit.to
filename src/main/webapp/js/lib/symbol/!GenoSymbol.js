@@ -124,7 +124,7 @@ dob = new GenoCalendar(null); // 誕生年を表示しない
 		ctx.strokeStyle = this.person.strokeStyle;
 		this.drawSymbol(ctx);
 		if (this.person.death) {
-			ctx.lineWidth = .5;
+			ctx.lineWidth = 1.5;
 			this.drawCross(ctx);
 		}
 		ctx.textAlign = 'center';

@@ -2,7 +2,7 @@ class EnclosingLine extends Actor {
 	constructor(x = -2, y = -2) {
 		super(x, y, 110);
 		this.type = 'Enclosure';
-		this.lineColor = '#000000';
+		this.lineColor = '#000';
 		this.lineStyle = 'Solid';
 		this.holdable = true;
 		this.root = this.addHandle(this.x, this.y);
